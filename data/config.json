@@ -1,0 +1,24 @@
+{
+  "sheetUrl": "https://docs.google.com/spreadsheets/d/15TjmyZchHyxWYbwwCpWn_ID9WC9Jzei7niitac6r8ho/edit?usp=sharing",
+  "autoSync": true,
+  "syncIntervalMinutes": 30,
+  "waAlertEnabled": true,
+  "alertRecipients": [
+    {
+      "name": "Yodha",
+      "phone": "+62 85779132226",
+      "active": true
+    },
+    {
+      "name": "Yodha 2",
+      "phone": "+62 878-9610-8664",
+      "active": true
+    }
+  ],
+  "h1AlertHour": 17,
+  "h1AlertMinute": 0,
+  "h0AlertHour": 7,
+  "h0AlertMinute": 0,
+  "lastSyncTime": "2026-10-15T09:53:21.271Z",
+  "canvaTemplateUrl": "https://www.canva.com"
+}
