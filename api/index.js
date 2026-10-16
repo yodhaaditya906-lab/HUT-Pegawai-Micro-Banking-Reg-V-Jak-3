@@ -7,25 +7,35 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
-const EMPLOYEES_FILE = path.join(DATA_DIR, 'employees.json');
+function getFilePath(relPath) {
+  const candidates = [
+    path.join(process.cwd(), relPath),
+    path.join(process.cwd(), 'public', relPath),
+    path.join(__dirname, '..', relPath),
+    path.join(__dirname, '..', 'public', relPath)
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return path.join(process.cwd(), relPath);
+}
 
-function readJson(file, defaultVal) {
+function readJson(relPath, defaultVal) {
   try {
-    if (fs.existsSync(file)) {
-      const str = fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '');
+    const fullPath = getFilePath(relPath);
+    if (fs.existsSync(fullPath)) {
+      const str = fs.readFileSync(fullPath, 'utf8').replace(/^\uFEFF/, '');
       return JSON.parse(str);
     }
   } catch (err) {
-    console.error(`Error reading ${file}:`, err.message);
+    console.error(`Error reading ${relPath}:`, err.message);
   }
   return defaultVal;
 }
 
 app.get('/api/data', (req, res) => {
-  const employees = readJson(EMPLOYEES_FILE, []);
-  const config = readJson(CONFIG_FILE, {});
+  const employees = readJson('data/employees.json', []);
+  const config = readJson('data/config.json', {});
   res.json({ employees, config });
 });
 
