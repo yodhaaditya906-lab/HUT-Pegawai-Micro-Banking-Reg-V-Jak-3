@@ -1,42 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import fs from 'fs';
+import employeesData from '../data/employees.json' with { type: 'json' };
+import configData from '../data/config.json' with { type: 'json' };
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-function getFilePath(relPath) {
-  const candidates = [
-    path.join(process.cwd(), relPath),
-    path.join(process.cwd(), 'public', relPath),
-    path.join(__dirname, '..', relPath),
-    path.join(__dirname, '..', 'public', relPath)
-  ];
-  for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
-  }
-  return path.join(process.cwd(), relPath);
-}
-
-function readJson(relPath, defaultVal) {
-  try {
-    const fullPath = getFilePath(relPath);
-    if (fs.existsSync(fullPath)) {
-      const str = fs.readFileSync(fullPath, 'utf8').replace(/^\uFEFF/, '');
-      return JSON.parse(str);
-    }
-  } catch (err) {
-    console.error(`Error reading ${relPath}:`, err.message);
-  }
-  return defaultVal;
-}
-
 app.get('/api/data', (req, res) => {
-  const employees = readJson('data/employees.json', []);
-  const config = readJson('data/config.json', {});
-  res.json({ employees, config });
+  res.json({ employees: employeesData, config: configData });
 });
 
 app.get('/api/status', (req, res) => {
