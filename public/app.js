@@ -114,9 +114,25 @@ function updateCurrentDateDisplay() {
 // -------------------------------------------------------------
 async function fetchInitialData() {
   try {
-    const res = await fetch('/api/data');
-    if (!res.ok) throw new Error('Gagal memuat data dari server');
-    const data = await res.json();
+    let data = null;
+    try {
+      const res = await fetch('/api/data');
+      if (res.ok) data = await res.json();
+    } catch (_) {}
+
+    // Fallback static data jika API serverless cold-start
+    if (!data || !data.employees || data.employees.length === 0) {
+      try {
+        const fallbackRes = await fetch('data/employees.json');
+        if (fallbackRes.ok) {
+          const emps = await fallbackRes.json();
+          data = { employees: emps, config: {} };
+        }
+      } catch (_) {}
+    }
+
+    if (!data || !data.employees) throw new Error('Gagal memuat data dari server');
+
     state.employees = data.employees || [];
     state.config = { ...state.config, ...(data.config || {}) };
     

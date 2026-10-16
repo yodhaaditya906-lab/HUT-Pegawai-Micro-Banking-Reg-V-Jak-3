@@ -33,8 +33,12 @@ const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
 const EMPLOYEES_FILE = path.join(DATA_DIR, 'employees.json');
 const HISTORY_FILE = path.join(DATA_DIR, 'sent_history.json');
 
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
+if (!process.env.VERCEL) {
+  try {
+    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
+  } catch (_) {}
+}
 
 function readJson(file, defaultVal) {
   try {
