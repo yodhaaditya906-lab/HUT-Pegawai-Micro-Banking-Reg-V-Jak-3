@@ -630,7 +630,11 @@ setInterval(syncFromGoogleSheet, 10 * 60 * 1000);
 })();
 
 
-initWhatsApp().catch(err => console.error('WA Init Error:', err.message));
+const isVercel = process.env.VERCEL === '1';
+
+if (!isVercel) {
+  initWhatsApp().catch(err => console.error('WA Init Error:', err.message));
+}
 
 
 // Photo Proxy Endpoint to bypass Google Drive CORS restrictions
@@ -697,9 +701,13 @@ app.get('/api/photo-proxy', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`✨ Micro Banking Reg V/Jak 3 Birthday Tracker berjalan di:`);
-  console.log(`✨ http://localhost:${PORT}`);
-  console.log(`=======================================================`);
-});
+if (!isVercel) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`✨ Micro Banking Reg V/Jak 3 Birthday Tracker berjalan di:`);
+    console.log(`✨ http://localhost:${PORT}`);
+    console.log(`=======================================================`);
+  });
+}
+
+export default app;

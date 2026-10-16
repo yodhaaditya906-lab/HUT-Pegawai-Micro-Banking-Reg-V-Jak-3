@@ -1671,12 +1671,12 @@ body {
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  .card-generator-body, .twibbon-body { grid-template-columns: 1fr; }
+  .card-generator-body, .twibbon-body { grid-template-columns: 1fr 1fr; }
   .canvas-wrapper canvas, .twibbon-canvas-wrapper canvas { max-height: 380px; }
 }
 
 @media (max-width: 640px) {
-  .kpi-grid { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
   .app-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
   .header-right { width: 100%; justify-content: space-between; }
 }
@@ -1875,23 +1875,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #0B192C;
+  background: #050E1B;
+  border: 1px solid rgba(255, 183, 0, 0.25);
   border-radius: var(--radius-md);
-  padding: 0.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  width: 100%;
-  max-width: 580px;
+  padding: 0.65rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .studio-canvas-container canvas {
-  width: 100% !important;
-  max-width: 550px !important;
+  width: auto !important;
   height: auto !important;
-  aspect-ratio: 1150 / 858;
+  max-width: 100% !important;
+  max-height: 64vh !important;
+  aspect-ratio: 896 / 1200 !important;
+  object-fit: contain !important;
   display: block;
+  margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  background: #F8F6F0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  background: #041224;
 }
 
 .studio-photo-subrow {
@@ -1923,7 +1928,7 @@ body {
 
 .timeline-card .card-actions {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin-top: auto;
 }

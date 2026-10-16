@@ -1,19 +1,23 @@
-﻿{
-  "name": "microbanking-birthday-tracker",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Micro Banking Reg V/Jak 3 Birthday Tracker & Automated WhatsApp Alerts",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.9",
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
-    "node-cron": "^3.0.3",
-    "pino": "^9.5.0",
-    "qrcode": "^1.5.4",
-    "xlsx": "^0.18.5"
-  }
+{
+    "name": "microbanking-birthday-tracker",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Micro Banking Reg V/Jak 3 Birthday Tracker & Automated WhatsApp Alerts",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node --watch server.js",
+        "build": "echo 'Build complete'"
+    },
+    "dependencies": {
+        "@google/genai": "^2.30.0",
+        "@whiskeysockets/baileys": "^6.7.9",
+        "cors": "^2.8.5",
+        "express": "^4.21.1",
+        "node-cron": "^3.0.3",
+        "pino": "^9.5.0",
+        "qrcode": "^1.5.4",
+        "sharp": "^0.35.5",
+        "xlsx": "^0.18.5"
+    }
 }

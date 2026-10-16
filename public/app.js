@@ -97,8 +97,7 @@ function getDayOffset(day, month) {
 document.addEventListener('DOMContentLoaded', () => {
   updateCurrentDateDisplay();
   setupTimelineDrag();
-  initTwibbonCanvasEvents();
-  fetchInitialData();
+    fetchInitialData();
   startStatusPolling();
 });
 
@@ -322,6 +321,12 @@ function updateMetrics() {
   const todayNames = [];
   const tomorrowNames = [];
 
+  // Hitung rentang hari Senin s/d Minggu pekan kalender berjalan
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0: Minggu, 1: Senin, ..., 6: Sabtu
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const sundayOffset = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+
   state.employees.forEach(emp => {
     const { day, month } = parseBirthday(emp.tanggalLahir);
     const offset = getDayOffset(day, month);
@@ -334,7 +339,8 @@ function updateMetrics() {
       tomorrowNames.push(emp.nama);
     }
 
-    if (offset >= 0 && offset <= 7) {
+    // Ulang tahun dalam pekan ini (Senin - Minggu)
+    if (offset >= mondayOffset && offset <= sundayOffset) {
       weekCount++;
     }
   });
@@ -344,6 +350,7 @@ function updateMetrics() {
   const kpiTomorrowCount = document.getElementById('kpiTomorrowCount');
   const kpiTomorrowNames = document.getElementById('kpiTomorrowNames');
   const kpiWeekCount = document.getElementById('kpiWeekCount');
+  const kpiWeekSub = document.getElementById('kpiWeekSub');
   const kpiTotalEmployees = document.getElementById('kpiTotalEmployees');
 
   if (kpiTodayCount) kpiTodayCount.textContent = `${todayCount} Pegawai`;
@@ -361,6 +368,13 @@ function updateMetrics() {
   }
 
   if (kpiWeekCount) kpiWeekCount.textContent = `${weekCount} Pegawai`;
+  if (kpiWeekSub) {
+    const mondayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + mondayOffset);
+    const sundayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + sundayOffset);
+    const monStr = `${mondayDate.getDate()} ${MONTH_NAMES[mondayDate.getMonth()].slice(0, 3)}`;
+    const sunStr = `${sundayDate.getDate()} ${MONTH_NAMES[sundayDate.getMonth()].slice(0, 3)}`;
+    kpiWeekSub.textContent = `Senin - Minggu (${monStr} - ${sunStr})`;
+  }
   if (kpiTotalEmployees) kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Terdaftar`;
 }
 
@@ -475,7 +489,7 @@ function renderTimelineCardHtml(emp, type) {
           <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           <span>Salin Ucapan</span>
         </button>
-        <button class="card-btn btn-gold" onclick="openTwibbonModal('${emp.id}')" title="Buka Studio Kartu Ucapan">
+        <button class="card-btn btn-gold" onclick="openCardModal('${emp.id}')" title="Buka Kartu Ucapan Ulang Tahun">
           <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
           <span>Kartu Ucapan</span>
         </button>
@@ -675,7 +689,7 @@ function renderTableView() {
         <td><span class="status-pill ${statusClass}">${statusText}</span></td>
         <td class="text-right">
           <button class="btn btn-secondary btn-xs" onclick="openGreetingModal('${emp.id}')">Salin Ucapan</button>
-          <button class="btn btn-gold btn-xs" onclick="openTwibbonModal('${emp.id}')">Kartu Ucapan</button>
+          <button class="btn btn-gold btn-xs" onclick="openCardModal('${emp.id}')">Kartu Ucapan</button>
         </td>
       </tr>
     `;
@@ -782,318 +796,561 @@ async function copyGreetingToClipboard() {
 }
 
 // -------------------------------------------------------------
-// MODAL 2: GREETING CARD GENERATOR (2 FORMAT)
-// -------------------------------------------------------------
+// STUDIO KARTU UCAPAN OTOMATIS MICRO BANKING REGION V/JAKARTA 3
+// 3 VERSI:
+// 1. Versi Hanya Tulisan (Plakat Tipografi Elegan)
+// 2. Versi Tulisan dengan Foto (Foto Pegawai + Tipografi Meriah)
+// 3. Edit Manual via Canva (Buka Template Canva)
+// =============================================================
+
+let cachedEmployeePhotoImg = null;
+
 function openCardModal(empId) {
   const emp = state.employees.find(e => e.id === empId);
   if (!emp) return;
 
-  state.cardModal.employee = emp;
-  state.cardModal.format = 'vertical';
-  state.cardModal.customPhoto = null;
-  state.cardModal.customMessage = 'Semoga senantiasa diberikan kesehatan, keberkahan, kemudahan dalam menjalankan amanah, serta kesuksesan bersama Micro Banking Region V / Jakarta 3.';
+  state.cardModal = {
+    employee: emp,
+    version: 'text-only', // default ke Versi 1: Hanya Tulisan
+    customPhotoImg: null
+  };
 
-  const subtitle = document.getElementById('cardModalSubtitle');
-  if (subtitle) subtitle.textContent = `Kartu Ucapan: ${emp.nama} (${emp.jabatan})`;
+  const subtitle = document.getElementById("cardModalSubtitle");
+  if (subtitle) {
+    subtitle.textContent = `Kartu Ucapan: ${emp.nama} (${emp.jabatan || 'Micro Banking'})`;
+  }
 
-  const msgArea = document.getElementById('cardCustomMessage');
-  if (msgArea) msgArea.value = state.cardModal.customMessage;
+  // Update data display untuk Canva
+  const canvaName = document.getElementById("canvaEmpNameDisplay");
+  const canvaRole = document.getElementById("canvaEmpRoleDisplay");
+  const canvaNip = document.getElementById("canvaEmpNipDisplay");
+  if (canvaName) canvaName.textContent = emp.nama;
+  if (canvaRole) canvaRole.textContent = `Jabatan: ${emp.jabatan || '-'}`;
+  if (canvaNip) canvaNip.textContent = `NIP: ${emp.nip || '-'}`;
 
-  setCardFormat('vertical');
-  document.getElementById('cardGeneratorModal').classList.add('open');
+  // Pre-load saved Canva template URL
+  const savedCanvaUrl = localStorage.getItem('mandiri_canva_template_url') || 'https://www.canva.com';
+  const canvaInput = document.getElementById("canvaTemplateUrlInput");
+  const canvaLink = document.getElementById("btnOpenCanvaLink");
+  if (canvaInput) canvaInput.value = savedCanvaUrl;
+  if (canvaLink) canvaLink.href = savedCanvaUrl;
+
+  // Pre-load foto pegawai jika tersedia (utamakan cache lokal)
+  cachedEmployeePhotoImg = null;
+  const photoImg = new Image();
+  photoImg.crossOrigin = "anonymous";
+  photoImg.onload = () => {
+    cachedEmployeePhotoImg = photoImg;
+    renderCard();
+  };
+  photoImg.onerror = () => {
+    if (emp.foto) {
+      const fallbackImg = new Image();
+      fallbackImg.crossOrigin = "anonymous";
+      fallbackImg.onload = () => {
+        cachedEmployeePhotoImg = fallbackImg;
+        renderCard();
+      };
+      if (emp.foto.includes('drive.google.com')) {
+        fallbackImg.src = `/api/photo-proxy?url=${encodeURIComponent(emp.foto)}`;
+      } else {
+        fallbackImg.src = emp.foto;
+      }
+    } else {
+      cachedEmployeePhotoImg = null;
+    }
+  };
+  photoImg.src = `assets/source_photos/${emp.id}.jpg?t=${Date.now()}`;
+
+  // Cek apakah sudah ada kartu F1 dengan wajah pegawai ini
+  state.cardModal.generatedF1Card = null;
+  const f1CustomImg = new Image();
+  f1CustomImg.onload = () => {
+    if (state.cardModal && state.cardModal.employee && state.cardModal.employee.id === emp.id) {
+      state.cardModal.generatedF1Card = f1CustomImg;
+      renderCard();
+    }
+  };
+  f1CustomImg.onerror = () => {
+    if (state.cardModal && state.cardModal.employee && state.cardModal.employee.id === emp.id) {
+      state.cardModal.generatedF1Card = null;
+    }
+  };
+  f1CustomImg.src = `assets/f1_cards/${emp.id}.jpg?t=${Date.now()}`;
+
+  // Set tab aktif default ke F1 Resmi
+  switchCardVersion('f1-official');
+
+  const modal = document.getElementById("cardModal");
+  if (modal) modal.classList.add("open");
 }
 
 function closeCardModal() {
-  document.getElementById('cardGeneratorModal').classList.remove('open');
+  const modal = document.getElementById("cardModal");
+  if (modal) modal.classList.remove("open");
 }
 
-function setCardFormat(fmt) {
-  state.cardModal.format = fmt;
-  const btnV = document.getElementById('btnFormatVertical');
-  const btnH = document.getElementById('btnFormatHorizontal');
-  if (btnV && btnH) {
-    btnV.classList.toggle('active', fmt === 'vertical');
-    btnH.classList.toggle('active', fmt === 'horizontal');
+function switchCardVersion(version) {
+  if (!state.cardModal) return;
+  state.cardModal.version = version;
+
+  const btnF1Official = document.getElementById("btnVerF1Official");
+  const btnWithPhoto = document.getElementById("btnVerWithPhoto");
+  const btnCanva = document.getElementById("btnVerCanva");
+  const canvasWrap = document.getElementById("cardCanvasContainerWrap");
+  const canvaPanel = document.getElementById("cardCanvaPanel");
+  const photoControls = document.getElementById("cardPhotoControlsBlock");
+
+  if (btnF1Official) btnF1Official.classList.toggle("active", version === 'f1-official');
+  if (btnWithPhoto) btnWithPhoto.classList.toggle("active", version === 'with-photo');
+  if (btnCanva) btnCanva.classList.toggle("active", version === 'canva');
+
+  if (version === 'canva') {
+    if (canvasWrap) canvasWrap.style.display = 'none';
+    if (canvaPanel) canvaPanel.style.display = 'block';
+  } else {
+    if (canvasWrap) canvasWrap.style.display = 'flex';
+    if (canvaPanel) canvaPanel.style.display = 'none';
+    if (photoControls) {
+      photoControls.style.display = (version === 'with-photo') ? 'flex' : 'none';
+    }
+    renderCard();
   }
-  renderCardPreview();
 }
 
 function handleCardPhotoUpload(e) {
-  const file = e.target.files[0];
+  const file = e.target.files && e.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
-  reader.onload = (event) => {
+  reader.onload = (evt) => {
     const img = new Image();
     img.onload = () => {
-      state.cardModal.customPhoto = img;
-      renderCardPreview();
+      if (state.cardModal) {
+        state.cardModal.customPhotoImg = img;
+        renderCard();
+        showToast("Foto pegawai berhasil dipasang!", "success");
+      }
     };
-    img.src = event.target.result;
+    img.src = evt.target.result;
   };
   reader.readAsDataURL(file);
 }
 
 function resetCardPhoto() {
-  state.cardModal.customPhoto = null;
-  const input = document.getElementById('cardPhotoInput');
-  if (input) input.value = '';
-  renderCardPreview();
-}
-
-function renderCardPreview() {
-  const canvas = document.getElementById('greetingCardCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const emp = state.cardModal.employee;
-  if (!emp) return;
-
-  const isVertical = state.cardModal.format === 'vertical';
-
-  const width = isVertical ? 1080 : 1920;
-  const height = isVertical ? 1920 : 1080;
-
-  canvas.width = width;
-  canvas.height = height;
-
-  const customMsg = document.getElementById('cardCustomMessage')?.value || state.cardModal.customMessage;
-
-  // Background Gradient (Mandiri Deep Navy)
-  const bgGrad = ctx.createLinearGradient(0, 0, width, height);
-  bgGrad.addColorStop(0, '#061220');
-  bgGrad.addColorStop(0.4, '#0A192F');
-  bgGrad.addColorStop(1, '#002D5A');
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
-
-  // Subtle Corporate Geometric Pattern (Crisp Vector Lines)
-  ctx.save();
-  ctx.strokeStyle = 'rgba(255, 183, 0, 0.12)';
-  ctx.lineWidth = 1.5;
-
-  ctx.beginPath();
-  ctx.moveTo(80, 80);
-  ctx.lineTo(width - 80, 80);
-  ctx.moveTo(80, height - 80);
-  ctx.lineTo(width - 80, height - 80);
-  ctx.stroke();
-
-  const cornerSize = 40;
-  ctx.strokeStyle = '#FFB700';
-  ctx.lineWidth = 3;
-
-  ctx.beginPath();
-  ctx.moveTo(70, 70 + cornerSize);
-  ctx.lineTo(70, 70);
-  ctx.lineTo(70 + cornerSize, 70);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(width - 70 - cornerSize, 70);
-  ctx.lineTo(width - 70, 70);
-  ctx.lineTo(width - 70, 70 + cornerSize);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(70, height - 70 - cornerSize);
-  ctx.lineTo(70, height - 70);
-  ctx.lineTo(70 + cornerSize, height - 70);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(width - 70 - cornerSize, height - 70);
-  ctx.lineTo(width - 70, height - 70);
-  ctx.lineTo(width - 70, height - 70 - cornerSize);
-  ctx.stroke();
-  ctx.restore();
-
-  // Corporate Header Text
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '600 24px "Plus Jakarta Sans", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('BANK MANDIRI • MICRO BANKING REGION V / JAKARTA 3', width / 2, 135);
-
-  if (isVertical) {
-    const photoY = 620;
-    const photoRadius = 240;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(width / 2, photoY, photoRadius + 14, 0, Math.PI * 2);
-    ctx.strokeStyle = '#FFB700';
-    ctx.lineWidth = 4;
-    ctx.shadowColor = 'rgba(255, 183, 0, 0.5)';
-    ctx.shadowBlur = 25;
-    ctx.stroke();
-    ctx.restore();
-
-    const photoImg = state.cardModal.customPhoto || (emp.foto ? emp._cachedImg : null);
-
-    const drawPhotoContent = (imgObj) => {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(width / 2, photoY, photoRadius, 0, Math.PI * 2);
-      ctx.clip();
-      if (imgObj) {
-        ctx.drawImage(imgObj, (width / 2) - photoRadius, photoY - photoRadius, photoRadius * 2, photoRadius * 2);
-      } else {
-        ctx.fillStyle = '#1E293B';
-        ctx.fillRect((width / 2) - photoRadius, photoY - photoRadius, photoRadius * 2, photoRadius * 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '700 90px "Outfit", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(getInitials(emp.nama), width / 2, photoY);
-      }
-      ctx.restore();
-    };
-
-    if (photoImg && photoImg.complete) {
-      drawPhotoContent(photoImg);
-    } else if (emp.foto && !emp._cachedImg) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        emp._cachedImg = img;
-        renderCardPreview();
-      };
-      img.onerror = () => { drawPhotoContent(null); };
-      img.src = getProxyPhotoUrl(emp.foto);
-      drawPhotoContent(null);
-    } else {
-      drawPhotoContent(null);
-    }
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#FFB700';
-    ctx.font = '800 68px "Outfit", sans-serif';
-    ctx.letterSpacing = '2px';
-    ctx.fillText('HAPPY BIRTHDAY', width / 2, 980);
-
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '700 58px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(emp.nama, width / 2, 1080);
-
-    const roleText = `${emp.jabatan} • NIP: ${emp.nip || '-'}`;
-    ctx.font = '600 28px "Plus Jakarta Sans", sans-serif';
-    const textWidth = ctx.measureText(roleText).width;
-    const badgeW = textWidth + 60;
-    const badgeH = 54;
-    const badgeY = 1140;
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-    ctx.strokeStyle = 'rgba(255, 183, 0, 0.5)';
-    ctx.lineWidth = 2;
-    roundRect(ctx, (width / 2) - (badgeW / 2), badgeY, badgeW, badgeH, 27);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#F8FAFC';
-    ctx.fillText(roleText, width / 2, badgeY + 36);
-
-    ctx.font = '400 30px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#CBD5E1';
-    wrapText(ctx, `"${customMsg}"`, width / 2, 1300, 840, 48);
-
-    ctx.font = '600 24px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#94A3B8';
-    ctx.fillText('Semoga Sukses, Sehat & Bahagia Selalu', width / 2, 1720);
-
-    ctx.fillStyle = '#FFB700';
-    ctx.font = '700 26px "Outfit", sans-serif';
-    ctx.fillText('Keluarga Besar Micro Banking Region V / Jakarta 3', width / 2, 1770);
-
-  } else {
-    const photoX = 480;
-    const photoY = 540;
-    const photoRadius = 260;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(photoX, photoY, photoRadius + 14, 0, Math.PI * 2);
-    ctx.strokeStyle = '#FFB700';
-    ctx.lineWidth = 4;
-    ctx.shadowColor = 'rgba(255, 183, 0, 0.5)';
-    ctx.shadowBlur = 25;
-    ctx.stroke();
-    ctx.restore();
-
-    const photoImg = state.cardModal.customPhoto || (emp.foto ? emp._cachedImg : null);
-
-    const drawPhotoContentH = (imgObj) => {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(photoX, photoY, photoRadius, 0, Math.PI * 2);
-      ctx.clip();
-      if (imgObj) {
-        ctx.drawImage(imgObj, photoX - photoRadius, photoY - photoRadius, photoRadius * 2, photoRadius * 2);
-      } else {
-        ctx.fillStyle = '#1E293B';
-        ctx.fillRect(photoX - photoRadius, photoY - photoRadius, photoRadius * 2, photoRadius * 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '700 100px "Outfit", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(getInitials(emp.nama), photoX, photoY);
-      }
-      ctx.restore();
-    };
-
-    if (photoImg && photoImg.complete) {
-      drawPhotoContentH(photoImg);
-    } else if (emp.foto && !emp._cachedImg) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        emp._cachedImg = img;
-        renderCardPreview();
-      };
-      img.onerror = () => { drawPhotoContentH(null); };
-      img.src = getProxyPhotoUrl(emp.foto);
-      drawPhotoContentH(null);
-    } else {
-      drawPhotoContentH(null);
-    }
-
-    const textStartX = 860;
-
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#FFB700';
-    ctx.font = '800 60px "Outfit", sans-serif';
-    ctx.fillText('HAPPY BIRTHDAY', textStartX, 380);
-
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '700 56px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(emp.nama, textStartX, 460);
-
-    const roleText = `${emp.jabatan} • NIP: ${emp.nip || '-'}`;
-    ctx.font = '600 26px "Plus Jakarta Sans", sans-serif';
-    const textWidth = ctx.measureText(roleText).width;
-    const badgeW = textWidth + 50;
-    const badgeH = 46;
-    const badgeY = 500;
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-    ctx.strokeStyle = 'rgba(255, 183, 0, 0.5)';
-    ctx.lineWidth = 1.5;
-    roundRect(ctx, textStartX, badgeY, badgeW, badgeH, 23);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#F8FAFC';
-    ctx.fillText(roleText, textStartX + 25, badgeY + 32);
-
-    ctx.font = '400 28px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#CBD5E1';
-    wrapText(ctx, `"${customMsg}"`, textStartX, 630, 880, 44);
-
-    ctx.font = '700 24px "Outfit", sans-serif';
-    ctx.fillStyle = '#FFB700';
-    ctx.fillText('Keluarga Besar Micro Banking Region V / Jakarta 3', textStartX, 840);
+  if (state.cardModal) {
+    state.cardModal.customPhotoImg = null;
+    renderCard();
+    showToast("Foto dikembalikan ke semula", "info");
   }
 }
 
-function roundRect(ctx, x, y, width, height, radius) {
+function saveCanvaTemplateUrl() {
+  const input = document.getElementById("canvaTemplateUrlInput");
+  if (!input) return;
+  const url = input.value.trim() || 'https://www.canva.com';
+  localStorage.setItem('mandiri_canva_template_url', url);
+  const canvaLink = document.getElementById("btnOpenCanvaLink");
+  if (canvaLink) canvaLink.href = url;
+  showToast("Link template Canva berhasil disimpan!", "success");
+}
+
+function copyCanvaEmpData() {
+  if (!state.cardModal || !state.cardModal.employee) return;
+  const emp = state.cardModal.employee;
+  const text = `NAMA: ${emp.nama}\nJABATAN: ${emp.jabatan || '-'}\nNIP: ${emp.nip || '-'}\nTGL LAHIR: ${emp.tanggalLahir || '-'}`;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast("Data pegawai berhasil disalin!", "success");
+  }).catch(() => {
+    showToast("Gagal menyalin teks", "error");
+  });
+}
+
+function downloadCardImage() {
+  const canvas = document.getElementById("cardCanvas");
+  if (!canvas || !state.cardModal || !state.cardModal.employee) return;
+  const emp = state.cardModal.employee;
+  const ver = state.cardModal.version === 'with-photo' ? 'Foto' : 'Tulisan';
+  const cleanName = (emp.nama || 'Pegawai').replace(/[^a-zA-Z0-9]/g, '_');
+  const filename = `Kartu_Ucapan_${cleanName}_${ver}.png`;
+
+  const link = document.createElement("a");
+  link.download = filename;
+  link.href = canvas.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  showToast("Kartu ucapan berhasil diunduh dalam format PNG!", "success");
+}
+
+// -------------------------------------------------------------
+// APPROVED FORMULA 1 VERTICAL MANDIRI CARD RENDERING ENGINE
+// Rasio 3:4 (896 x 1200 px) - Presisi Tema F1 Mandiri x Danantara
+// -------------------------------------------------------------
+const cachedF1MandiriCard = new Image();
+cachedF1MandiriCard.src = 'assets/f1_mandiri_card_v2.jpg';
+
+const cachedRiniF1Card = new Image();
+cachedRiniF1Card.src = 'assets/rini_f1_full_card.jpg';
+
+const cachedF1CleanTemplate = new Image();
+cachedF1CleanTemplate.src = 'assets/f1_card_clean_template.jpg';
+
+function formatF1Date(rawDate) {
+  if (!rawDate) return "1 6 T H   O C T O B E R";
+  const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+  let day = 1;
+  let monthIdx = 9; // Default October
+  
+  if (typeof rawDate === 'string' && rawDate.includes("/")) {
+    const parts = rawDate.split("/");
+    day = parseInt(parts[0], 10) || 1;
+    monthIdx = (parseInt(parts[1], 10) || 10) - 1;
+  } else if (typeof rawDate === 'string' && rawDate.includes("-")) {
+    const parts = rawDate.split("-");
+    if (parts.length >= 3) {
+      day = parseInt(parts[2], 10) || 1;
+      monthIdx = (parseInt(parts[1], 10) || 10) - 1;
+    }
+  }
+  
+  let suffix = "TH";
+  if (day === 1 || day === 21 || day === 31) suffix = "ST";
+  else if (day === 2 || day === 22) suffix = "ND";
+  else if (day === 3 || day === 23) suffix = "RD";
+  
+  const mName = months[monthIdx] || "OCTOBER";
+  const str = `${day}${suffix}   ${mName}`;
+  return str.split("").join(" ");
+}
+
+function renderCard() {
+  const canvas = document.getElementById("cardCanvas");
+  if (!canvas || !state.cardModal || !state.cardModal.employee) return;
+  const ctx = canvas.getContext("2d");
+  const emp = state.cardModal.employee;
+  const version = state.cardModal.version || 'f1-official';
+
+  const width = 896;
+  const height = 1200;
+  canvas.width = width;
+  canvas.height = height;
+
+  const isRini = emp.nama && emp.nama.toLowerCase().includes('rini');
+  const customPhoto = state.cardModal.customPhotoImg || cachedEmployeePhotoImg;
+  const isCustomGenerated = !!state.cardModal.generatedF1Card;
+
+  // Tentukan gambar template dasar
+  let baseImg = cachedF1CleanTemplate;
+  let showCustomPhotoOnCanvas = false;
+
+  if (state.cardModal.generatedF1Card && version === 'f1-official') {
+    // Pegawai sudah memiliki kartu F1 AI resmi
+    baseImg = state.cardModal.generatedF1Card;
+    showCustomPhotoOnCanvas = false;
+  } else if (customPhoto && customPhoto.complete && customPhoto.naturalWidth > 0) {
+    // Tampilkan template bersih + foto asli pegawai
+    baseImg = cachedF1CleanTemplate;
+    showCustomPhotoOnCanvas = true;
+  } else if (isRini && !customPhoto) {
+    baseImg = cachedRiniF1Card;
+    showCustomPhotoOnCanvas = false;
+  } else {
+    baseImg = cachedF1MandiriCard;
+    showCustomPhotoOnCanvas = false;
+  }
+
+  const drawContent = () => {
+    // 1. Gambar Template Background F1
+    if (baseImg && baseImg.complete && baseImg.naturalWidth > 0) {
+      ctx.drawImage(baseImg, 0, 0, width, height);
+    } else {
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+      bgGrad.addColorStop(0, '#041326');
+      bgGrad.addColorStop(1, '#020C18');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    // Jika sudah berupa kartu F1 utuh hasil generate AI untuk pegawai ini dan sedang di mode resmi, selesai
+    if (isCustomGenerated && version === 'f1-official') {
+      return;
+    }
+
+    // 2. Gambar Foto Pegawai jika mode clean template
+    if (showCustomPhotoOnCanvas && customPhoto && customPhoto.complete && customPhoto.naturalWidth > 0) {
+      ctx.save();
+      const drX = 460, drY = 160, drW = 400, drH = 620;
+      const radius = 20;
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(drX, drY, drW, drH, radius);
+      } else {
+        ctx.rect(drX, drY, drW, drH);
+      }
+      ctx.clip();
+      
+      const imgW = customPhoto.naturalWidth;
+      const imgH = customPhoto.naturalHeight;
+      const ratio = Math.max(drW / imgW, drH / imgH);
+      const nw = imgW * ratio;
+      const nh = imgH * ratio;
+      const nx = drX + (drW - nw) / 2;
+      const ny = drY + (drH - nh) / 2;
+      ctx.drawImage(customPhoto, nx, ny, nw, nh);
+
+      // Subtle gradient fade at bottom to blend into dark track
+      const fadeGrad = ctx.createLinearGradient(drX, drY + drH - 140, drX, drY + drH);
+      fadeGrad.addColorStop(0, 'rgba(4, 19, 38, 0)');
+      fadeGrad.addColorStop(1, 'rgba(4, 19, 38, 0.95)');
+      ctx.fillStyle = fadeGrad;
+      ctx.fillRect(drX, drY + drH - 140, drW, 140);
+      ctx.restore();
+
+      // Subtle gold outline frame
+      ctx.save();
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(drX, drY, drW, drH, radius);
+      } else {
+        ctx.rect(drX, drY, drW, drH);
+      }
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = 'rgba(255, 184, 0, 0.55)';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // 3. OVERWRITE BADGE NAMA & JABATAN PEGAWAI (MID-LEFT)
+    const badgeX = 0;
+    const badgeY = 490;
+    const badgeW = 390;
+    const badgeH = 100;
+    const badgeRadius = 24;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(badgeX, badgeY);
+    ctx.lineTo(badgeX + badgeW - badgeRadius, badgeY);
+    ctx.quadraticCurveTo(badgeX + badgeW, badgeY, badgeX + badgeW, badgeY + badgeRadius);
+    ctx.lineTo(badgeX + badgeW, badgeY + badgeH - badgeRadius);
+    ctx.quadraticCurveTo(badgeX + badgeW, badgeY + badgeH, badgeX + badgeW - badgeRadius, badgeY + badgeH);
+    ctx.lineTo(badgeX, badgeY + badgeH);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(10, 28, 54, 0.96)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(103, 178, 232, 0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Aksen vertikal emas Bank Mandiri
+    ctx.fillStyle = '#FFB700';
+    ctx.fillRect(badgeX, badgeY, 6, badgeH);
+
+    // NAMA PEGAWAI
+    const rawName = (emp.nama || "Insan Mandiri").toUpperCase();
+    let nameSize = 25;
+    ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
+    let nameWidth = ctx.measureText(rawName).width;
+    while (nameWidth > 340 && nameSize > 15) {
+      nameSize -= 1;
+      ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
+      nameWidth = ctx.measureText(rawName).width;
+    }
+
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'left';
+    ctx.fillText(rawName, 24, badgeY + 44);
+    ctx.shadowBlur = 0;
+
+    // ROLE / UNIT
+    const roleText = (emp.jabatan ? emp.jabatan + '  •  ' : '') + 'Micro Banking Reg V/Jak 3';
+    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#89C4F4';
+    ctx.fillText(roleText, 24, badgeY + 76);
+    ctx.restore();
+
+    // 4. DOA & HARAPAN (Di bawah badge)
+    ctx.save();
+    ctx.fillStyle = 'rgba(10, 22, 42, 0.85)';
+    ctx.fillRect(0, 610, 390, 80);
+
+    ctx.textAlign = 'left';
+    ctx.font = 'italic 500 18.5px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#F1F5F9';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+    ctx.shadowBlur = 6;
+    ctx.fillText("Semoga diberikan kesehatan,", 24, 634);
+    ctx.fillText("kebahagiaan, dan kesuksesan", 24, 659);
+    ctx.fillText("yang berlimpah.", 24, 684);
+    ctx.restore();
+
+    // 5. TANGGAL LAHIR (FOOTER)
+    const formattedDate = formatF1Date(emp.tanggalLahir);
+    ctx.save();
+    ctx.fillStyle = '#081423';
+    ctx.fillRect(width / 2 - 250, 1140, 500, 45);
+
+    ctx.textAlign = 'center';
+    ctx.font = '700 14px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#DCE7F5';
+    ctx.letterSpacing = '5px';
+    ctx.fillText(formattedDate, width / 2, 1166);
+    ctx.restore();
+  };
+
+  if (!baseImg.complete) {
+    baseImg.onload = drawContent;
+  } else {
+    drawContent();
+  }
+}
+
+// -------------------------------------------------------------
+// VECTOR DRAWING HELPERS (DANANTARA, MANDIRI, ORNAMENTS)
+// -------------------------------------------------------------
+function drawDanantaraLogo(ctx, x, y) {
+  ctx.save();
+  // Shield badge
+  ctx.fillStyle = '#D32F2F'; // Merah
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + 22, y);
+  ctx.lineTo(x + 22, y + 26);
+  ctx.quadraticCurveTo(x + 11, y + 36, x, y + 30);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#FFFFFF'; // Putih
+  ctx.fillRect(x + 11, y, 11, 26);
+
+  // Emblem detail (Cyan stripe)
+  ctx.fillStyle = '#00A3E0';
+  ctx.fillRect(x + 24, y + 4, 4, 28);
+
+  // Text Danantara
+  ctx.textAlign = 'left';
+  ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText("Danantara", x + 36, y + 20);
+
+  // Subtext INDONESIA
+  ctx.font = '800 9.5px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#00A3E0';
+  ctx.letterSpacing = '2px';
+  ctx.fillText("INDONESIA", x + 37, y + 32);
+  ctx.restore();
+}
+
+function drawMandiriLogo(ctx, x, y) {
+  ctx.save();
+  ctx.textAlign = 'left';
+
+  // Text mandiri
+  ctx.font = '800 24px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText("mandiri", x, y + 24);
+
+  // Iconic Golden Ribbon / Arc above mandiri
+  ctx.strokeStyle = '#FFB700';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(x + 88, y + 16, 18, Math.PI * 1.1, Math.PI * 1.85);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#EA7200';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.arc(x + 92, y + 18, 16, Math.PI * 1.15, Math.PI * 1.8);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawRibbonBadge(ctx, x, y, text) {
+  ctx.save();
+  ctx.textAlign = 'center';
+  const w = 390;
+  const h = 38;
+  const rx = 19;
+
+  ctx.fillStyle = '#0A2540';
+  ctx.strokeStyle = '#FFB700';
+  ctx.lineWidth = 1.6;
+  roundRect(ctx, x - (w / 2), y - (h / 2), w, h, rx, true, true);
+
+  ctx.font = '800 15px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#FFB700';
+  ctx.letterSpacing = '2px';
+  ctx.fillText(text, x, y + 5.5);
+  ctx.restore();
+}
+
+function drawFooterBadge(ctx, cx, y) {
+  ctx.save();
+  ctx.textAlign = 'center';
+
+  ctx.font = '600 12px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#94A3B8';
+  ctx.letterSpacing = '1px';
+  ctx.fillText("Issued on behalf of:", cx, y - 18);
+
+  const bw = 380;
+  const bh = 34;
+  ctx.fillStyle = '#061D38';
+  ctx.strokeStyle = '#FFB700';
+  ctx.lineWidth = 1.5;
+  roundRect(ctx, cx - (bw / 2), y - (bh / 2), bw, bh, 17, true, true);
+
+  ctx.font = '800 13px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.letterSpacing = '1.2px';
+  ctx.fillText("MICRO BANKING REGION V/JAKARTA 3", cx, y + 4.5);
+
+  ctx.restore();
+}
+
+function drawSparkle(ctx, x, y, r, opacity) {
+  ctx.save();
+  ctx.fillStyle = `rgba(255, 215, 0, ${opacity})`;
+  ctx.beginPath();
+  ctx.moveTo(x, y - r * 2.2);
+  ctx.quadraticCurveTo(x, y, x + r * 2.2, y);
+  ctx.quadraticCurveTo(x, y, x, y + r * 2.2);
+  ctx.quadraticCurveTo(x, y, x - r * 2.2, y);
+  ctx.quadraticCurveTo(x, y, x, y - r * 2.2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawCornerOrnament(ctx, x, y, dirX, dirY) {
+  ctx.save();
+  ctx.strokeStyle = '#FFB700';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(x, y + dirY * 26);
+  ctx.lineTo(x, y);
+  ctx.lineTo(x + dirX * 26, y);
+  ctx.stroke();
+
+  ctx.fillStyle = '#FFB700';
+  ctx.beginPath();
+  ctx.arc(x + dirX * 8, y + dirY * 8, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawSmallCorner(ctx, x, y, dirX, dirY) {
+  ctx.beginPath();
+  ctx.moveTo(x, y + dirY * 14);
+  ctx.lineTo(x, y);
+  ctx.lineTo(x + dirX * 14, y);
+  ctx.stroke();
+}
+
+function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
   ctx.lineTo(x + width - radius, y);
@@ -1105,417 +1362,10 @@ function roundRect(ctx, x, y, width, height, radius) {
   ctx.lineTo(x, y + radius);
   ctx.quadraticCurveTo(x, y, x + radius, y);
   ctx.closePath();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
 }
 
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-  const words = text.split(' ');
-  let line = '';
-  let currentY = y;
-
-  for (let n = 0; n < words.length; n++) {
-    const testLine = line + words[n] + ' ';
-    const metrics = ctx.measureText(testLine);
-    const testWidth = metrics.width;
-    if (testWidth > maxWidth && n > 0) {
-      ctx.fillText(line, x, currentY);
-      line = words[n] + ' ';
-      currentY += lineHeight;
-    } else {
-      line = testLine;
-    }
-  }
-  ctx.fillText(line, x, currentY);
-}
-
-function downloadGreetingCard() {
-  const canvas = document.getElementById('greetingCardCanvas');
-  const emp = state.cardModal.employee;
-  if (!canvas || !emp) return;
-
-  const fmt = state.cardModal.format;
-  const link = document.createElement('a');
-  link.download = `Kartu_Ucapan_${emp.nama.replace(/\s+/g, '_')}_${fmt}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  showToast('Gambar kartu ucapan berhasil diunduh!', 'success');
-}
-
-// -------------------------------------------------------------
-// MODAL 3: STUDIO KARTU & TWIBBON UCAPAN (3 VERSI)
-// 1. Kartu AI / Otomatis Dengan Foto
-// 2. Kartu AI / Otomatis Tanpa Foto (Plakat Tipografi Elegan)
-// 3. Edit Manual via Canva (Buka Link Canva)
-// -------------------------------------------------------------
-// -------------------------------------------------------------
-// NUSANTARA & DANANTARA MANDIRI LUXURY CARD GENERATOR
-// Based on official Mandiri + Danantara certificate aesthetic
-// With Logo Danantara (top left), Logo Mandiri (top right),
-// Batik Mega Mendung watermark, gold foil accents, and floral motifs
-// -------------------------------------------------------------
-
-let cachedNusantaraTemplate = null;
-let isNusantaraLoading = false;
-const nusantaraCallbacks = [];
-
-function getNusantaraTemplateImg(callback) {
-  if (cachedNusantaraTemplate && cachedNusantaraTemplate.complete && cachedNusantaraTemplate.naturalWidth > 0) {
-    return callback(cachedNusantaraTemplate);
-  }
-  nusantaraCallbacks.push(callback);
-  if (isNusantaraLoading) return;
-  isNusantaraLoading = true;
-
-  const img = new Image();
-  img.onload = () => {
-    cachedNusantaraTemplate = img;
-    isNusantaraLoading = false;
-    while (nusantaraCallbacks.length > 0) {
-      const cb = nusantaraCallbacks.shift();
-      try { cb(img); } catch (e) { console.error(e); }
-    }
-  };
-  img.onerror = () => {
-    console.error("Gagal memuat template nusantara");
-    isNusantaraLoading = false;
-    while (nusantaraCallbacks.length > 0) {
-      const cb = nusantaraCallbacks.shift();
-      try { cb(null); } catch (e) { console.error(e); }
-    }
-  };
-  img.src = "/assets/template_nusantara_clean.png";
-}
-
-// Preload template immediately
-getNusantaraTemplateImg(() => {
-  console.log("Template Nusantara Danantara Mandiri siap di memori");
-});
-
-function renderTwibbon() {
-  const canvas = document.getElementById("twibbonCanvas");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const emp = state.twibbonModal.employee;
-
-  const width = 1150;
-  const height = 858;
-  canvas.width = width;
-  canvas.height = height;
-
-  // Draw initial warm parchment backdrop so canvas is never blank
-  ctx.fillStyle = "#FAF8F2";
-  ctx.fillRect(0, 0, width, height);
-
-  getNusantaraTemplateImg((baseImg) => {
-    if (baseImg) {
-      ctx.drawImage(baseImg, 0, 0, width, height);
-    }
-
-    if (state.twibbonModal.version === 'with-photo') {
-      renderNusantaraCardWithPhoto(ctx, width, height, emp);
-    } else {
-      // Default: no-photo (exact match to user reference image 2)
-      renderNusantaraCardNoPhoto(ctx, width, height, emp);
-    }
-  });
-}
-
-// -------------------------------------------------------------
-// VERSI 2: TANPA FOTO (EXACT MATCH DENGAN GAMBAR 2 USER)
-// -------------------------------------------------------------
-function renderNusantaraCardNoPhoto(ctx, width, height, emp) {
-  const cx = width / 2; // 575
-
-  const rawName = emp ? emp.nama : "Insan Mandiri";
-  const nameUpper = rawName.toUpperCase();
-  const jabatan = emp?.jabatan || "Micro Banking";
-  const nip = emp?.nip || "-";
-
-  ctx.save();
-  ctx.textAlign = "center";
-
-  // 1. Employee Name inside the gold ornate bracket
-  // Bracket is centered at y = 295
-  let fontSize = 28;
-  ctx.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-  let textWidth = ctx.measureText(nameUpper).width;
-  while (textWidth > 460 && fontSize > 18) {
-    fontSize -= 1.5;
-    ctx.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-    textWidth = ctx.measureText(nameUpper).width;
-  }
-
-  // Elegant gold gradient for employee name
-  const goldTextGrad = ctx.createLinearGradient(0, 275, 0, 310);
-  goldTextGrad.addColorStop(0, "#8C6514");
-  goldTextGrad.addColorStop(0.4, "#B8860B");
-  goldTextGrad.addColorStop(1, "#8C6514");
-  ctx.fillStyle = goldTextGrad;
-  ctx.shadowColor = "rgba(184, 134, 11, 0.25)";
-  ctx.shadowBlur = 4;
-  ctx.fillText(nameUpper, cx, 298);
-  ctx.shadowBlur = 0;
-
-  // 2. Job Title & NIP
-  ctx.fillStyle = "#1E293B";
-  ctx.font = '700 17px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText(`Job Title: ${jabatan} (NIP: ${nip})`, cx, 368);
-
-  // 3. Heartfelt Personalized Congratulatory Body Text
-  ctx.font = '500 16px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = "#1E293B";
-  ctx.fillText("Dengan penuh rasa syukur, kami segenap keluarga besar Bank Mandiri", cx, 436);
-  ctx.fillText(`mengucapkan Selamat Ulang Tahun kepada Bapak/Ibu ${rawName}.`, cx, 464);
-
-  ctx.fillText("Semoga senantiasa diberkahi kesehatan, kebahagiaan, kesuksesan yang", cx, 520);
-  ctx.fillText("berkelanjutan, dan keberkahan dalam setiap langkah perjalanan hidup serta karir.", cx, 546);
-
-  ctx.fillText("Terima kasih atas dedikasi dan kontribusi luar biasa yang Bapak/Ibu berikan.", cx, 604);
-
-  // 4. Closing Celebration Wish
-  ctx.font = '700 16.5px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = "#0F172A";
-  ctx.fillText("Semoga Hari Anda Luar Biasa!", cx, 664);
-
-  ctx.restore();
-}
-
-// -------------------------------------------------------------
-// VERSI 1: DENGAN FOTO (NUSANTARA DANANTARA + FOTO BADGE EMAS)
-// -------------------------------------------------------------
-function renderNusantaraCardWithPhoto(ctx, width, height, emp) {
-  const cx = width / 2;
-
-  const rawName = emp ? emp.nama : "Insan Mandiri";
-  const nameUpper = rawName.toUpperCase();
-  const jabatan = emp?.jabatan || "Micro Banking";
-  const nip = emp?.nip || "-";
-
-  // Center Photo Badge
-  const photoCy = 232;
-  const photoRadius = 52;
-
-  ctx.save();
-  // Outer Gold Glow & Double Ring for Portrait
-  ctx.beginPath();
-  ctx.arc(cx, photoCy, photoRadius + 6, 0, Math.PI * 2);
-  ctx.strokeStyle = "#B8860B";
-  ctx.lineWidth = 3.5;
-  ctx.shadowColor = "rgba(184, 134, 11, 0.4)";
-  ctx.shadowBlur = 12;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, photoCy, photoRadius + 2, 0, Math.PI * 2);
-  ctx.strokeStyle = "#FFFFFF";
-  ctx.lineWidth = 1.5;
-  ctx.shadowBlur = 0;
-  ctx.stroke();
-
-  // Clip Circle & Draw Photo
-  ctx.beginPath();
-  ctx.arc(cx, photoCy, photoRadius, 0, Math.PI * 2);
-  ctx.clip();
-
-  const photo = state.twibbonModal.customPhotoImg;
-  if (photo && photo.complete && photo.naturalWidth > 0) {
-    ctx.translate(cx + state.twibbonModal.x, photoCy + state.twibbonModal.y);
-    ctx.rotate((state.twibbonModal.rotation * Math.PI) / 180);
-    ctx.scale(state.twibbonModal.scale, state.twibbonModal.scale);
-    const pW = photo.naturalWidth || photo.width;
-    const pH = photo.naturalHeight || photo.height;
-    const scaleCover = Math.max((photoRadius * 2) / pW, (photoRadius * 2) / pH);
-    const drawW = pW * scaleCover;
-    const drawH = pH * scaleCover;
-    ctx.drawImage(photo, -drawW / 2, -drawH / 2, drawW, drawH);
-  } else {
-    // Ivory / Gold Monogram Crest
-    const crestGrad = ctx.createLinearGradient(cx, photoCy - photoRadius, cx, photoCy + photoRadius);
-    crestGrad.addColorStop(0, "#152D4F");
-    crestGrad.addColorStop(1, "#0A182E");
-    ctx.fillStyle = crestGrad;
-    ctx.fillRect(cx - photoRadius, photoCy - photoRadius, photoRadius * 2, photoRadius * 2);
-
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "#FFB700";
-    ctx.font = '700 30px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(getInitials(rawName), cx, photoCy + 2);
-  }
-  ctx.restore();
-
-  // Draw Name inside bracket
-  ctx.save();
-  ctx.textAlign = "center";
-
-  let fontSize = 28;
-  ctx.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-  let textWidth = ctx.measureText(nameUpper).width;
-  while (textWidth > 460 && fontSize > 18) {
-    fontSize -= 1.5;
-    ctx.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-    textWidth = ctx.measureText(nameUpper).width;
-  }
-
-  const goldTextGrad = ctx.createLinearGradient(0, 275, 0, 310);
-  goldTextGrad.addColorStop(0, "#8C6514");
-  goldTextGrad.addColorStop(0.4, "#B8860B");
-  goldTextGrad.addColorStop(1, "#8C6514");
-  ctx.fillStyle = goldTextGrad;
-  ctx.shadowColor = "rgba(184, 134, 11, 0.25)";
-  ctx.shadowBlur = 4;
-  ctx.fillText(nameUpper, cx, 305);
-  ctx.shadowBlur = 0;
-
-  // Job Title & NIP
-  ctx.fillStyle = "#1E293B";
-  ctx.font = '700 17px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText(`Job Title: ${jabatan} (NIP: ${nip})`, cx, 370);
-
-  // Congratulatory Body Text
-  ctx.font = '500 16px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = "#1E293B";
-  ctx.fillText("Dengan penuh rasa syukur, kami segenap keluarga besar Bank Mandiri", cx, 436);
-  ctx.fillText(`mengucapkan Selamat Ulang Tahun kepada Bapak/Ibu ${rawName}.`, cx, 464);
-
-  ctx.fillText("Semoga senantiasa diberkahi kesehatan, kebahagiaan, kesuksesan yang", cx, 520);
-  ctx.fillText("berkelanjutan, dan keberkahan dalam setiap langkah perjalanan hidup serta karir.", cx, 546);
-
-  ctx.fillText("Terima kasih atas dedikasi dan kontribusi luar biasa yang Bapak/Ibu berikan.", cx, 604);
-
-  // Closing Wish
-  ctx.font = '700 16.5px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = "#0F172A";
-  ctx.fillText("Semoga Hari Anda Luar Biasa!", cx, 664);
-
-  ctx.restore();
-}
-
-function openTwibbonModal(empId) {
-  const emp = state.employees.find(e => e.id === empId);
-  if (!emp) return;
-
-  state.twibbonModal.employee = emp;
-  state.twibbonModal.version = 'with-photo'; // default version
-  state.twibbonModal.customPhotoImg = null;
-  state.twibbonModal.x = 0;
-  state.twibbonModal.y = 0;
-  state.twibbonModal.scale = 1.0;
-  state.twibbonModal.rotation = 0;
-
-  const subtitle = document.getElementById("twibbonModalSubtitle");
-  if (subtitle) subtitle.textContent = "Kartu Ucapan: " + emp.nama + " (" + emp.jabatan + ")";
-
-  // Set Canva displays
-  const cName = document.getElementById("canvaEmpNameDisplay");
-  const cRole = document.getElementById("canvaEmpRoleDisplay");
-  if (cName) cName.textContent = emp.nama;
-  if (cRole) cRole.textContent = emp.jabatan + " (NIP: " + (emp.nip || "-") + ")";
-
-  const canvaInput = document.getElementById("canvaTemplateUrlInput");
-  const canvaUrl = state.config.canvaTemplateUrl || "https://www.canva.com";
-  if (canvaInput) canvaInput.value = canvaUrl;
-
-  const canvaLink = document.getElementById("btnOpenCanvaLink");
-  if (canvaLink) canvaLink.href = canvaUrl;
-
-  // Open modal & set version
-  document.getElementById("twibbonModal").classList.add("open");
-  switchCardVersion('with-photo');
-
-  // Render card
-  renderTwibbon();
-
-  // Load employee photo in background if available
-  if (emp.foto) {
-    const img = new Image();
-    img.onload = () => {
-      state.twibbonModal.customPhotoImg = img;
-      renderTwibbon();
-    };
-    img.onerror = () => {
-      state.twibbonModal.customPhotoImg = null;
-      renderTwibbon();
-    };
-    img.src = getProxyPhotoUrl(emp.foto);
-  }
-}
-
-function closeTwibbonModal() {
-  document.getElementById("twibbonModal").classList.remove("open");
-}
-
-function handleTwibbonPhotoUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const img = new Image();
-    img.onload = () => {
-      state.twibbonModal.customPhotoImg = img;
-      state.twibbonModal.x = 0;
-      state.twibbonModal.y = 0;
-      state.twibbonModal.scale = 1.0;
-      state.twibbonModal.rotation = 0;
-      renderTwibbon();
-      showToast("Foto pegawai berhasil diunggah!", "success");
-    };
-    img.src = event.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function resetTwibbonPhoto() {
-  state.twibbonModal.customPhotoImg = null;
-  state.twibbonModal.x = 0;
-  state.twibbonModal.y = 0;
-  state.twibbonModal.scale = 1.0;
-  state.twibbonModal.rotation = 0;
-  renderTwibbon();
-  showToast("Foto kartu direset", "info");
-}
-
-function initTwibbonCanvasEvents() {
-  const canvas = document.getElementById("twibbonCanvas");
-  if (!canvas) return;
-  canvas.addEventListener("mousedown", (e) => {
-    if (state.twibbonModal.version !== 'with-photo') return;
-    state.twibbonModal.isDragging = true;
-    state.twibbonModal.dragStartX = e.clientX - state.twibbonModal.x;
-    state.twibbonModal.dragStartY = e.clientY - state.twibbonModal.y;
-    canvas.style.cursor = "grabbing";
-  });
-  window.addEventListener("mouseup", () => {
-    if (state.twibbonModal.isDragging) {
-      state.twibbonModal.isDragging = false;
-      canvas.style.cursor = "grab";
-    }
-  });
-  window.addEventListener("mousemove", (e) => {
-    if (state.twibbonModal.isDragging) {
-      state.twibbonModal.x = e.clientX - state.twibbonModal.dragStartX;
-      state.twibbonModal.y = e.clientY - state.twibbonModal.dragStartY;
-      renderTwibbon();
-    }
-  });
-}
-
-
-function downloadTwibbon() {
-  const canvas = document.getElementById("twibbonCanvas");
-  const emp = state.twibbonModal.employee;
-  if (!canvas) return;
-  const link = document.createElement("a");
-  const name = emp ? emp.nama.replace(/\s+/g, "_") : "Pegawai";
-  const ver = state.twibbonModal.version || "card";
-  link.download = "Kartu_" + name + "_" + ver + ".png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-  showToast("Kartu ucapan berhasil diunduh dalam format PNG!", "success");
-}
-
-// -------------------------------------------------------------
-// MODAL 4: SETTINGS
-// -------------------------------------------------------------
 function openSettingsModal(defaultTab) {
   if (defaultTab === 'wa-tab') {
     switchSettingsTab('wa');

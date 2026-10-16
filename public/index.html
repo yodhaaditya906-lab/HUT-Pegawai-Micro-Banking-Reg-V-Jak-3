@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=10_f1_ratio">
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -90,7 +90,7 @@
         <div class="kpi-content">
           <div class="kpi-label">Ulang Tahun Pekan Ini</div>
           <div class="kpi-value" id="kpiWeekCount">0 Pegawai</div>
-          <div class="kpi-sub">Rentang 7 hari ke depan</div>
+          <div class="kpi-sub" id="kpiWeekSub">Senin - Minggu pekan ini</div>
         </div>
       </div>
 
@@ -262,74 +262,71 @@
     </div>
   </div>
 
-  <!-- MODAL 2: Studio Kartu Ucapan Ulang Tahun (3 Versi) -->
-  <div class="modal-backdrop" id="twibbonModal">
+  
+  <!-- MODAL: Studio Kartu Ucapan Ulang Tahun (3 Versi Otomatis) -->
+  <div class="modal-backdrop" id="cardModal">
     <div class="modal-box modal-card-studio">
       <div class="modal-header">
         <div class="modal-title-group">
           <h3>Kartu Ucapan Ulang Tahun</h3>
-          <p id="twibbonModalSubtitle">Micro Banking Reg V/Jak 3 Official Card</p>
+          <p id="cardModalSubtitle">Micro Banking Reg V/Jakarta 3 Official Greeting</p>
         </div>
-        <button class="btn-close" onclick="closeTwibbonModal()">✕</button>
+        <button class="btn-close" onclick="closeCardModal()">✕</button>
       </div>
 
       <div class="modal-body studio-modal-body">
-        <!-- 1. Filter 3 di atas -->
+        <!-- 3 Tab Versi -->
         <div class="card-version-tabs">
-          <button class="version-tab-btn active" id="btnVerWithPhoto" onclick="switchCardVersion('with-photo')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
-            <span>1. Dengan Foto (AI Generate)</span>
-            <small>Foto Profil + Nama & Jabatan</small>
+          <button class="version-tab-btn active" id="btnVerF1Official" onclick="switchCardVersion('f1-official')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+            <span>1. Kartu F1 Resmi</span>
+            <small>Tema Mandiri x Danantara F1</small>
           </button>
-          <button class="version-tab-btn" id="btnVerNoPhoto" onclick="switchCardVersion('no-photo')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="16" x2="12" y2="16"></line></svg>
-            <span>2. Tanpa Foto (AI Generate)</span>
-            <small>Plakat Tipografi Elegan</small>
+          <button class="version-tab-btn" id="btnVerWithPhoto" onclick="switchCardVersion('with-photo')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
+            <span>2. Foto Asli Pegawai</span>
+            <small>Tampilkan Foto Asli dari Database</small>
           </button>
           <button class="version-tab-btn" id="btnVerCanva" onclick="switchCardVersion('canva')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            <span>3. Manual via Canva</span>
-            <small>Buka Link Template Canva ↗</small>
+            <span>3. Edit di Canva</span>
+            <small>Template Manual Canva ↗</small>
           </button>
         </div>
 
-        <!-- 2. Bawahnya Kartu Ucapan (Live Canvas Display) -->
-        <div class="studio-card-display" id="twibbonCanvasBody">
+        <!-- Tampilan Versi 1 & 2: Live Canvas Display -->
+        <div class="studio-card-display" id="cardCanvasContainerWrap">
           <div class="studio-canvas-container">
-            <canvas id="twibbonCanvas" width="1150" height="858"></canvas>
+            <canvas id="cardCanvas" width="896" height="1200" style="display: block; width: auto !important; height: auto !important; max-width: 100% !important; max-height: 64vh !important; aspect-ratio: 896 / 1200 !important; object-fit: contain !important; margin: 0 auto; border-radius: 8px;"></canvas>
           </div>
 
-          <!-- Opsi ganti foto opsional untuk Versi 1 -->
-          <div id="photoControlsBlock" class="studio-photo-subrow">
-            <input type="file" id="twibbonPhotoInput" accept="image/*" style="display:none;" onchange="handleTwibbonPhotoUpload(event)">
-            <button class="btn btn-secondary btn-xs" onclick="document.getElementById('twibbonPhotoInput').click()">
-              📷 Ganti Foto Pegawai (Opsional)
+          <!-- Opsi ganti foto opsional untuk Versi 2 -->
+          <div id="cardPhotoControlsBlock" class="studio-photo-subrow" style="display:none;">
+            <input type="file" id="cardPhotoInput" accept="image/*" style="display:none;" onchange="handleCardPhotoUpload(event)">
+            <button class="btn btn-secondary btn-xs" onclick="document.getElementById('cardPhotoInput').click()">
+              📷 Ganti Foto Sendiri
             </button>
-            <button class="btn btn-text btn-xs" onclick="resetTwibbonPhoto()">
-              Reset Foto Asli
+            <button class="btn btn-text btn-xs" onclick="resetCardPhoto()">
+              ↺ Foto Asli Database
             </button>
           </div>
 
-          <!-- Hidden inputs for custom texts -->
-          <input type="hidden" id="twibbonCustomName" value="">
-          <input type="hidden" id="twibbonCustomRole" value="">
-
-          <!-- 3. Di bawahnya adalah Untuk Unduh Kartu Ucapan -->
+          <!-- Tombol Unduh Kartu -->
           <div class="studio-action-row">
-            <button class="btn btn-gold btn-lg studio-btn-download" onclick="downloadTwibbon()">
+            <button class="btn btn-gold btn-lg studio-btn-download" onclick="downloadCardImage()">
               <svg style="width:20px;height:20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
               <span>Unduh Kartu Ucapan (PNG)</span>
             </button>
           </div>
         </div>
 
-        <!-- Version 3 Canva Integration Panel -->
-        <div class="canva-panel studio-canva-display" id="canvaIntegrationPanel" style="display:none;width:100%;max-width:440px;">
+        <!-- Tampilan Versi 3: Canva Integration Panel -->
+        <div class="canva-panel studio-canva-display" id="cardCanvaPanel" style="display:none;width:100%;max-width:550px;">
           <div class="canva-header-box">
             <div class="canva-icon-badge">C</div>
             <div class="canva-info-content">
               <h4>Desain Manual via Canva</h4>
-              <p>Salin identitas pegawai di bawah ini dan klik tombol untuk membuka template Canva unit Anda.</p>
+              <p>Salin identitas pegawai di bawah ini dan buka template Canva unit Anda untuk pengeditan grafis lanjutan.</p>
             </div>
           </div>
 
@@ -338,6 +335,7 @@
               <span style="font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Data Pegawai untuk Canva:</span>
               <div class="name" id="canvaEmpNameDisplay">-</div>
               <div class="role" id="canvaEmpRoleDisplay">-</div>
+              <div class="role" id="canvaEmpNipDisplay" style="font-size:0.8rem;color:var(--text-muted);">-</div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="copyCanvaEmpData()">
               <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -521,6 +519,6 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=12_default_real_photo"></script>
 </body>
 </html>
