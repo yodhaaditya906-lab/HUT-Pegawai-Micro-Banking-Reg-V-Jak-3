@@ -4,6 +4,12 @@ function getProxyPhotoUrl(url) {
   return '/api/photo-proxy?url=' + encodeURIComponent(url);
 }
 
+function openGoogleSheetDatabase() {
+  const defaultUrl = 'https://docs.google.com/spreadsheets/d/15TjmyZchHyxWYbwwCpWn_ID9WC9Jzei7niitac6r8ho/edit?usp=sharing';
+  const url = (state && state.config && state.config.sheetUrl) ? state.config.sheetUrl : defaultUrl;
+  window.open(url, '_blank');
+}
+
 /**
  * MICRO BANKING REG V/JAK 3 BIRTHDAY TRACKER - APP LOGIC
  * Clean Corporate Bank Mandiri Aesthetic
