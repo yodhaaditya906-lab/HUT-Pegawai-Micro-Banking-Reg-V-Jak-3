@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=10_f1_ratio">
+  <link rel="stylesheet" href="styles.css?v=14_f1_instant_studio">
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -35,6 +35,11 @@
     </div>
 
     <div class="header-right">
+      <!-- F1 Card Studio Button -->
+      <button class="btn btn-gold btn-sm" id="btnOpenF1Studio" title="Generator Kartu F1 Bank Mandiri" onclick="openF1StudioModal()">
+        <span style="font-size:1.15rem;line-height:1;">🏎️</span>
+        <span>Generator Kartu F1</span>
+      </button>
       <!-- WhatsApp Status Badge -->
       <button class="nav-status-pill" id="waStatusPill" title="Status WhatsApp Bot Otomatis" onclick="openSettingsModal('wa-tab')">
         <span class="status-dot disconnected" id="waStatusDot"></span>
@@ -263,99 +268,187 @@
   </div>
 
   
-  <!-- MODAL: Studio Kartu Ucapan Ulang Tahun (3 Versi Otomatis) -->
+  <!-- MODAL: Studio Generator Kartu F1 Mandiri -->
   <div class="modal-backdrop" id="cardModal">
-    <div class="modal-box modal-card-studio">
-      <div class="modal-header">
+    <div class="modal-box modal-f1-studio">
+      <div class="modal-header f1-studio-header">
         <div class="modal-title-group">
-          <h3>Kartu Ucapan Ulang Tahun</h3>
-          <p id="cardModalSubtitle">Micro Banking Reg V/Jakarta 3 Official Greeting</p>
+          <div class="f1-header-title-row">
+            <span class="f1-flag-icon">🏎️</span>
+            <h3>Studio Generator Kartu F1 Mandiri</h3>
+            <span class="f1-edition-badge">Danantara x Mandiri F1</span>
+          </div>
+          <p id="cardModalSubtitle">Tarik & lepas foto siapa saja untuk menghasilkan kartu ucapan F1 resmi secara instan</p>
         </div>
         <button class="btn-close" onclick="closeCardModal()">✕</button>
       </div>
 
-      <div class="modal-body studio-modal-body">
-        <!-- 3 Tab Versi -->
-        <div class="card-version-tabs">
-          <button class="version-tab-btn active" id="btnVerF1Official" onclick="switchCardVersion('f1-official')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-            <span>1. Kartu F1 Resmi</span>
-            <small>Tema Mandiri x Danantara F1</small>
-          </button>
-          <button class="version-tab-btn" id="btnVerWithPhoto" onclick="switchCardVersion('with-photo')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
-            <span>2. Foto Asli Pegawai</span>
-            <small>Tampilkan Foto Asli dari Database</small>
-          </button>
-          <button class="version-tab-btn" id="btnVerCanva" onclick="switchCardVersion('canva')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            <span>3. Edit di Canva</span>
-            <small>Template Manual Canva ↗</small>
-          </button>
-        </div>
+      <div class="modal-body f1-studio-body">
+        <div class="f1-studio-layout">
+          <!-- PANEL KIRI: Drag-and-Drop & Pengaturan Kartu -->
+          <div class="f1-controls-pane">
+            
+            <!-- 1. DRAG AND DROP ZONE -->
+            <div class="f1-card-section">
+              <div class="f1-section-header">
+                <span class="step-num">1</span>
+                <label>Foto Pegawai (Drag & Drop)</label>
+              </div>
+              <div class="f1-dropzone" id="f1PhotoDropzone" onclick="document.getElementById('f1PhotoFileInput').click()">
+                <input type="file" id="f1PhotoFileInput" accept="image/*" style="display:none;" onchange="handleF1PhotoUpload(event)">
+                
+                <div class="dropzone-empty" id="f1DropzoneEmpty">
+                  <div class="dropzone-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <div class="dropzone-text">
+                    <strong>Tarik & Lepas Foto di Sini</strong>
+                    <span>atau klik untuk memilih file dari komputer / HP</span>
+                  </div>
+                  <div class="dropzone-badge-tag">Format: JPG, PNG, WEBP</div>
+                </div>
 
-        <!-- Tampilan Versi 1 & 2: Live Canvas Display -->
-        <div class="studio-card-display" id="cardCanvasContainerWrap">
-          <div class="studio-canvas-container">
-            <canvas id="cardCanvas" width="896" height="1200" style="display: block; width: auto !important; height: auto !important; max-width: 100% !important; max-height: 64vh !important; aspect-ratio: 896 / 1200 !important; object-fit: contain !important; margin: 0 auto; border-radius: 8px;"></canvas>
-          </div>
+                <div class="dropzone-loaded" id="f1DropzoneLoaded" style="display:none;">
+                  <img id="f1DropzoneThumbnail" src="" alt="Thumbnail Foto">
+                  <div class="dropzone-loaded-info">
+                    <span id="f1DropzoneFilename">Foto Terpasang</span>
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="event.stopPropagation(); document.getElementById('f1PhotoFileInput').click()">Ganti Foto</button>
+                  </div>
+                </div>
+              </div>
 
-          <!-- Opsi ganti foto opsional untuk Versi 2 -->
-          <div id="cardPhotoControlsBlock" class="studio-photo-subrow" style="display:none;">
-            <input type="file" id="cardPhotoInput" accept="image/*" style="display:none;" onchange="handleCardPhotoUpload(event)">
-            <button class="btn btn-secondary btn-xs" onclick="document.getElementById('cardPhotoInput').click()">
-              📷 Ganti Foto Sendiri
-            </button>
-            <button class="btn btn-text btn-xs" onclick="resetCardPhoto()">
-              ↺ Foto Asli Database
-            </button>
-          </div>
-
-          <!-- Tombol Unduh Kartu -->
-          <div class="studio-action-row">
-            <button class="btn btn-gold btn-lg studio-btn-download" onclick="downloadCardImage()">
-              <svg style="width:20px;height:20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Unduh Kartu Ucapan (PNG)</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Tampilan Versi 3: Canva Integration Panel -->
-        <div class="canva-panel studio-canva-display" id="cardCanvaPanel" style="display:none;width:100%;max-width:550px;">
-          <div class="canva-header-box">
-            <div class="canva-icon-badge">C</div>
-            <div class="canva-info-content">
-              <h4>Desain Manual via Canva</h4>
-              <p>Salin identitas pegawai di bawah ini dan buka template Canva unit Anda untuk pengeditan grafis lanjutan.</p>
+              <div class="dropzone-action-subrow">
+                <button type="button" class="btn btn-text btn-xs text-gold" id="btnUseDbPhoto" onclick="useEmployeeDatabasePhoto()" style="display:none;">
+                  ↺ Gunakan Foto Asli Database
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="canva-emp-data-card" style="margin-top:0.75rem;">
-            <div class="canva-emp-details">
-              <span style="font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;">Data Pegawai untuk Canva:</span>
-              <div class="name" id="canvaEmpNameDisplay">-</div>
-              <div class="role" id="canvaEmpRoleDisplay">-</div>
-              <div class="role" id="canvaEmpNipDisplay" style="font-size:0.8rem;color:var(--text-muted);">-</div>
+            <!-- 2. PILIH PEGAWAI / INPUT DATA -->
+            <div class="f1-card-section">
+              <div class="f1-section-header">
+                <span class="step-num">2</span>
+                <label>Identitas & Jabatan Pegawai</label>
+              </div>
+
+              <div class="form-group mb-2">
+                <select id="f1EmpSelector" class="form-select form-select-sm" onchange="handleF1EmpSelect(this.value)">
+                  <option value="">-- Pilih dari 489 Pegawai Mandiri (Otomatis Isi) --</option>
+                </select>
+              </div>
+
+              <div class="form-group mb-2">
+                <label class="form-sublabel">Nama Lengkap Pegawai:</label>
+                <input type="text" id="f1InputNama" class="form-control form-control-sm" placeholder="Contoh: FAJAR PRATAMA" oninput="handleF1DataInput()">
+              </div>
+
+              <div class="form-row-2col">
+                <div class="form-group mb-2">
+                  <label class="form-sublabel">Jabatan & Unit Kerja:</label>
+                  <input type="text" id="f1InputJabatan" class="form-control form-control-sm" placeholder="Contoh: SGP" oninput="handleF1DataInput()">
+                </div>
+                <div class="form-group mb-2">
+                  <label class="form-sublabel">Tanggal Lahir (DD/MM):</label>
+                  <input type="text" id="f1InputTanggal" class="form-control form-control-sm" placeholder="Contoh: 18/10" oninput="handleF1DataInput()">
+                </div>
+              </div>
             </div>
-            <button class="btn btn-secondary btn-sm" onclick="copyCanvaEmpData()">
-              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Salin Teks Pegawai</span>
-            </button>
-          </div>
 
-          <div class="form-group" style="margin-top:0.85rem;width:100%;">
-            <label style="font-size:0.8rem;font-weight:600;">Link Template Canva Anda:</label>
-            <div class="input-with-button">
-              <input type="text" id="canvaTemplateUrlInput" placeholder="https://www.canva.com/design/..." style="font-size:0.85rem;">
-              <button class="btn btn-secondary btn-sm" onclick="saveCanvaTemplateUrl()">Simpan Link</button>
+            <!-- 3. PILIHAN STYLE BAJU F1 -->
+            <div class="f1-card-section">
+              <div class="f1-section-header">
+                <span class="step-num">3</span>
+                <label>Pilihan Style Tampilan</label>
+              </div>
+              <div class="f1-mode-pills">
+                <button type="button" class="f1-mode-btn active" id="btnModeF1Suit" onclick="setF1SuitMode('suit')">
+                  <span class="pill-icon">🏎️</span>
+                  <span>Baju Balap F1 Mandiri</span>
+                </button>
+                <button type="button" class="f1-mode-btn" id="btnModeCleanPortrait" onclick="setF1SuitMode('portrait')">
+                  <span class="pill-icon">🖼️</span>
+                  <span>Portrait Sirkuit Clean</span>
+                </button>
+              </div>
             </div>
+
+            <!-- 4. PENGATUR POSISI & ZOOM FOTO -->
+            <div class="f1-card-section">
+              <div class="f1-section-header-between">
+                <div class="f1-section-header">
+                  <span class="step-num">4</span>
+                  <label>Posisikan Wajah / Foto</label>
+                </div>
+                <button type="button" class="btn btn-text btn-xs text-gold" onclick="resetF1Adjusters()">↺ Reset</button>
+              </div>
+              
+              <div class="f1-sliders-grid">
+                <div class="f1-slider-item">
+                  <div class="slider-head">
+                    <span>Perbesar / Zoom</span>
+                    <strong id="valZoom">1.0x</strong>
+                  </div>
+                  <input type="range" id="f1SliderZoom" min="0.5" max="2.5" step="0.05" value="1.0" oninput="handleF1TransformChange()">
+                </div>
+
+                <div class="f1-slider-item">
+                  <div class="slider-head">
+                    <span>Geser Kiri / Kanan</span>
+                    <strong id="valPanX">0px</strong>
+                  </div>
+                  <input type="range" id="f1SliderPanX" min="-180" max="180" step="2" value="0" oninput="handleF1TransformChange()">
+                </div>
+
+                <div class="f1-slider-item">
+                  <div class="slider-head">
+                    <span>Geser Atas / Bawah</span>
+                    <strong id="valPanY">0px</strong>
+                  </div>
+                  <input type="range" id="f1SliderPanY" min="-180" max="180" step="2" value="0" oninput="handleF1TransformChange()">
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. AKSI DOWNLOAD & SHARE -->
+            <div class="f1-actions-box">
+              <button type="button" class="btn btn-gold btn-lg w-100 btn-download-f1" onclick="downloadF1Card()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Unduh Kartu HD (PNG)</span>
+              </button>
+
+              <button type="button" class="btn btn-secondary btn-sm w-100 mt-2" onclick="copyF1WhatsAppText()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Salin Teks Ucapan WhatsApp</span>
+              </button>
+            </div>
+
           </div>
 
-          <div class="canva-cta-block" style="margin-top:1.25rem;width:100%;">
-            <a href="https://www.canva.com" target="_blank" class="btn-canva-big" id="btnOpenCanvaLink">
-              <svg style="width:20px;height:20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              <span>Buka Template di Canva ↗</span>
-            </a>
+          <!-- PANEL KANAN: Live Canvas Preview -->
+          <div class="f1-preview-pane">
+            <div class="f1-canvas-card">
+              <div class="f1-canvas-status-bar">
+                <div class="f1-live-indicator">
+                  <span class="f1-dot-pulse"></span>
+                  <span>Live HD Preview (896 x 1200 px)</span>
+                </div>
+                <span class="f1-badge-ratio">3:4 WhatsApp Story</span>
+              </div>
+
+              <div class="f1-canvas-stage" id="f1CanvasDropTarget">
+                <canvas id="cardCanvas" width="896" height="1200"></canvas>
+                <div class="canvas-drag-overlay" id="f1CanvasDragOverlay">
+                  <div class="overlay-drop-box">
+                    <span style="font-size:2.5rem;">📥</span>
+                    <strong>Lepas Foto di Sini</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="canvas-footer-hints">
+                <small>💡 Tips: Kamu juga bisa menarik & melepas file foto langsung ke atas kartu preview!</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -519,6 +612,6 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=12_default_real_photo"></script>
+  <script src="app.js?v=14_f1_instant_studio"></script>
 </body>
 </html>
