@@ -162,12 +162,13 @@ function parseDateSpreadsheet(rawDate) {
   return { normalized: str, tahun: null };
 }
 
-function normalizeGoogleDriveUrl(url) {
+function normalizeGoogleDriveUrl(url, highRes = false) {
   if (!url) return '';
+  const sz = highRes ? 'w1200' : 'w500';
   const match1 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-  if (match1) return `https://drive.google.com/thumbnail?id=${match1[1]}&sz=w500`;
+  if (match1) return `https://drive.google.com/thumbnail?id=${match1[1]}&sz=${sz}`;
   const match2 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if (match2) return `https://drive.google.com/thumbnail?id=${match2[1]}&sz=w500`;
+  if (match2) return `https://drive.google.com/thumbnail?id=${match2[1]}&sz=${sz}`;
   return url;
 }
 
@@ -205,6 +206,7 @@ function parseGoogleSheetCsvClient(text) {
   let nipIdx = headerRow.findIndex(h => h.includes('nip'));
   let jabatanIdx = headerRow.findIndex(h => h.includes('jabatan') || h.includes('role') || h.includes('posisi'));
   let tglIdx = headerRow.findIndex(h => h.includes('tgl') || h.includes('tanggal') || h.includes('lahir') || h.includes('birth'));
+  let kartuIdx = headerRow.findIndex(h => h.includes('kartu') || h.includes('card') || h.includes('hasil') || h.includes('f1') || h === 'column 1');
   let fotoIdx = headerRow.findIndex(h => h.includes('foto') || h.includes('image') || h.includes('avatar') || h.includes('link'));
 
   if (nameIdx === -1) return null;
@@ -224,6 +226,7 @@ function parseGoogleSheetCsvClient(text) {
     const jabatan = jabatanIdx !== -1 ? (curRow[jabatanIdx] || '').trim() : 'Pegawai';
     const tanggalLahir = tglIdx !== -1 ? (curRow[tglIdx] || '').trim() : '';
     const foto = fotoIdx !== -1 ? (curRow[fotoIdx] || '').trim() : '';
+    const kartu = kartuIdx !== -1 ? (curRow[kartuIdx] || '').trim() : '';
 
     const cleanNip = nip || '-';
     const dedupeKey = `${nama.toLowerCase()}_${cleanNip}`;
@@ -238,7 +241,8 @@ function parseGoogleSheetCsvClient(text) {
         jabatan: jabatan || 'Pegawai',
         tanggalLahir: normalized,
         tahunLahir: tahun,
-        foto: normalizeGoogleDriveUrl(foto)
+        foto: normalizeGoogleDriveUrl(foto),
+        kartu: kartu ? normalizeGoogleDriveUrl(kartu, true) : ''
       });
     }
   }
@@ -1431,6 +1435,7 @@ function getEmployeeCardCandidateUrls(emp) {
   if (!emp) return [];
   const nameSlug = (emp.nama || '').toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
   const list = [
+    emp.kartu ? emp.kartu : null, // #1 TOP PRIORITY: Kartu langsung dari Google Sheet!
     `assets/f1_cards/${emp.id}.jpg`,
     nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
     emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null

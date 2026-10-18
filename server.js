@@ -373,15 +373,16 @@ function parseDate(rawDate) {
 }
 
 // Normalize Google Drive image links to thumbnail direct URL
-function normalizeGoogleDriveUrl(url) {
+function normalizeGoogleDriveUrl(url, highRes = false) {
   if (!url) return '';
+  const sz = highRes ? 'w1200' : 'w500';
   const match1 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
   if (match1) {
-    return `https://drive.google.com/thumbnail?id=${match1[1]}&sz=w500`;
+    return `https://drive.google.com/thumbnail?id=${match1[1]}&sz=${sz}`;
   }
   const match2 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (match2) {
-    return `https://drive.google.com/thumbnail?id=${match2[1]}&sz=w500`;
+    return `https://drive.google.com/thumbnail?id=${match2[1]}&sz=${sz}`;
   }
   return url;
 }
@@ -404,6 +405,7 @@ function parseEmployeesCsv(csvText) {
     let jabatan = '';
     let tanggalLahir = '';
     let foto = '';
+    let kartu = '';
 
     for (const [key, val] of Object.entries(row)) {
       const cleanKey = key.trim().toLowerCase();
@@ -413,6 +415,7 @@ function parseEmployeesCsv(csvText) {
       else if (cleanKey.includes('nip')) nip = strVal;
       else if (cleanKey.includes('jabatan') || cleanKey.includes('role') || cleanKey.includes('posisi')) jabatan = strVal;
       else if (cleanKey.includes('tgl') || cleanKey.includes('tanggal') || cleanKey.includes('lahir') || cleanKey.includes('birth')) tanggalLahir = strVal;
+      else if (cleanKey.includes('kartu') || cleanKey.includes('card') || cleanKey.includes('hasil') || cleanKey.includes('f1') || (cleanKey.includes('column 1') && strVal.startsWith('http'))) kartu = strVal;
       else if (cleanKey.includes('foto') || cleanKey.includes('image') || cleanKey.includes('avatar') || cleanKey.includes('link')) foto = strVal;
     }
 
@@ -433,7 +436,8 @@ function parseEmployeesCsv(csvText) {
           jabatan: jabatan || 'Pegawai',
           tanggalLahir: normalized,
           tahunLahir: tahun,
-          foto: normalizeGoogleDriveUrl(foto)
+          foto: normalizeGoogleDriveUrl(foto),
+          kartu: kartu ? normalizeGoogleDriveUrl(kartu, true) : ''
         });
       }
     }
