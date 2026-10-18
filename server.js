@@ -54,6 +54,13 @@ function readJson(file, defaultVal) {
 function writeJson(file, data) {
   try {
     fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+    if (file === EMPLOYEES_FILE) {
+      const pubFile = path.join(__dirname, 'public', 'data', 'employees.json');
+      fs.writeFileSync(pubFile, JSON.stringify(data, null, 2), 'utf8');
+    } else if (file === CONFIG_FILE) {
+      const pubFile = path.join(__dirname, 'public', 'data', 'config.json');
+      fs.writeFileSync(pubFile, JSON.stringify(data, null, 2), 'utf8');
+    }
   } catch (err) {
     console.error(`Error writing ${file}:`, err.message);
   }

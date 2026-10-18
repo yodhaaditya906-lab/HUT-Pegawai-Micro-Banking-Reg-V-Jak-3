@@ -115,30 +115,200 @@ function updateCurrentDateDisplay() {
   if (el) el.textContent = `Hari Ini: ${display}`;
 }
 
+function getGoogleSheetCsvExportUrl(url) {
+  if (!url) return '';
+  const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (match) {
+    const sheetId = match[1];
+    let gid = '0';
+    const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+    if (gidMatch) gid = gidMatch[1];
+    return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+  }
+  return url;
+}
+
+function parseDateSpreadsheet(rawDate) {
+  if (!rawDate) return { normalized: '', tahun: null };
+  const str = String(rawDate).trim();
+  if (str.includes('/')) {
+    const parts = str.split('/');
+    let p1 = parseInt(parts[0]);
+    let p2 = parseInt(parts[1]);
+    let p3 = parts[2] ? parseInt(parts[2]) : null;
+    let day, month;
+    if (p1 > 12) { day = p1; month = p2; }
+    else { day = p2; month = p1; }
+    if (p3 !== null) {
+      if (p3 < 30) p3 += 2000;
+      else if (p3 < 100) p3 += 1900;
+    }
+    return {
+      normalized: `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}`,
+      tahun: p3
+    };
+  }
+  if (str.includes('-')) {
+    const parts = str.split('-');
+    let p1 = parseInt(parts[0]);
+    let p2 = parseInt(parts[1]);
+    let p3 = parts[2] ? parseInt(parts[2]) : null;
+    if (parts[0].length === 4) {
+      return { normalized: `${String(p3).padStart(2, '0')}/${String(p2).padStart(2, '0')}`, tahun: p1 };
+    } else {
+      return { normalized: `${String(p1).padStart(2, '0')}/${String(p2).padStart(2, '0')}`, tahun: p3 };
+    }
+  }
+  return { normalized: str, tahun: null };
+}
+
+function normalizeGoogleDriveUrl(url) {
+  if (!url) return '';
+  const match1 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match1) return `https://drive.google.com/thumbnail?id=${match1[1]}&sz=w500`;
+  const match2 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match2) return `https://drive.google.com/thumbnail?id=${match2[1]}&sz=w500`;
+  return url;
+}
+
+function parseGoogleSheetCsvClient(text) {
+  const lines = [];
+  let row = [''];
+  let inQuotes = false;
+  let i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    const next = text[i + 1];
+    if (c === '"') {
+      if (inQuotes && next === '"') {
+        row[row.length - 1] += '"';
+        i += 2;
+        continue;
+      }
+      inQuotes = !inQuotes;
+    } else if (c === ',' && !inQuotes) {
+      row.push('');
+    } else if ((c === '\r' || c === '\n') && !inQuotes) {
+      if (c === '\r' && next === '\n') i++;
+      lines.push(row);
+      row = [''];
+    } else {
+      row[row.length - 1] += c;
+    }
+    i++;
+  }
+  if (row.length > 1 || row[0] !== '') lines.push(row);
+  if (lines.length < 2) return null;
+
+  const headerRow = lines[0].map(h => h.trim().toLowerCase());
+  let nameIdx = headerRow.findIndex(h => h.includes('nama'));
+  let nipIdx = headerRow.findIndex(h => h.includes('nip'));
+  let jabatanIdx = headerRow.findIndex(h => h.includes('jabatan') || h.includes('role') || h.includes('posisi'));
+  let tglIdx = headerRow.findIndex(h => h.includes('tgl') || h.includes('tanggal') || h.includes('lahir') || h.includes('birth'));
+  let fotoIdx = headerRow.findIndex(h => h.includes('foto') || h.includes('image') || h.includes('avatar') || h.includes('link'));
+
+  if (nameIdx === -1) return null;
+
+  const employees = [];
+  const seenKeys = new Set();
+  let counter = 1;
+  let rawRowCount = 0;
+
+  for (let r = 1; r < lines.length; r++) {
+    const curRow = lines[r];
+    const nama = (curRow[nameIdx] || '').trim();
+    if (!nama) continue;
+    rawRowCount++;
+
+    const nip = nipIdx !== -1 ? (curRow[nipIdx] || '').trim() : '-';
+    const jabatan = jabatanIdx !== -1 ? (curRow[jabatanIdx] || '').trim() : 'Pegawai';
+    const tanggalLahir = tglIdx !== -1 ? (curRow[tglIdx] || '').trim() : '';
+    const foto = fotoIdx !== -1 ? (curRow[fotoIdx] || '').trim() : '';
+
+    const cleanNip = nip || '-';
+    const dedupeKey = `${nama.toLowerCase()}_${cleanNip}`;
+
+    if (!seenKeys.has(dedupeKey)) {
+      seenKeys.add(dedupeKey);
+      const { normalized, tahun } = parseDateSpreadsheet(tanggalLahir);
+      employees.push({
+        id: `EMP-${String(counter++).padStart(4, '0')}`,
+        nama,
+        nip: cleanNip,
+        jabatan: jabatan || 'Pegawai',
+        tanggalLahir: normalized,
+        tahunLahir: tahun,
+        foto: normalizeGoogleDriveUrl(foto)
+      });
+    }
+  }
+
+  return { employees, totalRawRows: rawRowCount };
+}
+
 // -------------------------------------------------------------
 // API FETCH & SYNC
 // -------------------------------------------------------------
 async function fetchInitialData(forceSync = false) {
   try {
     let data = null;
+
+    // 1. Coba ambil dari Backend Node.js lokal (jika berjalan dengan server.js)
     try {
       const endpoint = forceSync ? '/api/data?refresh=1' : '/api/data';
       const res = await fetch(endpoint);
-      if (res.ok) data = await res.json();
+      if (res.ok) {
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          data = await res.json();
+        }
+      }
     } catch (_) {}
 
-    // Fallback static data jika API serverless cold-start
+    // 2. Jika di Netlify / hosting statis tanpa backend Express, ambil LANGSUNG dari Google Sheet (CORS didukung oleh Google!)
+    if (!data || !data.employees || data.employees.length === 0) {
+      try {
+        const sheetUrl = (state.config && state.config.sheetUrl) ? state.config.sheetUrl : 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing';
+        const csvUrl = getGoogleSheetCsvExportUrl(sheetUrl);
+        const res = await fetch(csvUrl);
+        if (res.ok) {
+          const csvText = await res.text();
+          const parsed = parseGoogleSheetCsvClient(csvText);
+          if (parsed && parsed.employees.length > 0) {
+            data = {
+              employees: parsed.employees,
+              config: {
+                ...state.config,
+                sheetUrl,
+                totalSheetRows: parsed.totalRawRows,
+                uniqueEmployees: parsed.employees.length,
+                lastSyncTime: new Date().toISOString()
+              }
+            };
+          }
+        }
+      } catch (sheetErr) {
+        console.warn('Direct Google Sheet fetch error:', sheetErr);
+      }
+    }
+
+    // 3. Fallback static data jika offline
     if (!data || !data.employees || data.employees.length === 0) {
       try {
         const fallbackRes = await fetch('data/employees.json');
         if (fallbackRes.ok) {
           const emps = await fallbackRes.json();
-          data = { employees: emps, config: {} };
+          let cfg = {};
+          try {
+            const cfgRes = await fetch('data/config.json');
+            if (cfgRes.ok) cfg = await cfgRes.json();
+          } catch (_) {}
+          data = { employees: emps, config: cfg };
         }
       } catch (_) {}
     }
 
-    if (!data || !data.employees) throw new Error('Gagal memuat data dari server');
+    if (!data || !data.employees) throw new Error('Gagal memuat data dari server atau Google Sheet');
 
     state.employees = data.employees || [];
     state.config = { ...state.config, ...(data.config || {}) };
@@ -158,25 +328,59 @@ async function fetchInitialData(forceSync = false) {
 
 async function startStatusPolling() {
   let prevSyncTime = null;
+  let backendAvailable = true;
 
   const poll = async () => {
     try {
       const res = await fetch('/api/status');
       if (res.ok) {
-        const data = await res.json();
-        state.waStatus = data;
-        updateWAStatusUI();
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          const data = await res.json();
+          state.waStatus = data;
+          updateWAStatusUI();
 
-        // If backend auto-synced new data from Google Sheet, refresh client view automatically!
-        if (data.lastSyncTime && prevSyncTime && data.lastSyncTime !== prevSyncTime) {
-          console.log('🔄 Mendeteksi pembaruan data Google Sheet dari server, memperbarui tampilan...');
-          await fetchInitialData();
-          showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
+          // If backend auto-synced new data from Google Sheet, refresh client view automatically!
+          if (data.lastSyncTime && prevSyncTime && data.lastSyncTime !== prevSyncTime) {
+            console.log('🔄 Mendeteksi pembaruan data Google Sheet dari server, memperbarui tampilan...');
+            await fetchInitialData();
+            showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
+          }
+          if (data.lastSyncTime) prevSyncTime = data.lastSyncTime;
+          backendAvailable = true;
+        } else {
+          backendAvailable = false;
         }
-        if (data.lastSyncTime) prevSyncTime = data.lastSyncTime;
+      } else {
+        backendAvailable = false;
       }
-    } catch (_) {}
-    setTimeout(poll, 6000);
+    } catch (_) {
+      backendAvailable = false;
+    }
+
+    // Jika berjalan di Netlify (tanpa backend /api/status), lakukan auto-sync langsung ke Google Sheet setiap 30 detik
+    if (!backendAvailable) {
+      try {
+        const sheetUrl = (state.config && state.config.sheetUrl) ? state.config.sheetUrl : 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing';
+        const csvUrl = getGoogleSheetCsvExportUrl(sheetUrl);
+        const res = await fetch(csvUrl);
+        if (res.ok) {
+          const csvText = await res.text();
+          const parsed = parseGoogleSheetCsvClient(csvText);
+          if (parsed && parsed.employees.length !== state.employees.length) {
+            console.log('🔄 Mendeteksi data baru di Google Sheet (Netlify Mode)!');
+            state.employees = parsed.employees;
+            state.config.totalSheetRows = parsed.totalRawRows;
+            state.config.uniqueEmployees = parsed.employees.length;
+            updateRoleChipsCount();
+            renderAllViews();
+            showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
+          }
+        }
+      } catch (_) {}
+    }
+
+    setTimeout(poll, 15000);
   };
   poll();
 
@@ -274,22 +478,65 @@ async function triggerGoogleSheetSync() {
   if (btn) btn.classList.add('loading');
   try {
     showToast('Menghubungi Google Sheet...', 'info');
-    const res = await fetch('/api/sync-sheets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sheetUrl: state.config.sheetUrl })
-    });
-    const data = await res.json();
-    if (data.success) {
-      state.employees = data.employees;
-      updateRoleChipsCount();
-      renderAllViews();
-      showToast(`Berhasil sinkronisasi ${data.count} pegawai dari Google Sheet!`, 'success');
-    } else {
-      showToast(data.error || 'Gagal sinkronisasi data', 'danger');
+    let synced = false;
+
+    // 1. Coba sync via backend jika backend aktif
+    try {
+      const res = await fetch('/api/sync-sheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sheetUrl: state.config.sheetUrl })
+      });
+      if (res.ok) {
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) {
+          const data = await res.json();
+          if (data.success) {
+            state.employees = data.employees;
+            state.config = { ...state.config, totalSheetRows: data.totalSheetRows, uniqueEmployees: data.count, lastSyncTime: data.lastSyncTime };
+            updateRoleChipsCount();
+            renderAllViews();
+            showToast(`Berhasil sinkronisasi ${data.count} pegawai dari Google Sheet!`, 'success');
+            synced = true;
+          }
+        }
+      }
+    } catch (_) {}
+
+    // 2. Jika di Netlify / hosting statis, sync LANGSUNG dari Google Sheet di browser!
+    if (!synced) {
+      try {
+        const sheetUrl = (state.config && state.config.sheetUrl) ? state.config.sheetUrl : 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing';
+        const csvUrl = getGoogleSheetCsvExportUrl(sheetUrl);
+        const res = await fetch(csvUrl);
+        if (res.ok) {
+          const csvText = await res.text();
+          const parsed = parseGoogleSheetCsvClient(csvText);
+          if (parsed && parsed.employees.length > 0) {
+            state.employees = parsed.employees;
+            state.config = {
+              ...state.config,
+              sheetUrl,
+              totalSheetRows: parsed.totalRawRows,
+              uniqueEmployees: parsed.employees.length,
+              lastSyncTime: new Date().toISOString()
+            };
+            updateRoleChipsCount();
+            renderAllViews();
+            showToast(`Berhasil sinkronisasi ${parsed.employees.length} pegawai dari Google Sheet!`, 'success');
+            synced = true;
+          }
+        }
+      } catch (clientErr) {
+        console.error('Client sync error:', clientErr);
+      }
+    }
+
+    if (!synced) {
+      showToast('Gagal sinkronisasi data dari Google Sheet', 'danger');
     }
   } catch (err) {
-    showToast('Kesalahan koneksi ke server: ' + err.message, 'danger');
+    showToast('Kesalahan koneksi: ' + err.message, 'danger');
   } finally {
     if (btn) btn.classList.remove('loading');
   }
