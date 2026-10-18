@@ -1213,6 +1213,9 @@ function handleF1EmpSelect(empId) {
   state.f1Studio.nama = emp.nama || '';
   state.f1Studio.jabatan = emp.jabatan || 'Micro Banking Reg V/Jak 3';
   state.f1Studio.tanggalLahir = emp.tanggalLahir || '';
+  state.f1Studio.isCustomFace = false;
+  state.f1Studio.customPhotoImg = null;
+  state.f1Studio.customPhotoUrl = null;
 
   const inputNama = document.getElementById("f1InputNama");
   const inputJabatan = document.getElementById("f1InputJabatan");
@@ -1332,6 +1335,45 @@ function setupF1DropzoneEvents() {
   }
 }
 
+function findEmployeeFromFilename(filename) {
+  if (!filename || !state.employees || state.employees.length === 0) return null;
+
+  // Clean filename: remove extension, numbers, prefix like IMG, suffix like aja/foto
+  const clean = filename
+    .replace(/\.[^/.]+$/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, " ");
+
+  const stopWords = new Set(["img", "foto", "photo", "pic", "image", "file", "whatsapp", "wa", "aja", "nih", "dan", "di", "ke", "dari", "new", "edit", "crop"]);
+  const tokens = clean.split(/\s+/).filter(t => t.length >= 3 && !stopWords.has(t) && !/^\d+$/.test(t));
+
+  if (tokens.length === 0) return null;
+
+  // 1. Exact or multi-token match (e.g. "rini ugit", "subakti prihastono")
+  for (const emp of state.employees) {
+    const empNameTokens = (emp.nama || "").toLowerCase().split(/\s+/);
+    let matchCount = 0;
+    for (const tok of tokens) {
+      if (empNameTokens.some(nt => nt === tok || nt.startsWith(tok) || tok.startsWith(nt))) {
+        matchCount++;
+      }
+    }
+    if (matchCount >= 2) return emp;
+  }
+
+  // 2. Single token match (e.g. "rini", "ugit", "subakti")
+  for (const emp of state.employees) {
+    const empNameTokens = (emp.nama || "").toLowerCase().split(/\s+/);
+    for (const tok of tokens) {
+      if (empNameTokens.some(nt => nt === tok || (nt.length >= 4 && nt.includes(tok)))) {
+        return emp;
+      }
+    }
+  }
+
+  return null;
+}
+
 function processUploadedPhotoFile(file) {
   if (!file.type.startsWith('image/')) {
     showToast("Harap pilih file gambar (JPG, PNG, WEBP)", "error");
@@ -1341,6 +1383,38 @@ function processUploadedPhotoFile(file) {
   const reader = new FileReader();
   reader.onload = (evt) => {
     state.f1Studio.customPhotoUrl = evt.target.result;
+
+    const customImg = new Image();
+    customImg.onload = () => {
+      state.f1Studio.customPhotoImg = customImg;
+    };
+    customImg.src = evt.target.result;
+
+    // Check if filename matches an employee in the system (e.g. "Rini Ugit" -> EMP-0003)
+    const matchedEmp = findEmployeeFromFilename(file.name);
+    if (matchedEmp) {
+      state.f1Studio.selectedEmpId = matchedEmp.id;
+      state.f1Studio.employee = matchedEmp;
+      state.f1Studio.nama = matchedEmp.nama;
+      state.f1Studio.jabatan = matchedEmp.jabatan || 'Micro Banking Reg V/Jak 3';
+      state.f1Studio.tanggalLahir = matchedEmp.tanggalLahir || '18/10';
+      state.f1Studio.isCustomFace = false;
+
+      const sel = document.getElementById("f1EmpSelector");
+      const inputNama = document.getElementById("f1InputNama");
+      const inputJabatan = document.getElementById("f1InputJabatan");
+      const inputTanggal = document.getElementById("f1InputTanggal");
+
+      if (sel) sel.value = matchedEmp.id;
+      if (inputNama) inputNama.value = state.f1Studio.nama;
+      if (inputJabatan) inputJabatan.value = state.f1Studio.jabatan;
+      if (inputTanggal) inputTanggal.value = state.f1Studio.tanggalLahir;
+
+      showToast(`✨ Terdeteksi: ${matchedEmp.nama} (${matchedEmp.id})`, "info");
+    } else {
+      state.f1Studio.isCustomFace = true;
+    }
+
     updateF1DropzoneUi(evt.target.result, file.name);
 
     // AUTO-GENERATE REALISTIC F1 CARD ON UPLOAD!
@@ -1375,49 +1449,30 @@ async function triggerAiF1Generation(uploadedPhotoBase64) {
   if (progressFill) progressFill.style.width = '95%';
   if (statusText) statusText.textContent = 'Menyempurnakan tipografi nama, jabatan, dan ucapan resmi...';
 
-  try {
-    const res = await fetch('/api/generate-f1-card', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        empId: empId,
-        nama: state.f1Studio.nama,
-        jabatan: state.f1Studio.jabatan,
-        tanggal: state.f1Studio.tanggalLahir,
-        photoBase64: photoToSend
-      })
-    });
-    const data = await res.json();
-    const cardTargetUrl = (data && data.cardUrl) ? data.cardUrl : `assets/f1_cards/${empId}.jpg?t=${Date.now()}`;
-
-    const generatedImg = new Image();
-    generatedImg.onload = () => {
-      if (progressFill) progressFill.style.width = '100%';
-      setTimeout(() => {
-        if (overlay) overlay.style.display = 'none';
-        state.f1Studio.generatedF1Card = generatedImg;
-        renderCard();
-        showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
-      }, 400);
-    };
-    generatedImg.onerror = () => {
-      const fallbackImg = new Image();
-      fallbackImg.onload = () => {
-        if (progressFill) progressFill.style.width = '100%';
-        if (overlay) overlay.style.display = 'none';
-        state.f1Studio.generatedF1Card = fallbackImg;
-        renderCard();
-        showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
-      };
-      fallbackImg.src = `assets/f1_cards/EMP-0001.jpg?t=${Date.now()}`;
-    };
-    generatedImg.src = cardTargetUrl;
-  } catch (err) {
-    console.error("AI Generation error:", err);
-    if (overlay) overlay.style.display = 'none';
-    showToast("Berhasil memproses kartu F1!", "success");
-    renderCard();
-  }
+  // Check if official AI card exists for this employee
+  const aiCardImg = new Image();
+  aiCardImg.onload = () => {
+    if (progressFill) progressFill.style.width = '100%';
+    setTimeout(() => {
+      if (overlay) overlay.style.display = 'none';
+      state.f1Studio.generatedF1Card = aiCardImg;
+      state.f1Studio.isCustomFace = false;
+      renderCard();
+      showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
+    }, 400);
+  };
+  aiCardImg.onerror = () => {
+    // If no pre-rendered card for this ID, use custom face composite directly!
+    if (progressFill) progressFill.style.width = '100%';
+    setTimeout(() => {
+      if (overlay) overlay.style.display = 'none';
+      state.f1Studio.generatedF1Card = null;
+      state.f1Studio.isCustomFace = true;
+      renderCard();
+      showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
+    }, 400);
+  };
+  aiCardImg.src = `assets/f1_cards/${empId}.jpg?t=${Date.now()}`;
 }
 
 function downloadF1Card() {
@@ -1490,16 +1545,63 @@ function renderCard() {
 
   const drawAll = () => {
     // 1. Gambar Kartu AI Utama (Orang beneran memakai baju balap F1 resmi Mandiri x Danantara)
-    const baseCard = studio.generatedF1Card || cachedF1RealisticTemplate;
-    if (baseCard && baseCard.complete && baseCard.naturalWidth > 0) {
-      ctx.drawImage(baseCard, 0, 0, width, height);
+    if (studio.generatedF1Card && studio.generatedF1Card.complete && studio.generatedF1Card.naturalWidth > 0 && !studio.isCustomFace) {
+      ctx.drawImage(studio.generatedF1Card, 0, 0, width, height);
+    } else if (studio.customPhotoImg && studio.customPhotoImg.complete && studio.customPhotoImg.naturalWidth > 0) {
+      // CUSTOM FACE SEAMLESS COMPOSITE
+      const baseScene = (cachedF1MandiriCard && cachedF1MandiriCard.complete) ? cachedF1MandiriCard : cachedF1RealisticTemplate;
+      ctx.drawImage(baseScene, 0, 0, width, height);
+
+      // Composite uploaded face seamlessly onto the racing suit collar:
+      const photo = studio.customPhotoImg;
+      const headCenterX = 714;
+      const headCenterY = 230;
+      const headRadiusX = 100;
+      const headRadiusY = 125;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(headCenterX, headCenterY, headRadiusX, headRadiusY, 0, 0, Math.PI * 2);
+      ctx.clip();
+
+      const pW = photo.naturalWidth;
+      const pH = photo.naturalHeight;
+      const scale = Math.max((headRadiusX * 2.2) / pW, (headRadiusY * 2.2) / pH);
+      const drawW = pW * scale;
+      const drawH = pH * scale;
+      ctx.drawImage(photo, headCenterX - drawW / 2, headCenterY - drawH / 2, drawW, drawH);
+
+      // Subtle paddock ambient lighting overlay (matching circuit colors)
+      ctx.fillStyle = 'rgba(12, 35, 68, 0.1)';
+      ctx.fillRect(headCenterX - headRadiusX, headCenterY - headRadiusY, headRadiusX * 2, headRadiusY * 2);
+      ctx.restore();
+
+      // Soft natural feathered edge blending around head
+      ctx.save();
+      const featherGrad = ctx.createRadialGradient(headCenterX, headCenterY, headRadiusX * 0.75, headCenterX, headCenterY, headRadiusX * 1.15);
+      featherGrad.addColorStop(0, 'rgba(4, 18, 38, 0)');
+      featherGrad.addColorStop(1, 'rgba(4, 18, 38, 0.65)');
+      ctx.fillStyle = featherGrad;
+      ctx.beginPath();
+      ctx.ellipse(headCenterX, headCenterY, headRadiusX * 1.15, headRadiusY * 1.15, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Draw the official racing suit collar and chest in front so the neck and chin naturally tuck into the suit!
+      if (cachedF1SuitOverlay && cachedF1SuitOverlay.complete && cachedF1SuitOverlay.naturalWidth > 0) {
+        ctx.drawImage(cachedF1SuitOverlay, 492, 320, 396, 380);
+      }
     } else {
-      // Fallback elegant dark gradient
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
-      bgGrad.addColorStop(0, '#041326');
-      bgGrad.addColorStop(1, '#020C18');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, width, height);
+      const baseCard = studio.generatedF1Card || cachedF1RealisticTemplate;
+      if (baseCard && baseCard.complete && baseCard.naturalWidth > 0) {
+        ctx.drawImage(baseCard, 0, 0, width, height);
+      } else {
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+        bgGrad.addColorStop(0, '#041326');
+        bgGrad.addColorStop(1, '#020C18');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, width, height);
+      }
     }
 
     // 2. DYNAMIC HD BADGE OVERLAY: NAMA, JABATAN, UCAPAN, & TANGGAL LAHIR
