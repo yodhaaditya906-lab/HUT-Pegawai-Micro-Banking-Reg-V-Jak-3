@@ -1289,16 +1289,12 @@ const cachedF1SuitOverlay = new Image();
 cachedF1SuitOverlay.src = 'assets/f1_racing_suit_overlay.png';
 
 const cachedF1RealisticTemplate = new Image();
-cachedF1RealisticTemplate.src = 'assets/f1_cards/EMP-0001.jpg';
+cachedF1RealisticTemplate.src = 'assets/f1_card_clean_template.jpg';
 
 const preBakedCards = new Set([
-  'EMP-0001',
-  'EMP-0003',
-  'EMP-0110',
-  'EMP-0173',
-  'EMP-0259',
-  'EMP-0458',
-  'EMP-0489'
+  'EMP-0001', 'EMP-0003', 'EMP-0109', 'EMP-0110', 'EMP-0118', 'EMP-0126', 'EMP-0127',
+  'EMP-0173', 'EMP-0178', 'EMP-0202', 'EMP-0203', 'EMP-0215', 'EMP-0259', 'EMP-0262',
+  'EMP-0298', 'EMP-0446', 'EMP-0458', 'EMP-0478', 'EMP-0479', 'EMP-0485', 'EMP-0489'
 ]);
 
 function formatF1Date(rawDate) {
@@ -1431,30 +1427,56 @@ function populateF1EmpSelector(selectedId) {
   }
 }
 
+function getEmployeeCardCandidateUrls(emp) {
+  if (!emp) return [];
+  const nameSlug = (emp.nama || '').toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+  const list = [
+    `assets/f1_cards/${emp.id}.jpg`,
+    nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
+    emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null
+  ].filter(Boolean);
+  return list;
+}
+
 function loadF1EmployeePhoto(emp) {
   if (!emp) return;
   const btnUseDb = document.getElementById("btnUseDbPhoto");
 
-  // Load the official F1 realistic card for this employee
-  const aiCardImg = new Image();
-  aiCardImg.onload = () => {
-    if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
-      state.f1Studio.generatedF1Card = aiCardImg;
-      renderCard();
+  const candidates = getEmployeeCardCandidateUrls(emp);
+  let idx = 0;
+
+  const tryNextCandidate = () => {
+    if (idx >= candidates.length) {
+      // Fallback: If no custom AI card exists, use clean F1 racing template!
+      const fallbackImg = new Image();
+      fallbackImg.onload = () => {
+        if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+          state.f1Studio.generatedF1Card = fallbackImg;
+          state.f1Studio.forceBadge = true;
+          renderCard();
+        }
+      };
+      fallbackImg.src = `assets/f1_card_clean_template.jpg?t=${Date.now()}`;
+      return;
     }
-  };
-  aiCardImg.onerror = () => {
-    // Fallback to high-res realistic template (EMP-0001)
-    const fallbackImg = new Image();
-    fallbackImg.onload = () => {
+
+    const testUrl = `${candidates[idx]}?t=${Date.now()}`;
+    idx++;
+
+    const img = new Image();
+    img.onload = () => {
       if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
-        state.f1Studio.generatedF1Card = fallbackImg;
+        state.f1Studio.generatedF1Card = img;
         renderCard();
       }
     };
-    fallbackImg.src = `assets/f1_cards/EMP-0001.jpg?t=${Date.now()}`;
+    img.onerror = () => {
+      tryNextCandidate();
+    };
+    img.src = testUrl;
   };
-  aiCardImg.src = `assets/f1_cards/${emp.id}.jpg?t=${Date.now()}`;
+
+  tryNextCandidate();
 
   // Also load database photo thumbnail for dropzone preview
   const photoImg = new Image();
@@ -1477,11 +1499,7 @@ function loadF1EmployeePhoto(emp) {
         }
         if (btnUseDb) btnUseDb.style.display = 'inline-block';
       };
-      if (emp.foto.includes('drive.google.com')) {
-        fbImg.src = `/api/photo-proxy?url=${encodeURIComponent(emp.foto)}`;
-      } else {
-        fbImg.src = emp.foto;
-      }
+      fbImg.src = emp.foto;
     } else {
       if (btnUseDb) btnUseDb.style.display = 'none';
     }
@@ -1817,26 +1835,37 @@ async function triggerAiF1Generation(uploadedPhotoBase64) {
   }
 
   // SKENARIO 2: Foto database pegawai yang dipilih
-  const empId = (state.f1Studio && state.f1Studio.selectedEmpId) ? state.f1Studio.selectedEmpId : 'EMP-0001';
-  const aiCardImg = new Image();
-  aiCardImg.onload = () => {
-    state.f1Studio.generatedF1Card = aiCardImg;
-    state.f1Studio.isCustomFace = false;
+  const emp = state.f1Studio ? state.f1Studio.employee : null;
+  const candidates = getEmployeeCardCandidateUrls(emp);
+  let idx = 0;
 
-    // Cek apakah user mengubah teks nama/jabatan
-    const emp = state.f1Studio.employee;
-    const isOriginal = emp && (state.f1Studio.nama || '').trim().toLowerCase() === (emp.nama || '').trim().toLowerCase();
-    state.f1Studio.forceBadge = !isOriginal;
+  const tryAiCandidate = () => {
+    if (idx >= candidates.length) {
+      state.f1Studio.generatedF1Card = null;
+      state.f1Studio.isCustomFace = true;
+      state.f1Studio.forceBadge = true;
+      finishAi();
+      return;
+    }
 
-    finishAi();
+    const testUrl = `${candidates[idx]}?t=${Date.now()}`;
+    idx++;
+
+    const img = new Image();
+    img.onload = () => {
+      state.f1Studio.generatedF1Card = img;
+      state.f1Studio.isCustomFace = false;
+      const isOriginal = emp && (state.f1Studio.nama || '').trim().toLowerCase() === (emp.nama || '').trim().toLowerCase();
+      state.f1Studio.forceBadge = !isOriginal;
+      finishAi();
+    };
+    img.onerror = () => {
+      tryAiCandidate();
+    };
+    img.src = testUrl;
   };
-  aiCardImg.onerror = () => {
-    state.f1Studio.generatedF1Card = null;
-    state.f1Studio.isCustomFace = true;
-    state.f1Studio.forceBadge = true;
-    finishAi();
-  };
-  aiCardImg.src = `assets/f1_cards/${empId}.jpg?t=${Date.now()}`;
+
+  tryAiCandidate();
 }
 
 function downloadF1Card() {
