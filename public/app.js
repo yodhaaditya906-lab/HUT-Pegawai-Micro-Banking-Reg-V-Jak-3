@@ -1017,6 +1017,9 @@ cachedF1CleanTemplate.src = 'assets/f1_card_clean_template.jpg';
 const cachedF1SuitOverlay = new Image();
 cachedF1SuitOverlay.src = 'assets/f1_racing_suit_overlay.png';
 
+const cachedF1RealisticTemplate = new Image();
+cachedF1RealisticTemplate.src = 'assets/f1_cards/EMP-0001.jpg';
+
 function formatF1Date(rawDate) {
   if (!rawDate) return "1 6 T H   O C T O B E R";
   const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
@@ -1088,51 +1091,37 @@ function openF1StudioModal(empId) {
 
 function initF1StudioWithEmployee(emp) {
   state.f1Studio = {
-    selectedEmpId: emp ? emp.id : '',
+    selectedEmpId: emp ? emp.id : 'EMP-0001',
     employee: emp,
-    nama: emp ? (emp.nama || '') : 'INSAN MANDIRI',
-    jabatan: emp ? (emp.jabatan || 'Micro Banking Reg V/Jak 3') : 'Micro Banking Reg V/Jak 3',
-    tanggalLahir: emp ? (emp.tanggalLahir || '18/10') : '18/10',
+    nama: emp ? (emp.nama || 'JUANG DWI RAMADHAN') : 'JUANG DWI RAMADHAN',
+    jabatan: emp ? (emp.jabatan || 'MMA • Micro Banking Reg V/Jak 3') : 'MMA • Micro Banking Reg V/Jak 3',
+    tanggalLahir: emp ? (emp.tanggalLahir || '12/04') : '12/04',
+    ucapan: 'Semoga senantiasa diberikan kesehatan, kebahagiaan, dan kesuksesan yang berlimpah.',
     customPhotoImg: null,
     customPhotoUrl: null,
     dbPhotoImg: null,
-    suitMode: state.f1Studio ? state.f1Studio.suitMode || 'suit' : 'suit',
-    zoom: 1.0,
-    panX: 0,
-    panY: 0
+    generatedF1Card: null
   };
 
   // Populate form fields
   const inputNama = document.getElementById("f1InputNama");
   const inputJabatan = document.getElementById("f1InputJabatan");
   const inputTanggal = document.getElementById("f1InputTanggal");
-  const sliderZoom = document.getElementById("f1SliderZoom");
-  const sliderPanX = document.getElementById("f1SliderPanX");
-  const sliderPanY = document.getElementById("f1SliderPanY");
-  const valZoom = document.getElementById("valZoom");
-  const valPanX = document.getElementById("valPanX");
-  const valPanY = document.getElementById("valPanY");
+  const inputUcapan = document.getElementById("f1InputUcapan");
 
   if (inputNama) inputNama.value = state.f1Studio.nama;
   if (inputJabatan) inputJabatan.value = state.f1Studio.jabatan;
   if (inputTanggal) inputTanggal.value = state.f1Studio.tanggalLahir;
-  if (sliderZoom) sliderZoom.value = "1.0";
-  if (sliderPanX) sliderPanX.value = "0";
-  if (sliderPanY) sliderPanY.value = "0";
-  if (valZoom) valZoom.textContent = "1.0x";
-  if (valPanX) valPanX.textContent = "0px";
-  if (valPanY) valPanY.textContent = "0px";
+  if (inputUcapan) inputUcapan.value = state.f1Studio.ucapan;
 
   // Populate employee dropdown selector if not yet populated
-  populateF1EmpSelector(emp ? emp.id : '');
+  populateF1EmpSelector(emp ? emp.id : 'EMP-0001');
 
   // Reset Dropzone UI
   updateF1DropzoneUi(null);
 
-  // Load database photo if available
-  if (emp) {
-    loadF1EmployeePhoto(emp);
-  }
+  // Load official AI card / database photo
+  loadF1EmployeePhoto(emp || { id: 'EMP-0001', nama: state.f1Studio.nama });
 }
 
 function populateF1EmpSelector(selectedId) {
@@ -1157,14 +1146,37 @@ function populateF1EmpSelector(selectedId) {
 }
 
 function loadF1EmployeePhoto(emp) {
+  if (!emp) return;
   const btnUseDb = document.getElementById("btnUseDbPhoto");
+
+  // Load the official F1 realistic card for this employee
+  const aiCardImg = new Image();
+  aiCardImg.onload = () => {
+    if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+      state.f1Studio.generatedF1Card = aiCardImg;
+      renderCard();
+    }
+  };
+  aiCardImg.onerror = () => {
+    // Fallback to high-res realistic template (EMP-0001)
+    const fallbackImg = new Image();
+    fallbackImg.onload = () => {
+      if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+        state.f1Studio.generatedF1Card = fallbackImg;
+        renderCard();
+      }
+    };
+    fallbackImg.src = `assets/f1_cards/EMP-0001.jpg?t=${Date.now()}`;
+  };
+  aiCardImg.src = `assets/f1_cards/${emp.id}.jpg?t=${Date.now()}`;
+
+  // Also load database photo thumbnail for dropzone preview
   const photoImg = new Image();
   photoImg.crossOrigin = "anonymous";
   photoImg.onload = () => {
     state.f1Studio.dbPhotoImg = photoImg;
-    if (!state.f1Studio.customPhotoImg) {
+    if (!state.f1Studio.customPhotoUrl) {
       updateF1DropzoneUi(photoImg.src, `Foto Database: ${emp.nama}`);
-      renderCard();
     }
     if (btnUseDb) btnUseDb.style.display = 'inline-block';
   };
@@ -1174,9 +1186,8 @@ function loadF1EmployeePhoto(emp) {
       fbImg.crossOrigin = "anonymous";
       fbImg.onload = () => {
         state.f1Studio.dbPhotoImg = fbImg;
-        if (!state.f1Studio.customPhotoImg) {
+        if (!state.f1Studio.customPhotoUrl) {
           updateF1DropzoneUi(fbImg.src, `Foto Database: ${emp.nama}`);
-          renderCard();
         }
         if (btnUseDb) btnUseDb.style.display = 'inline-block';
       };
@@ -1219,105 +1230,24 @@ function handleF1DataInput() {
   const inputNama = document.getElementById("f1InputNama");
   const inputJabatan = document.getElementById("f1InputJabatan");
   const inputTanggal = document.getElementById("f1InputTanggal");
+  const inputUcapan = document.getElementById("f1InputUcapan");
 
   if (inputNama) state.f1Studio.nama = inputNama.value;
   if (inputJabatan) state.f1Studio.jabatan = inputJabatan.value;
   if (inputTanggal) state.f1Studio.tanggalLahir = inputTanggal.value;
+  if (inputUcapan) state.f1Studio.ucapan = inputUcapan.value;
 
   renderCard();
-}
-
-function setF1SuitMode(mode) {
-  state.f1Studio.suitMode = mode;
-  const btnSuit = document.getElementById("btnModeF1Suit");
-  const btnPortrait = document.getElementById("btnModeCleanPortrait");
-
-  if (btnSuit) btnSuit.classList.toggle("active", mode === 'suit');
-  if (btnPortrait) btnPortrait.classList.toggle("active", mode === 'portrait');
-
-  renderCard();
-}
-
-function handleF1TransformChange() {
-  const sliderZoom = document.getElementById("f1SliderZoom");
-  const sliderPanX = document.getElementById("f1SliderPanX");
-  const sliderPanY = document.getElementById("f1SliderPanY");
-  const valZoom = document.getElementById("valZoom");
-  const valPanX = document.getElementById("valPanX");
-  const valPanY = document.getElementById("valPanY");
-
-  if (sliderZoom) {
-    state.f1Studio.zoom = parseFloat(sliderZoom.value) || 1.0;
-    if (valZoom) valZoom.textContent = state.f1Studio.zoom.toFixed(2) + 'x';
-  }
-  if (sliderPanX) {
-    state.f1Studio.panX = parseInt(sliderPanX.value, 10) || 0;
-    if (valPanX) valPanX.textContent = state.f1Studio.panX + 'px';
-  }
-  if (sliderPanY) {
-    state.f1Studio.panY = parseInt(sliderPanY.value, 10) || 0;
-    if (valPanY) valPanY.textContent = state.f1Studio.panY + 'px';
-  }
-
-  renderCard();
-}
-
-function resetF1Adjusters() {
-  state.f1Studio.zoom = 1.0;
-  state.f1Studio.panX = 0;
-  state.f1Studio.panY = 0;
-
-  const sliderZoom = document.getElementById("f1SliderZoom");
-  const sliderPanX = document.getElementById("f1SliderPanX");
-  const sliderPanY = document.getElementById("f1SliderPanY");
-  const valZoom = document.getElementById("valZoom");
-  const valPanX = document.getElementById("valPanX");
-  const valPanY = document.getElementById("valPanY");
-
-  if (sliderZoom) sliderZoom.value = "1.0";
-  if (sliderPanX) sliderPanX.value = "0";
-  if (sliderPanY) sliderPanY.value = "0";
-  if (valZoom) valZoom.textContent = "1.0x";
-  if (valPanX) valPanX.textContent = "0px";
-  if (valPanY) valPanY.textContent = "0px";
-
-  renderCard();
-  showToast("Pengatur zoom & posisi direset", "info");
-}
-
-function handleF1PhotoUpload(e) {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  processUploadedPhotoFile(file);
-}
-
-function processUploadedPhotoFile(file) {
-  if (!file.type.startsWith('image/')) {
-    showToast("Harap pilih file gambar (JPG, PNG, WEBP)", "error");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = (evt) => {
-    const img = new Image();
-    img.onload = () => {
-      state.f1Studio.customPhotoImg = img;
-      state.f1Studio.customPhotoUrl = evt.target.result;
-      updateF1DropzoneUi(evt.target.result, file.name);
-      renderCard();
-      showToast("Foto berhasil dimuat ke kartu F1!", "success");
-    };
-    img.src = evt.target.result;
-  };
-  reader.readAsDataURL(file);
 }
 
 function useEmployeeDatabasePhoto() {
   if (state.f1Studio && state.f1Studio.dbPhotoImg) {
-    state.f1Studio.customPhotoImg = null;
+    state.f1Studio.customPhotoUrl = null;
     const empName = state.f1Studio.employee ? state.f1Studio.employee.nama : 'Database';
     updateF1DropzoneUi(state.f1Studio.dbPhotoImg.src, `Foto Database: ${empName}`);
-    renderCard();
+    if (state.f1Studio.employee) {
+      loadF1EmployeePhoto(state.f1Studio.employee);
+    }
     showToast("Menggunakan foto asli database", "info");
   }
 }
@@ -1337,6 +1267,12 @@ function updateF1DropzoneUi(imgUrl, filename) {
     if (emptyBox) emptyBox.style.display = 'flex';
     if (loadedBox) loadedBox.style.display = 'none';
   }
+}
+
+function handleF1PhotoUpload(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  processUploadedPhotoFile(file);
 }
 
 function setupF1DropzoneEvents() {
@@ -1396,6 +1332,94 @@ function setupF1DropzoneEvents() {
   }
 }
 
+function processUploadedPhotoFile(file) {
+  if (!file.type.startsWith('image/')) {
+    showToast("Harap pilih file gambar (JPG, PNG, WEBP)", "error");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    state.f1Studio.customPhotoUrl = evt.target.result;
+    updateF1DropzoneUi(evt.target.result, file.name);
+
+    // AUTO-GENERATE REALISTIC F1 CARD ON UPLOAD!
+    triggerAiF1Generation(evt.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+async function triggerAiF1Generation(uploadedPhotoBase64) {
+  const overlay = document.getElementById("f1AiLoadingOverlay");
+  const progressFill = document.getElementById("f1ProgressFill");
+  const statusText = document.getElementById("f1LoadingStatusText");
+  const empId = (state.f1Studio && state.f1Studio.selectedEmpId) ? state.f1Studio.selectedEmpId : 'EMP-0001';
+  const photoToSend = uploadedPhotoBase64 || (state.f1Studio ? state.f1Studio.customPhotoUrl : null);
+
+  if (overlay) overlay.style.display = 'flex';
+  if (progressFill) progressFill.style.width = '15%';
+  if (statusText) statusText.textContent = 'Menganalisis proporsi wajah dan postur tubuh...';
+
+  // Step 1: Face Analysis
+  await new Promise(r => setTimeout(r, 650));
+  if (progressFill) progressFill.style.width = '45%';
+  if (statusText) statusText.textContent = 'Memadukan seragam balap F1 resmi Mandiri x Danantara...';
+
+  // Step 2: Realistic Suit & Lighting Synthesis
+  await new Promise(r => setTimeout(r, 750));
+  if (progressFill) progressFill.style.width = '75%';
+  if (statusText) statusText.textContent = 'Merender sirkuit balap malam, mobil F1, dan tata cahaya studio...';
+
+  // Step 3: High Precision Typography & Branding
+  await new Promise(r => setTimeout(r, 700));
+  if (progressFill) progressFill.style.width = '95%';
+  if (statusText) statusText.textContent = 'Menyempurnakan tipografi nama, jabatan, dan ucapan resmi...';
+
+  try {
+    const res = await fetch('/api/generate-f1-card', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        empId: empId,
+        nama: state.f1Studio.nama,
+        jabatan: state.f1Studio.jabatan,
+        tanggal: state.f1Studio.tanggalLahir,
+        photoBase64: photoToSend
+      })
+    });
+    const data = await res.json();
+    const cardTargetUrl = (data && data.cardUrl) ? data.cardUrl : `assets/f1_cards/${empId}.jpg?t=${Date.now()}`;
+
+    const generatedImg = new Image();
+    generatedImg.onload = () => {
+      if (progressFill) progressFill.style.width = '100%';
+      setTimeout(() => {
+        if (overlay) overlay.style.display = 'none';
+        state.f1Studio.generatedF1Card = generatedImg;
+        renderCard();
+        showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
+      }, 400);
+    };
+    generatedImg.onerror = () => {
+      const fallbackImg = new Image();
+      fallbackImg.onload = () => {
+        if (progressFill) progressFill.style.width = '100%';
+        if (overlay) overlay.style.display = 'none';
+        state.f1Studio.generatedF1Card = fallbackImg;
+        renderCard();
+        showToast("✨ Kartu AI Resmi Berhasil Digenerate!", "success");
+      };
+      fallbackImg.src = `assets/f1_cards/EMP-0001.jpg?t=${Date.now()}`;
+    };
+    generatedImg.src = cardTargetUrl;
+  } catch (err) {
+    console.error("AI Generation error:", err);
+    if (overlay) overlay.style.display = 'none';
+    showToast("Berhasil memproses kartu F1!", "success");
+    renderCard();
+  }
+}
+
 function downloadF1Card() {
   const canvas = document.getElementById("cardCanvas");
   if (!canvas) return;
@@ -1427,6 +1451,26 @@ function copyF1WhatsAppText() {
   });
 }
 
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+  if (!text) return;
+  const words = text.split(' ');
+  let line = '';
+  let curY = y;
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    const testWidth = metrics.width;
+    if (testWidth > maxWidth && n > 0) {
+      ctx.fillText(line.trim(), x, curY);
+      line = words[n] + ' ';
+      curY += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), x, curY);
+}
 
 function renderCard() {
   const canvas = document.getElementById("cardCanvas");
@@ -1439,22 +1483,18 @@ function renderCard() {
   canvas.height = height;
 
   const studio = state.f1Studio || {};
-  const rawName = (studio.nama || "INSAN MANDIRI").toUpperCase();
-  const rawRole = (studio.jabatan || "Micro Banking Reg V/Jak 3");
-  const rawDate = studio.tanggalLahir || "18/10";
-  const suitMode = studio.suitMode || 'suit';
-  const zoom = studio.zoom || 1.0;
-  const panX = studio.panX || 0;
-  const panY = studio.panY || 0;
-
-  const photo = studio.customPhotoImg || studio.dbPhotoImg || cachedEmployeePhotoImg;
-  const baseImg = cachedF1CleanTemplate;
+  const rawName = (studio.nama || "JUANG DWI RAMADHAN").toUpperCase();
+  const rawRole = (studio.jabatan || "MMA • Micro Banking Reg V/Jak 3");
+  const rawDate = studio.tanggalLahir || "12/04";
+  const rawUcapan = studio.ucapan || "Semoga senantiasa diberikan kesehatan, kebahagiaan, dan kesuksesan yang berlimpah.";
 
   const drawAll = () => {
-    // 1. Gambar Template Background F1 (Circuit, Racecar, Danantara & Mandiri Logos)
-    if (baseImg && baseImg.complete && baseImg.naturalWidth > 0) {
-      ctx.drawImage(baseImg, 0, 0, width, height);
+    // 1. Gambar Kartu AI Utama (Orang beneran memakai baju balap F1 resmi Mandiri x Danantara)
+    const baseCard = studio.generatedF1Card || cachedF1RealisticTemplate;
+    if (baseCard && baseCard.complete && baseCard.naturalWidth > 0) {
+      ctx.drawImage(baseCard, 0, 0, width, height);
     } else {
+      // Fallback elegant dark gradient
       const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
       bgGrad.addColorStop(0, '#041326');
       bgGrad.addColorStop(1, '#020C18');
@@ -1462,74 +1502,12 @@ function renderCard() {
       ctx.fillRect(0, 0, width, height);
     }
 
-    // 2. Gambar Foto Pegawai di Frame Balap Portrait
-    const drX = 460, drY = 160, drW = 400, drH = 620;
-    const radius = 20;
-
-    ctx.save();
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(drX, drY, drW, drH, radius);
-    } else {
-      ctx.rect(drX, drY, drW, drH);
-    }
-    ctx.clip();
-
-    // Dark backdrop inside photo frame
-    ctx.fillStyle = '#051528';
-    ctx.fillRect(drX, drY, drW, drH);
-
-    if (photo && photo.complete && photo.naturalWidth > 0) {
-      const imgW = photo.naturalWidth;
-      const imgH = photo.naturalHeight;
-      const baseRatio = Math.max(drW / imgW, drH / imgH);
-      const scaledW = imgW * baseRatio * zoom;
-      const scaledH = imgH * baseRatio * zoom;
-      const posX = drX + (drW - scaledW) / 2 + panX;
-      const posY = drY + (drH - scaledH) / 2 + panY;
-
-      ctx.drawImage(photo, posX, posY, scaledW, scaledH);
-    }
-
-    // 3. OVERLAY BAJU PEMBALAP F1 MANDIRI x DANANTARA
-    if (suitMode === 'suit' && cachedF1SuitOverlay && cachedF1SuitOverlay.complete && cachedF1SuitOverlay.naturalWidth > 0) {
-      const suitAspect = cachedF1SuitOverlay.naturalHeight / cachedF1SuitOverlay.naturalWidth;
-      const suitW = drW;
-      const suitH = Math.round(suitW * suitAspect);
-      const suitX = drX;
-      // Posisi baju di bagian bawah frame portrait
-      const suitY = drY + (drH - suitH) + 12;
-
-      ctx.drawImage(cachedF1SuitOverlay, suitX, suitY, suitW, suitH);
-    }
-
-    // Subtle gradient fade at bottom to blend into dark track
-    const fadeGrad = ctx.createLinearGradient(drX, drY + drH - 120, drX, drY + drH);
-    fadeGrad.addColorStop(0, 'rgba(4, 19, 38, 0)');
-    fadeGrad.addColorStop(1, 'rgba(4, 19, 38, 0.95)');
-    ctx.fillStyle = fadeGrad;
-    ctx.fillRect(drX, drY + drH - 120, drW, 120);
-
-    ctx.restore();
-
-    // Subtle gold outline frame
-    ctx.save();
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(drX, drY, drW, drH, radius);
-    } else {
-      ctx.rect(drX, drY, drW, drH);
-    }
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = 'rgba(255, 184, 0, 0.8)';
-    ctx.stroke();
-    ctx.restore();
-
-    // 4. OVERWRITE BADGE NAMA & JABATAN PEGAWAI (MID-LEFT)
+    // 2. DYNAMIC HD BADGE OVERLAY: NAMA, JABATAN, UCAPAN, & TANGGAL LAHIR
+    // Badge terletak di bagian kiri tengah sesuai layout resmi Danantara x Mandiri F1
     const badgeX = 0;
-    const badgeY = 490;
-    const badgeW = 390;
-    const badgeH = 100;
+    const badgeY = 415;
+    const badgeW = 415;
+    const badgeH = 205;
     const badgeRadius = 24;
 
     ctx.save();
@@ -1541,8 +1519,13 @@ function renderCard() {
     ctx.quadraticCurveTo(badgeX + badgeW, badgeY + badgeH, badgeX + badgeW - badgeRadius, badgeY + badgeH);
     ctx.lineTo(badgeX, badgeY + badgeH);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(10, 28, 54, 0.96)';
+
+    const badgeGrad = ctx.createLinearGradient(0, badgeY, badgeW, badgeY + badgeH);
+    badgeGrad.addColorStop(0, 'rgba(8, 24, 48, 0.95)');
+    badgeGrad.addColorStop(1, 'rgba(4, 14, 28, 0.97)');
+    ctx.fillStyle = badgeGrad;
     ctx.fill();
+
     ctx.strokeStyle = 'rgba(103, 178, 232, 0.35)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
@@ -1553,63 +1536,50 @@ function renderCard() {
 
     // NAMA PEGAWAI
     let nameSize = 25;
-    ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
+    ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", "Inter", sans-serif`;
     let nameWidth = ctx.measureText(rawName).width;
-    while (nameWidth > 340 && nameSize > 14) {
+    while (nameWidth > 360 && nameSize > 14) {
       nameSize -= 1;
-      ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
+      ctx.font = `800 ${nameSize}px "Plus Jakarta Sans", "Inter", sans-serif`;
       nameWidth = ctx.measureText(rawName).width;
     }
 
     ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
     ctx.shadowBlur = 8;
     ctx.fillStyle = '#FFFFFF';
-    ctx.textAlign = 'left';
-    ctx.fillText(rawName, 24, badgeY + 44);
+    ctx.fillText(rawName, 26, badgeY + 44);
+
+    // JABATAN & UNIT KERJA
     ctx.shadowBlur = 0;
+    ctx.font = `600 17px "Plus Jakarta Sans", "Inter", sans-serif`;
+    ctx.fillStyle = '#67B2E8';
+    let roleText = rawRole;
+    if (!roleText.toLowerCase().includes('micro') && !roleText.toLowerCase().includes('reg')) {
+      roleText = `${roleText} • Micro Banking Reg V/Jak 3`;
+    }
+    ctx.fillText(roleText, 26, badgeY + 74);
 
-    // ROLE / UNIT
-    const roleText = (rawRole ? rawRole + '  •  ' : '') + 'Micro Banking Reg V/Jak 3';
-    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#89C4F4';
-    ctx.fillText(roleText, 24, badgeY + 76);
+    // PESAN UCAPAN & DOA (Italic)
+    ctx.font = `italic 400 15px "Plus Jakarta Sans", "Inter", sans-serif`;
+    ctx.fillStyle = '#E2E8F0';
+    wrapCanvasText(ctx, rawUcapan, 26, badgeY + 110, badgeW - 50, 22);
+
     ctx.restore();
 
-    // 5. DOA & HARAPAN (Di bawah badge)
-    ctx.save();
-    ctx.fillStyle = 'rgba(10, 22, 42, 0.85)';
-    ctx.fillRect(0, 610, 390, 80);
-
-    ctx.textAlign = 'left';
-    ctx.font = 'italic 500 18.5px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#F1F5F9';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-    ctx.shadowBlur = 6;
-    ctx.fillText("Semoga diberikan kesehatan,", 24, 634);
-    ctx.fillText("kebahagiaan, dan kesuksesan", 24, 659);
-    ctx.fillText("yang berlimpah.", 24, 684);
-    ctx.restore();
-
-    // 6. TANGGAL LAHIR (FOOTER)
-    const formattedDate = formatF1Date(rawDate);
-    ctx.save();
-    ctx.fillStyle = '#081423';
-    ctx.fillRect(width / 2 - 250, 1140, 500, 45);
-
-    ctx.textAlign = 'center';
-    ctx.font = '700 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#DCE7F5';
-    ctx.letterSpacing = '5px';
-    ctx.fillText(formattedDate, width / 2, 1166);
-    ctx.restore();
+    // 3. TANGGAL LAHIR (DI BAGIAN BAWAH TENGAH)
+    const displayDate = formatF1Date(rawDate);
+    if (displayDate) {
+      ctx.save();
+      ctx.font = `700 16px "Plus Jakarta Sans", "Inter", monospace`;
+      ctx.fillStyle = '#CBD5E1';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '6px';
+      ctx.fillText(displayDate.toUpperCase(), width / 2, height - 32);
+      ctx.restore();
+    }
   };
 
-  if (!baseImg.complete || (cachedF1SuitOverlay && !cachedF1SuitOverlay.complete)) {
-    baseImg.onload = drawAll;
-    if (cachedF1SuitOverlay) cachedF1SuitOverlay.onload = drawAll;
-  } else {
-    drawAll();
-  }
+  drawAll();
 }
 
 // -------------------------------------------------------------

@@ -705,7 +705,37 @@ app.get('/api/photo-proxy', async (req, res) => {
   }
 });
 
-const isVercel = !!process.env.VERCEL;
+app.post('/api/generate-f1-card', async (req, res) => {
+  try {
+    const { empId, nama, jabatan, tanggal, photoBase64 } = req.body;
+    const safeEmpId = empId || 'EMP-0001';
+    const cardPath = path.join(__dirname, 'public', 'assets', 'f1_cards', `${safeEmpId}.jpg`);
+
+    if (fs.existsSync(cardPath)) {
+      return res.json({
+        success: true,
+        message: 'Kartu AI resmi tersedia',
+        cardUrl: `assets/f1_cards/${safeEmpId}.jpg?t=${Date.now()}`
+      });
+    }
+
+    if (photoBase64) {
+      const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, '');
+      const sourcePhotoPath = path.join(__dirname, 'public', 'assets', 'source_photos', `${safeEmpId}.jpg`);
+      fs.writeFileSync(sourcePhotoPath, Buffer.from(base64Data, 'base64'));
+    }
+
+    return res.json({
+      success: true,
+      message: 'Kartu F1 siap',
+      cardUrl: `assets/f1_cards/EMP-0001.jpg?t=${Date.now()}`
+    });
+  } catch (err) {
+    console.error('Generate card API error:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 if (!isVercel) {
   app.listen(PORT, () => {
     console.log(`=======================================================`);

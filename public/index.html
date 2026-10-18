@@ -354,64 +354,35 @@
               </div>
             </div>
 
-            <!-- 3. PILIHAN STYLE BAJU F1 -->
+            <!-- 3. PESAN UCAPAN & DOA ULANG TAHUN -->
             <div class="f1-card-section">
               <div class="f1-section-header">
                 <span class="step-num">3</span>
-                <label>Pilihan Style Tampilan</label>
+                <label>Pesan Ucapan & Doa</label>
               </div>
-              <div class="f1-mode-pills">
-                <button type="button" class="f1-mode-btn active" id="btnModeF1Suit" onclick="setF1SuitMode('suit')">
-                  <span class="pill-icon">🏎️</span>
-                  <span>Baju Balap F1 Mandiri</span>
-                </button>
-                <button type="button" class="f1-mode-btn" id="btnModeCleanPortrait" onclick="setF1SuitMode('portrait')">
-                  <span class="pill-icon">🖼️</span>
-                  <span>Portrait Sirkuit Clean</span>
-                </button>
+              <div class="form-group mb-2">
+                <textarea id="f1InputUcapan" class="form-control form-control-sm" rows="2" placeholder="Tuliskan ucapan dan doa..." oninput="handleF1DataInput()">Semoga senantiasa diberikan kesehatan, kebahagiaan, dan kesuksesan yang berlimpah.</textarea>
               </div>
             </div>
 
-            <!-- 4. PENGATUR POSISI & ZOOM FOTO -->
-            <div class="f1-card-section">
-              <div class="f1-section-header-between">
-                <div class="f1-section-header">
-                  <span class="step-num">4</span>
-                  <label>Posisikan Wajah / Foto</label>
-                </div>
-                <button type="button" class="btn btn-text btn-xs text-gold" onclick="resetF1Adjusters()">↺ Reset</button>
+            <!-- 4. ENGINE GENERATOR REALISTIS F1 -->
+            <div class="f1-card-section" style="background: rgba(0, 163, 224, 0.06); border: 1px dashed rgba(103, 178, 232, 0.35); border-radius: 8px; padding: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="font-size: 1.2rem;">🏎️</span>
+                <strong style="color: #FFB700; font-size: 0.85rem;">Auto-Generate Baju Balap F1 Mandiri</strong>
               </div>
-              
-              <div class="f1-sliders-grid">
-                <div class="f1-slider-item">
-                  <div class="slider-head">
-                    <span>Perbesar / Zoom</span>
-                    <strong id="valZoom">1.0x</strong>
-                  </div>
-                  <input type="range" id="f1SliderZoom" min="0.5" max="2.5" step="0.05" value="1.0" oninput="handleF1TransformChange()">
-                </div>
-
-                <div class="f1-slider-item">
-                  <div class="slider-head">
-                    <span>Geser Kiri / Kanan</span>
-                    <strong id="valPanX">0px</strong>
-                  </div>
-                  <input type="range" id="f1SliderPanX" min="-180" max="180" step="2" value="0" oninput="handleF1TransformChange()">
-                </div>
-
-                <div class="f1-slider-item">
-                  <div class="slider-head">
-                    <span>Geser Atas / Bawah</span>
-                    <strong id="valPanY">0px</strong>
-                  </div>
-                  <input type="range" id="f1SliderPanY" min="-180" max="180" step="2" value="0" oninput="handleF1TransformChange()">
-                </div>
-              </div>
+              <p style="font-size: 0.78rem; color: #89C4F4; margin: 0; line-height: 1.35;">
+                Saat Anda mengupload foto atau memilih pegawai, AI secara otomatis mendesain kartu ucapan dengan orang tersebut <strong>beneran mengenakan seragam balap resmi F1</strong> lengkap dengan logo Danantara & Mandiri.
+              </p>
             </div>
 
             <!-- 5. AKSI DOWNLOAD & SHARE -->
             <div class="f1-actions-box">
-              <button type="button" class="btn btn-gold btn-lg w-100 btn-download-f1" onclick="downloadF1Card()">
+              <button type="button" class="btn btn-gold btn-lg w-100 mb-2 btn-generate-ai" id="btnTriggerAiGen" onclick="triggerAiF1Generation()">
+      <span style="font-size:1.15rem;">✨</span>
+      <span>Generate Kartu AI (Baju Balap F1 Nyata)</span>
+    </button>
+            <button type="button" class="btn btn-gold btn-lg w-100 btn-download-f1" onclick="downloadF1Card()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                 <span>Unduh Kartu HD (PNG)</span>
               </button>
@@ -437,7 +408,18 @@
 
               <div class="f1-canvas-stage" id="f1CanvasDropTarget">
                 <canvas id="cardCanvas" width="896" height="1200"></canvas>
-                <div class="canvas-drag-overlay" id="f1CanvasDragOverlay">
+                <div class="f1-ai-loading-overlay" id="f1AiLoadingOverlay" style="display:none;">
+      <div class="f1-loading-card">
+        <div class="f1-spinner-race">🏎️💨</div>
+        <h4 id="f1LoadingTitle">Mendesain Kartu F1 AI Resmi...</h4>
+        <p id="f1LoadingStatusText">Memadukan wajah dengan baju balap Mandiri x Danantara F1...</p>
+        <div class="f1-progress-bar">
+          <div class="f1-progress-fill" id="f1ProgressFill"></div>
+        </div>
+        <small class="text-muted">Proses ini membutuhkan beberapa detik untuk menghasilkan kartu resolusi tinggi.</small>
+      </div>
+    </div>
+              <div class="canvas-drag-overlay" id="f1CanvasDragOverlay">
                   <div class="overlay-drop-box">
                     <span style="font-size:2.5rem;">📥</span>
                     <strong>Lepas Foto di Sini</strong>

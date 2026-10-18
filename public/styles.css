@@ -2341,3 +2341,82 @@ body {
   color: #64748B;
   font-size: 0.72rem;
 }
+
+/* AI Generator Button & Loading Overlay */
+.btn-generate-ai {
+  background: linear-gradient(135deg, #FFB700 0%, #EA7200 100%) !important;
+  color: #002B49 !important;
+  font-weight: 800 !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(255, 183, 0, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-generate-ai:hover {
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 6px 22px rgba(255, 183, 0, 0.6) !important;
+}
+
+.f1-ai-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 18, 38, 0.92);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.f1-loading-card {
+  text-align: center;
+  color: #FFFFFF;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.f1-spinner-race {
+  font-size: 3rem;
+  animation: race-bounce 1s infinite alternate ease-in-out;
+}
+
+@keyframes race-bounce {
+  0% { transform: translateX(-15px) scale(0.95); }
+  100% { transform: translateX(15px) scale(1.05); }
+}
+
+.f1-loading-card h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFB700;
+  margin: 0;
+}
+
+.f1-loading-card p {
+  font-size: 0.85rem;
+  color: #89C4F4;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.f1-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.4rem 0;
+}
+
+.f1-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #FFB700, #00A3E0);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
