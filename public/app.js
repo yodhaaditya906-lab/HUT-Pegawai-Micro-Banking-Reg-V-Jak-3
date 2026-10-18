@@ -1504,15 +1504,15 @@ function downloadF1Card() {
 }
 
 function copyF1WhatsAppText() {
-  const nama = (state.f1Studio && state.f1Studio.nama) ? state.f1Studio.nama : 'Rekan';
+  const nama = (state.f1Studio && state.f1Studio.nama) ? state.f1Studio.nama : 'Colleague';
   const jabatan = (state.f1Studio && state.f1Studio.jabatan) ? state.f1Studio.jabatan : 'Micro Banking';
   
-  const text = `✨ *SELAMAT ULANG TAHUN* ✨\n\nKepada Yth. Bapak/Ibu *\u202A${nama}*\n(${jabatan} - Micro Banking Reg V/Jakarta 3)\n\nSemoga senantiasa diberikan kesehatan, kebahagiaan, kelancaran rezeki, serta kesuksesan yang berkelanjutan dalam karir dan kehidupan keluarga.\n\nTerima kasih atas dedikasi dan kontribusi terbaik bagi Bank Mandiri.\n\n*Semoga Hari Anda Luar Biasa!* 🏎️🏁\n\n_Salam hangat,_\n*Keluarga Besar Micro Banking Region V / Jakarta 3*`;
+  const text = `✨ *HAPPY BIRTHDAY* ✨\n\nDear *\u202A${nama}*\n(${jabatan} • Micro Banking Region V / Jakarta 3)\n\nWishing you continued health, happiness, and abundant success in your career and life.\n\nThank you for your dedicated service and outstanding contribution to Bank Mandiri.\n\n-MBR5-\n\n🏎️🏁 *Danantara x Mandiri F1 Official Edition*`;
 
   navigator.clipboard.writeText(text).then(() => {
-    showToast("Pesan ucapan WhatsApp berhasil disalin ke clipboard!", "success");
+    showToast("English birthday message copied to clipboard!", "success");
   }).catch(() => {
-    showToast("Gagal menyalin pesan", "error");
+    showToast("Failed to copy message", "error");
   });
 }
 
