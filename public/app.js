@@ -1020,6 +1020,16 @@ cachedF1SuitOverlay.src = 'assets/f1_racing_suit_overlay.png';
 const cachedF1RealisticTemplate = new Image();
 cachedF1RealisticTemplate.src = 'assets/f1_cards/EMP-0001.jpg';
 
+const preBakedCards = new Set([
+  'EMP-0001',
+  'EMP-0003',
+  'EMP-0110',
+  'EMP-0173',
+  'EMP-0259',
+  'EMP-0458',
+  'EMP-0489'
+]);
+
 function formatF1Date(rawDate) {
   if (!rawDate) return "1 6 T H   O C T O B E R";
   const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
@@ -1634,9 +1644,10 @@ function renderCard() {
       // Cek apakah user mengubah nama dari nilai asli pegawai
       const emp = studio.employee;
       const isOriginalData = emp && (studio.nama || '').trim().toLowerCase() === (emp.nama || '').trim().toLowerCase();
+      const isBakedCard = emp && preBakedCards.has(emp.id);
 
-      // Jika data TIDAK diubah dan tidak dipaksa badge, gunakan tipografi asli AI yang jernih!
-      if (!studio.forceBadge && isOriginalData) {
+      // Jika kartu memiliki teks bawaan AI dan data tidak diubah, skip overlay kanvas:
+      if (isBakedCard && !studio.forceBadge && isOriginalData) {
         return;
       }
     } else if (studio.customPhotoImg && studio.customPhotoImg.complete && studio.customPhotoImg.naturalWidth > 0) {
