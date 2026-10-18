@@ -5,7 +5,7 @@ function getProxyPhotoUrl(url) {
 }
 
 function openGoogleSheetDatabase() {
-  const defaultUrl = 'https://docs.google.com/spreadsheets/d/15TjmyZchHyxWYbwwCpWn_ID9WC9Jzei7niitac6r8ho/edit?usp=sharing';
+  const defaultUrl = 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing';
   const url = (state && state.config && state.config.sheetUrl) ? state.config.sheetUrl : defaultUrl;
   window.open(url, '_blank');
 }
@@ -20,7 +20,7 @@ function openGoogleSheetDatabase() {
 const state = {
   employees: [],
   config: {
-    sheetUrl: 'https://docs.google.com/spreadsheets/d/15TjmyZchHyxWYbwwCpWn_ID9WC9Jzei7niitac6r8ho/edit?usp=sharing',
+    sheetUrl: 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing',
     alertRecipients: [
       { name: "Yodha", phone: "+62 85779132226", active: true },
       { name: "Yodha 2", phone: "+62 878-9610-8664", active: true }
