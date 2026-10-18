@@ -118,11 +118,12 @@ function updateCurrentDateDisplay() {
 // -------------------------------------------------------------
 // API FETCH & SYNC
 // -------------------------------------------------------------
-async function fetchInitialData() {
+async function fetchInitialData(forceSync = false) {
   try {
     let data = null;
     try {
-      const res = await fetch('/api/data');
+      const endpoint = forceSync ? '/api/data?refresh=1' : '/api/data';
+      const res = await fetch(endpoint);
       if (res.ok) data = await res.json();
     } catch (_) {}
 
@@ -182,12 +183,12 @@ async function startStatusPolling() {
   // Auto-refresh when user switches back to this browser tab after editing Google Sheets
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      fetchInitialData();
+      fetchInitialData(true);
     }
   });
 
   window.addEventListener('focus', () => {
-    fetchInitialData();
+    fetchInitialData(true);
   });
 }
 
@@ -397,7 +398,24 @@ function updateMetrics() {
     const sunStr = `${sundayDate.getDate()} ${MONTH_NAMES[sundayDate.getMonth()].slice(0, 3)}`;
     kpiWeekSub.textContent = `Senin - Minggu (${monStr} - ${sunStr})`;
   }
-  if (kpiTotalEmployees) kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Terdaftar`;
+  if (kpiTotalEmployees) {
+    const totalRaw = state.config && state.config.totalSheetRows ? state.config.totalSheetRows : state.employees.length;
+    if (totalRaw > state.employees.length) {
+      kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Unik`;
+    } else {
+      kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Terdaftar`;
+    }
+  }
+  const kpiSourceSub = document.getElementById('kpiSourceSub');
+  if (kpiSourceSub) {
+    const totalRaw = state.config && state.config.totalSheetRows ? state.config.totalSheetRows : state.employees.length;
+    if (totalRaw > state.employees.length) {
+      const dupes = totalRaw - state.employees.length;
+      kpiSourceSub.innerHTML = `Sumber: Google Sheet (${totalRaw} baris, ${dupes} duplikat dibersihkan) ↗`;
+    } else {
+      kpiSourceSub.innerHTML = `Sumber: Google Sheet Terintegrasi ↗`;
+    }
+  }
 }
 
 function renderAllViews() {

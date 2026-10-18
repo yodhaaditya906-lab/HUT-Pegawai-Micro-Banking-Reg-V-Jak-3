@@ -389,6 +389,7 @@ function parseEmployeesCsv(csvText) {
   const result = [];
   const seenKeys = new Set();
   let counter = 1;
+  let rawRowCount = 0;
 
   for (const row of rows) {
     let nama = '';
@@ -409,6 +410,7 @@ function parseEmployeesCsv(csvText) {
     }
 
     if (nama) {
+      rawRowCount++;
       const cleanNip = nip || '-';
       const dedupeKey = `${nama.toLowerCase()}_${cleanNip}`;
 
@@ -430,8 +432,58 @@ function parseEmployeesCsv(csvText) {
     }
   }
 
+  result.totalRawRows = rawRowCount;
   return result;
 }
+
+// Automated Real-Time Background Google Sheet Sync
+let isSyncInProgress = false;
+
+async function performGoogleSheetSync(force = false) {
+  if (isSyncInProgress) return { success: false, message: 'Sync already in progress' };
+  const config = readJson(CONFIG_FILE, {});
+  const sheetUrl = config.sheetUrl;
+  if (!sheetUrl) return { success: false, message: 'Sheet URL not configured' };
+
+  try {
+    isSyncInProgress = true;
+    const csvText = await fetchGoogleSheetCsv(sheetUrl);
+    const parsedEmployees = parseEmployeesCsv(csvText);
+
+    if (parsedEmployees && parsedEmployees.length > 0) {
+      const currentEmployees = readJson(EMPLOYEES_FILE, []);
+      const currentJson = JSON.stringify(currentEmployees);
+      const newJson = JSON.stringify(parsedEmployees);
+
+      // Check if data changed or force sync requested
+      if (force || currentJson !== newJson || !config.lastSyncTime || !config.totalSheetRows) {
+        console.log(`[REAL-TIME SYNC] Google Sheet data updated: ${parsedEmployees.length} unique (${parsedEmployees.totalRawRows} rows in sheet)`);
+        writeJson(EMPLOYEES_FILE, parsedEmployees);
+        config.totalSheetRows = parsedEmployees.totalRawRows;
+        config.uniqueEmployees = parsedEmployees.length;
+        config.lastSyncTime = new Date().toISOString();
+        writeJson(CONFIG_FILE, config);
+        return { success: true, updated: true, count: parsedEmployees.length, totalSheetRows: parsedEmployees.totalRawRows };
+      }
+    }
+    return { success: true, updated: false };
+  } catch (err) {
+    console.error('[REAL-TIME SYNC] Google Sheet sync check failed:', err.message);
+    return { success: false, error: err.message };
+  } finally {
+    isSyncInProgress = false;
+  }
+}
+
+// Background polling for Google Sheets every 25 seconds
+setInterval(() => {
+  performGoogleSheetSync(false);
+}, 25000);
+
+// Perform initial sync check shortly after startup
+setTimeout(() => {
+  performGoogleSheetSync(false);
+}, 3000);
 
 // API Routes
 
@@ -445,6 +497,8 @@ app.get('/api/status', (req, res) => {
       name: connectedUser.name || 'Micro Banking WhatsApp Bot'
     } : null,
     lastSyncTime: config.lastSyncTime || null,
+    totalSheetRows: config.totalSheetRows || 0,
+    uniqueEmployees: config.uniqueEmployees || 0,
     serverTime: new Date().toISOString()
   });
 });
@@ -475,7 +529,10 @@ app.post('/api/disconnect', async (req, res) => {
   }
 });
 
-app.get('/api/data', (req, res) => {
+app.get('/api/data', async (req, res) => {
+  if (req.query.refresh === '1') {
+    await performGoogleSheetSync(true);
+  }
   const employees = readJson(EMPLOYEES_FILE, []);
   const config = readJson(CONFIG_FILE, {});
   res.json({ employees, config });
@@ -507,6 +564,8 @@ app.post('/api/sync-sheets', async (req, res) => {
     writeJson(EMPLOYEES_FILE, parsedEmployees);
 
     config.sheetUrl = sheetUrl;
+    config.totalSheetRows = parsedEmployees.totalRawRows;
+    config.uniqueEmployees = parsedEmployees.length;
     config.lastSyncTime = new Date().toISOString();
     writeJson(CONFIG_FILE, config);
 
@@ -514,6 +573,7 @@ app.post('/api/sync-sheets', async (req, res) => {
       success: true,
       message: `Berhasil sinkronisasi ${parsedEmployees.length} pegawai dari Google Sheet`,
       count: parsedEmployees.length,
+      totalSheetRows: parsedEmployees.totalRawRows,
       employees: parsedEmployees,
       lastSyncTime: config.lastSyncTime
     });
