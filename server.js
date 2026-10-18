@@ -705,6 +705,7 @@ app.get('/api/photo-proxy', async (req, res) => {
   }
 });
 
+const isVercel = !!process.env.VERCEL;
 if (!isVercel) {
   app.listen(PORT, () => {
     console.log(`=======================================================`);
