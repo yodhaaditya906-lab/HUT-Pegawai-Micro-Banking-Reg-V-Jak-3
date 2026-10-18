@@ -268,168 +268,54 @@
   </div>
 
   
-  <!-- MODAL: Studio Generator Kartu F1 Mandiri -->
+  <!-- MODAL: Pratinjau & Unduh Kartu Ucapan F1 Mandiri -->
   <div class="modal-backdrop" id="cardModal">
-    <div class="modal-box modal-f1-studio">
+    <div class="modal-box modal-f1-studio" style="max-width: 660px; width: 95%;">
       <div class="modal-header f1-studio-header">
         <div class="modal-title-group">
           <div class="f1-header-title-row">
             <span class="f1-flag-icon">🏎️</span>
-            <h3>Studio Generator Kartu F1 Mandiri</h3>
+            <h3>Kartu Ucapan Resmi F1 Mandiri</h3>
             <span class="f1-edition-badge">Danantara x Mandiri F1</span>
           </div>
-          <p id="cardModalSubtitle">Tarik & lepas foto siapa saja untuk menghasilkan kartu ucapan F1 resmi secara instan</p>
+          <p id="cardModalSubtitle">Kartu ucapan resmi resolusi tinggi siap unduh & bagikan</p>
         </div>
         <button class="btn-close" onclick="closeCardModal()">✕</button>
       </div>
 
-      <div class="modal-body f1-studio-body">
-        <div class="f1-studio-layout">
-          <!-- PANEL KIRI: Drag-and-Drop & Pengaturan Kartu -->
-          <div class="f1-controls-pane">
-            
-            <!-- 1. DRAG AND DROP ZONE -->
-            <div class="f1-card-section">
-              <div class="f1-section-header">
-                <span class="step-num">1</span>
-                <label>Foto Pegawai (Drag & Drop)</label>
-              </div>
-              <div class="f1-dropzone" id="f1PhotoDropzone" onclick="document.getElementById('f1PhotoFileInput').click()">
-                <input type="file" id="f1PhotoFileInput" accept="image/*" style="display:none;" onchange="handleF1PhotoUpload(event)">
-                
-                <div class="dropzone-empty" id="f1DropzoneEmpty">
-                  <div class="dropzone-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                  </div>
-                  <div class="dropzone-text">
-                    <strong>Tarik & Lepas Foto di Sini</strong>
-                    <span>atau klik untuk memilih file dari komputer / HP</span>
-                  </div>
-                  <div class="dropzone-badge-tag">Format: JPG, PNG, WEBP</div>
-                </div>
-
-                <div class="dropzone-loaded" id="f1DropzoneLoaded" style="display:none;">
-                  <img id="f1DropzoneThumbnail" src="" alt="Thumbnail Foto">
-                  <div class="dropzone-loaded-info">
-                    <span id="f1DropzoneFilename">Foto Terpasang</span>
-                    <button type="button" class="btn btn-secondary btn-xs" onclick="event.stopPropagation(); document.getElementById('f1PhotoFileInput').click()">Ganti Foto</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="dropzone-action-subrow">
-                <button type="button" class="btn btn-text btn-xs text-gold" id="btnUseDbPhoto" onclick="useEmployeeDatabasePhoto()" style="display:none;">
-                  ↺ Gunakan Foto Asli Database
-                </button>
-              </div>
-            </div>
-
-            <!-- 2. PILIH PEGAWAI / INPUT DATA -->
-            <div class="f1-card-section">
-              <div class="f1-section-header">
-                <span class="step-num">2</span>
-                <label>Identitas & Jabatan Pegawai</label>
-              </div>
-
-              <div class="form-group mb-2">
-                <select id="f1EmpSelector" class="form-select form-select-sm" onchange="handleF1EmpSelect(this.value)">
-                  <option value="">-- Pilih dari 489 Pegawai Mandiri (Otomatis Isi) --</option>
-                </select>
-              </div>
-
-              <div class="form-group mb-2">
-                <label class="form-sublabel">Nama Lengkap Pegawai:</label>
-                <input type="text" id="f1InputNama" class="form-control form-control-sm" placeholder="Contoh: FAJAR PRATAMA" oninput="handleF1DataInput()">
-              </div>
-
-              <div class="form-row-2col">
-                <div class="form-group mb-2">
-                  <label class="form-sublabel">Jabatan & Unit Kerja:</label>
-                  <input type="text" id="f1InputJabatan" class="form-control form-control-sm" placeholder="Contoh: SGP" oninput="handleF1DataInput()">
-                </div>
-                <div class="form-group mb-2">
-                  <label class="form-sublabel">Tanggal Lahir (DD/MM):</label>
-                  <input type="text" id="f1InputTanggal" class="form-control form-control-sm" placeholder="Contoh: 18/10" oninput="handleF1DataInput()">
-                </div>
-              </div>
-            </div>
-
-            <!-- 3. PESAN UCAPAN & DOA ULANG TAHUN -->
-            <div class="f1-card-section">
-              <div class="f1-section-header">
-                <span class="step-num">3</span>
-                <label>Pesan Ucapan & Doa</label>
-              </div>
-              <div class="form-group mb-2">
-                <textarea id="f1InputUcapan" class="form-control form-control-sm" rows="2" placeholder="Tuliskan ucapan dan doa..." oninput="handleF1DataInput()">Semoga senantiasa diberikan kesehatan, kebahagiaan, dan kesuksesan yang berlimpah.</textarea>
-              </div>
-            </div>
-
-            <!-- 4. ENGINE GENERATOR REALISTIS F1 -->
-            <div class="f1-card-section" style="background: rgba(0, 163, 224, 0.06); border: 1px dashed rgba(103, 178, 232, 0.35); border-radius: 8px; padding: 0.85rem;">
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                <span style="font-size: 1.2rem;">🏎️</span>
-                <strong style="color: #FFB700; font-size: 0.85rem;">Auto-Generate Baju Balap F1 Mandiri</strong>
-              </div>
-              <p style="font-size: 0.78rem; color: #89C4F4; margin: 0; line-height: 1.35;">
-                Saat Anda mengupload foto atau memilih pegawai, AI secara otomatis mendesain kartu ucapan dengan orang tersebut <strong>beneran mengenakan seragam balap resmi F1</strong> lengkap dengan logo Danantara & Mandiri.
-              </p>
-            </div>
-
-            <!-- 5. AKSI DOWNLOAD & SHARE -->
-            <div class="f1-actions-box">
-              <button type="button" class="btn btn-gold btn-lg w-100 mb-2 btn-generate-ai" id="btnTriggerAiGen" onclick="triggerAiF1Generation()">
-      <span style="font-size:1.15rem;">✨</span>
-      <span>Generate Kartu AI (Baju Balap F1 Nyata)</span>
-    </button>
-            <button type="button" class="btn btn-gold btn-lg w-100 btn-download-f1" onclick="downloadF1Card()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                <span>Unduh Kartu HD (PNG)</span>
-              </button>
-
-              <button type="button" class="btn btn-secondary btn-sm w-100 mt-2" onclick="copyF1WhatsAppText()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span>Salin Teks Ucapan WhatsApp</span>
-              </button>
-            </div>
-
+      <div class="modal-body f1-studio-body" style="padding: 1.25rem;">
+        <!-- Top Toolbar: Employee Selector & Quick Actions -->
+        <div style="display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px;">
+            <select id="f1EmpSelector" class="form-select form-select-sm" onchange="handleF1EmpSelect(this.value)">
+              <option value="">-- Pilih Pegawai --</option>
+            </select>
           </div>
-
-          <!-- PANEL KANAN: Live Canvas Preview -->
-          <div class="f1-preview-pane">
-            <div class="f1-canvas-card">
-              <div class="f1-canvas-status-bar">
-                <div class="f1-live-indicator">
-                  <span class="f1-dot-pulse"></span>
-                  <span>Live HD Preview (896 x 1200 px)</span>
-                </div>
-                <span class="f1-badge-ratio">3:4 WhatsApp Story</span>
-              </div>
-
-              <div class="f1-canvas-stage" id="f1CanvasDropTarget">
-                <canvas id="cardCanvas" width="896" height="1200"></canvas>
-                <div class="f1-ai-loading-overlay" id="f1AiLoadingOverlay" style="display:none;">
-      <div class="f1-loading-card">
-        <div class="f1-spinner-race">🏎️💨</div>
-        <h4 id="f1LoadingTitle">Mendesain Kartu F1 AI Resmi...</h4>
-        <p id="f1LoadingStatusText">Memadukan wajah dengan baju balap Mandiri x Danantara F1...</p>
-        <div class="f1-progress-bar">
-          <div class="f1-progress-fill" id="f1ProgressFill"></div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button type="button" class="btn btn-gold btn-sm btn-download-f1" onclick="downloadF1Card()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Unduh HD (PNG)</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyF1WhatsAppText()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Salin Teks WA</span>
+            </button>
+          </div>
         </div>
-        <small class="text-muted">Proses ini membutuhkan beberapa detik untuk menghasilkan kartu resolusi tinggi.</small>
-      </div>
-    </div>
-              <div class="canvas-drag-overlay" id="f1CanvasDragOverlay">
-                  <div class="overlay-drop-box">
-                    <span style="font-size:2.5rem;">📥</span>
-                    <strong>Lepas Foto di Sini</strong>
-                  </div>
-                </div>
-              </div>
 
-              <div class="canvas-footer-hints">
-                <small>💡 Tips: Kamu juga bisa menarik & melepas file foto langsung ke atas kartu preview!</small>
+        <!-- Center HD Canvas Preview -->
+        <div class="f1-preview-pane" style="width: 100%;">
+          <div class="f1-canvas-card" style="margin: 0 auto; width: 100%; max-width: 500px;">
+            <div class="f1-canvas-status-bar">
+              <div class="f1-live-indicator">
+                <span class="f1-dot-pulse"></span>
+                <span id="f1CardOwnerTitle">Live HD Preview (896 x 1200 px)</span>
               </div>
+              <span class="f1-badge-ratio">3:4 WhatsApp Story</span>
+            </div>
+
+            <div class="f1-canvas-stage" style="display: flex; justify-content: center; position: relative;">
+              <canvas id="cardCanvas" width="896" height="1200" style="max-height: 68vh; width: auto; max-width: 100%; border-radius: 8px; box-shadow: 0 12px 35px rgba(0,0,0,0.6); display: block;"></canvas>
             </div>
           </div>
         </div>
@@ -594,6 +480,6 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261018_sheet_kartu_support"></script>
+  <script src="app.js?v=20261018_clean_hd_card_viewer"></script>
 </body>
 </html>
