@@ -208,9 +208,7 @@ async function sendWAMessage(recipientPhone, messageText) {
 function buildRobotAlert(category, employee) {
   const isHariH = category === 'HARI_H';
   const statusLabel = isHariH ? 'HARI H (Ulang Tahun Hari Ini)' : 'H-1 (Pengingat Persiapan Esok Hari)';
-  const callToAction = isHariH
-    ? 'Hari ini beliau merayakan hari ulang tahun. Silakan berikan doa dan ucapan terbaik melalui grup maupun personal.'
-    : 'Besok beliau merayakan hari ulang tahun. Pengingat ini dikirimkan untuk persiapan kado, ucapan, atau kejutan tim.';
+  const hariLabel = isHariH ? 'Hari Ini' : (category === 'H_MINUS_1' ? 'Besok' : (employee.tanggalLahir || '-'));
 
   return `[SISTEM NOTIFIKASI OTOMATIS - MICRO BANKING REG V/JAK 3]
 Pemberitahuan Jadwal Ulang Tahun Pegawai
@@ -219,10 +217,7 @@ Status   : ${statusLabel}
 Nama     : ${employee.nama}
 NIP      : ${employee.nip || '-'}
 Jabatan  : ${employee.jabatan || '-'}
-Tanggal  : ${employee.tanggalLahir}
-
-Catatan  :
-${callToAction}
+Hari     : ${hariLabel}
 
 Pesan ini dibuat dan dikirim secara otomatis oleh Micro Banking Reg V/Jak 3 Birthday Tracker.
 --------------------------------------------------
