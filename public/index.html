@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15_wa_qr_fix">
+  <link rel="stylesheet" href="styles.css?v=20261019_week_modal">
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -64,7 +64,7 @@
     <!-- KPI Summary Row -->
     <section class="kpi-grid">
       <!-- Card 1: Hari Ini -->
-      <div class="kpi-card highlight-gold" onclick="jumpToTodayTimeline()">
+      <div class="kpi-card highlight-gold" onclick="openBirthdayListModal('today')" style="cursor: pointer;" title="Klik untuk melihat pegawai ulang tahun hari ini">
         <div class="kpi-icon-wrap gold">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
         </div>
@@ -76,7 +76,7 @@
       </div>
 
       <!-- Card 2: Besok (H-1) -->
-      <div class="kpi-card" onclick="jumpToTomorrowTimeline()">
+      <div class="kpi-card" onclick="openBirthdayListModal('tomorrow')" style="cursor: pointer;" title="Klik untuk melihat pengingat ulang tahun esok hari">
         <div class="kpi-icon-wrap navy">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </div>
@@ -88,7 +88,7 @@
       </div>
 
       <!-- Card 3: Pekan Ini -->
-      <div class="kpi-card">
+      <div class="kpi-card" onclick="openBirthdayListModal('week')" style="cursor: pointer;" title="Klik untuk melihat daftar 10 pegawai yang ulang tahun pekan ini">
         <div class="kpi-icon-wrap blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
@@ -268,6 +268,58 @@
   </div>
 
   
+  <!-- MODAL: Daftar Pegawai Ulang Tahun (Pekan Ini / Hari Ini / Besok) -->
+  <div class="modal-backdrop" id="birthdayListModal">
+    <div class="modal-box modal-bday-list">
+      <div class="modal-header bday-list-header">
+        <div class="modal-title-group">
+          <div class="bday-title-row">
+            <span class="bday-icon-badge">📅</span>
+            <h3 id="bdayListModalTitle">Ulang Tahun Pekan Ini</h3>
+            <span class="badge badge-gold" id="bdayListBadgeCount">10 Pegawai</span>
+          </div>
+          <p id="bdayListModalSubtitle">Senin – Minggu pekan ini (19 Okt – 25 Okt 2026)</p>
+        </div>
+        <button class="btn-close" onclick="closeBirthdayListModal()">✕</button>
+      </div>
+
+      <!-- Filter Tabs & In-Modal Search -->
+      <div class="bday-list-toolbar">
+        <div class="bday-list-tabs">
+          <button type="button" class="tab-btn-pill active" id="bdayTabWeek" onclick="switchBdayListTab('week')">
+            <span>📅 Pekan Ini</span>
+            <span class="tab-count-badge" id="bdayTabCountWeek">10</span>
+          </button>
+          <button type="button" class="tab-btn-pill" id="bdayTabToday" onclick="switchBdayListTab('today')">
+            <span>🎂 Hari Ini</span>
+            <span class="tab-count-badge" id="bdayTabCountToday">1</span>
+          </button>
+          <button type="button" class="tab-btn-pill" id="bdayTabTomorrow" onclick="switchBdayListTab('tomorrow')">
+            <span>⏰ Esok (H-1)</span>
+            <span class="tab-count-badge" id="bdayTabCountTomorrow">1</span>
+          </button>
+        </div>
+        <div class="bday-list-search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bday-search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="bdayListSearchInput" class="bday-search-input" placeholder="Cari nama, NIP, atau unit..." oninput="handleBdayListSearch(this.value)">
+        </div>
+      </div>
+
+      <!-- Scrollable List Body -->
+      <div class="modal-body bday-list-body" id="bdayListContainer">
+        <!-- Dynamic employee items will be rendered here -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer bday-list-footer">
+        <div class="bday-footer-hint">
+          <span>💡 Klik <strong>Buka Kartu F1</strong> untuk melihat kartu ucapan siap kirim, atau <strong>Salin Pesan WA</strong>.</span>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeBirthdayListModal()">Tutup</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: Pratinjau & Unduh Kartu Ucapan F1 Mandiri -->
   <div class="modal-backdrop" id="cardModal">
     <div class="modal-box modal-f1-studio" style="max-width: 660px; width: 95%;">
@@ -481,6 +533,6 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261019_extra_large_fonts"></script>
+  <script src="app.js?v=20261019_week_modal"></script>
 </body>
 </html>

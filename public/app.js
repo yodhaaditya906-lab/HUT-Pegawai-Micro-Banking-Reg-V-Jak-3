@@ -773,6 +773,230 @@ function updateMetrics() {
   }
 }
 
+// -------------------------------------------------------------
+// MODAL DAFTAR PEGAWAI ULANG TAHUN (PEKAN INI / HARI INI / BESOK)
+// -------------------------------------------------------------
+function openBirthdayListModal(filter = 'week') {
+  if (!state.birthdayListModal) {
+    state.birthdayListModal = { filter: 'week', searchQuery: '' };
+  }
+  state.birthdayListModal.filter = filter;
+  state.birthdayListModal.searchQuery = '';
+
+  const searchInput = document.getElementById('bdayListSearchInput');
+  if (searchInput) searchInput.value = '';
+
+  renderBirthdayListModal();
+
+  const modal = document.getElementById('birthdayListModal');
+  if (modal) modal.classList.add('open');
+}
+
+function openWeekBirthdayModal() {
+  openBirthdayListModal('week');
+}
+
+function closeBirthdayListModal() {
+  const modal = document.getElementById('birthdayListModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function switchBdayListTab(filter) {
+  if (!state.birthdayListModal) {
+    state.birthdayListModal = { filter: 'week', searchQuery: '' };
+  }
+  state.birthdayListModal.filter = filter;
+  renderBirthdayListModal();
+}
+
+function handleBdayListSearch(query) {
+  if (!state.birthdayListModal) {
+    state.birthdayListModal = { filter: 'week', searchQuery: '' };
+  }
+  state.birthdayListModal.searchQuery = query || '';
+  renderBirthdayListModal();
+}
+
+function renderBirthdayListModal() {
+  const container = document.getElementById('bdayListContainer');
+  if (!container) return;
+
+  const filter = (state.birthdayListModal && state.birthdayListModal.filter) ? state.birthdayListModal.filter : 'week';
+  const query = (state.birthdayListModal && state.birthdayListModal.searchQuery) ? state.birthdayListModal.searchQuery.toLowerCase().trim() : '';
+
+  // Update tabs active class
+  const tabWeek = document.getElementById('bdayTabWeek');
+  const tabToday = document.getElementById('bdayTabToday');
+  const tabTomorrow = document.getElementById('bdayTabTomorrow');
+  if (tabWeek) tabWeek.classList.toggle('active', filter === 'week');
+  if (tabToday) tabToday.classList.toggle('active', filter === 'today');
+  if (tabTomorrow) tabTomorrow.classList.toggle('active', filter === 'tomorrow');
+
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0: Minggu, 1: Senin, ..., 6: Sabtu
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const sundayOffset = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+
+  // Classify all employees
+  const weekList = [];
+  const todayList = [];
+  const tomorrowList = [];
+
+  state.employees.forEach(emp => {
+    const { day, month } = parseBirthday(emp.tanggalLahir);
+    const offset = getDayOffset(day, month);
+    const item = { ...emp, offset, parsedDay: day, parsedMonth: month };
+
+    if (offset === 0) todayList.push(item);
+    if (offset === 1) tomorrowList.push(item);
+    if (offset >= mondayOffset && offset <= sundayOffset) weekList.push(item);
+  });
+
+  // Sort lists chronologically
+  weekList.sort((a, b) => a.offset - b.offset);
+  todayList.sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
+  tomorrowList.sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
+
+  // Update count badges on tabs
+  const countWeekEl = document.getElementById('bdayTabCountWeek');
+  const countTodayEl = document.getElementById('bdayTabCountToday');
+  const countTomorrowEl = document.getElementById('bdayTabCountTomorrow');
+  const badgeCountEl = document.getElementById('bdayListBadgeCount');
+  const titleEl = document.getElementById('bdayListModalTitle');
+  const subtitleEl = document.getElementById('bdayListModalSubtitle');
+
+  if (countWeekEl) countWeekEl.textContent = weekList.length;
+  if (countTodayEl) countTodayEl.textContent = todayList.length;
+  if (countTomorrowEl) countTomorrowEl.textContent = tomorrowList.length;
+
+  let activeList = weekList;
+  if (filter === 'today') {
+    activeList = todayList;
+    if (titleEl) titleEl.textContent = 'Ulang Tahun Hari Ini';
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    if (subtitleEl) subtitleEl.textContent = `${dayNames[now.getDay()]}, ${now.getDate()} ${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()} (${todayList.length} Pegawai)`;
+  } else if (filter === 'tomorrow') {
+    activeList = tomorrowList;
+    if (titleEl) titleEl.textContent = 'Pengingat Esok Hari (H-1)';
+    const tmr = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    if (subtitleEl) subtitleEl.textContent = `Persiapan ucapan esok: ${dayNames[tmr.getDay()]}, ${tmr.getDate()} ${MONTH_NAMES[tmr.getMonth()]} (${tomorrowList.length} Pegawai)`;
+  } else {
+    activeList = weekList;
+    if (titleEl) titleEl.textContent = 'Ulang Tahun Pekan Ini';
+    const monDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + mondayOffset);
+    const sunDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + sundayOffset);
+    const monStr = `${monDate.getDate()} ${MONTH_NAMES[monDate.getMonth()].slice(0, 3)}`;
+    const sunStr = `${sunDate.getDate()} ${MONTH_NAMES[sunDate.getMonth()].slice(0, 3)}`;
+    if (subtitleEl) subtitleEl.textContent = `Senin – Minggu (${monStr} – ${sunStr}) • ${weekList.length} Pegawai Merayakan`;
+  }
+
+  if (badgeCountEl) badgeCountEl.textContent = `${activeList.length} Pegawai`;
+
+  // Filter with search query
+  let displayList = activeList;
+  if (query) {
+    displayList = activeList.filter(emp => {
+      const matchName = emp.nama && emp.nama.toLowerCase().includes(query);
+      const matchRole = emp.jabatan && emp.jabatan.toLowerCase().includes(query);
+      const matchUnit = emp.unit && emp.unit.toLowerCase().includes(query);
+      const matchNip = emp.nip && emp.nip.toLowerCase().includes(query);
+      return matchName || matchRole || matchUnit || matchNip;
+    });
+  }
+
+  if (displayList.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 2.5rem 1rem; color: #64748B;">
+        <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎈</div>
+        <div style="font-weight: 700; font-size: 1.05rem; color: #002D5A;">Tidak Ada Pegawai Ditemukan</div>
+        <p style="font-size: 0.85rem; margin-top: 0.25rem;">${query ? `Tidak ada data yang cocok dengan pencarian "${query}".` : 'Belum ada pegawai yang berulang tahun pada periode ini.'}</p>
+      </div>
+    `;
+    return;
+  }
+
+  const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+  let html = '';
+  displayList.forEach(emp => {
+    const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + emp.offset);
+    const dayName = dayNames[targetDate.getDay()];
+    
+    let dateBadge = '';
+    let statusBorder = '#E2E8F0';
+    if (emp.offset === 0) {
+      dateBadge = `<span class="badge" style="background: #10B981; color: #FFFFFF; font-weight: 700; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">🎉 Hari Ini (${emp.tanggalLahir})</span>`;
+      statusBorder = '#10B981';
+    } else if (emp.offset === 1) {
+      dateBadge = `<span class="badge" style="background: #0284C7; color: #FFFFFF; font-weight: 700;">⏰ Besok (${emp.tanggalLahir})</span>`;
+      statusBorder = '#0284C7';
+    } else if (emp.offset > 1) {
+      dateBadge = `<span class="badge" style="background: #FEF3C7; color: #92400E; font-weight: 600;">📅 ${dayName}, ${emp.tanggalLahir} (${emp.offset} hari lagi)</span>`;
+    } else {
+      dateBadge = `<span class="badge" style="background: #F1F5F9; color: #64748B;">📅 ${dayName}, ${emp.tanggalLahir}</span>`;
+    }
+
+    const photoSrc = emp.foto ? normalizeGoogleDriveUrl(emp.foto) : `assets/source_photos/${emp.id}.jpg`;
+    const initial = emp.nama ? emp.nama.charAt(0) : 'M';
+
+    html += `
+      <div class="bday-item-card">
+        <div style="display: flex; align-items: center; gap: 0.95rem; flex: 1; min-width: 0;">
+          <div class="bday-avatar-wrap" style="border: 2px solid ${statusBorder};">
+            <img src="${photoSrc}" alt="${emp.nama}" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${initial}';" />
+          </div>
+          <div class="bday-info">
+            <div class="bday-name-row">
+              <h4 class="bday-emp-name">${emp.nama}</h4>
+              ${dateBadge}
+            </div>
+            <div class="bday-meta-row">
+              <span class="bday-meta-role">${emp.jabatan || 'Micro Banking'}</span>
+              ${emp.unit && emp.unit !== '-' ? `<span style="color: #CBD5E1;">•</span><span class="bday-meta-unit">Unit: ${emp.unit}</span>` : ''}
+              ${emp.nip && emp.nip !== '-' ? `<span style="color: #CBD5E1;">•</span><span style="font-size: 0.76rem; color: #94A3B8;">NIP: ${emp.nip}</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="bday-actions">
+          <button type="button" class="btn btn-gold btn-sm" onclick="openCardFromList('${emp.id}')" title="Buka Kartu Ucapan F1 Resmi" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
+            <span>🏎️ Buka Kartu F1</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="copyGreetingForEmp('${emp.id}')" title="Salin Ucapan WhatsApp" style="padding: 0.45rem 0.65rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function openCardFromList(empId) {
+  closeBirthdayListModal();
+  setTimeout(() => {
+    openCardModal(empId);
+  }, 120);
+}
+
+function copyGreetingForEmp(empId) {
+  const emp = state.employees.find(e => e.id === empId);
+  if (!emp) return;
+
+  const roleDisplay = emp.jabatan || 'Micro Banking';
+  const unitDisplay = (emp.unit && emp.unit !== '-') ? ` • ${emp.unit}` : '';
+
+  const text = `✨ *SELAMAT ULANG TAHUN* ✨\n\nKepada Yth. Rekan *\u202A${emp.nama}*\n(${roleDisplay}${unitDisplay} • Micro Banking Region V / Jakarta 3)\n\nSemoga senantiasa diberikan kesehatan, kebahagiaan, serta kesuksesan yang berlimpah dalam karir dan kehidupan.\n\nTerima kasih atas dedikasi dan kontribusi terbaik bagi Bank Mandiri.\n\n- M B R 5 -\n\n🏎️🏁 *Danantara x Mandiri F1 Official Edition*`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast(`Ucapan WhatsApp untuk ${emp.nama} berhasil disalin ke clipboard!`, 'success');
+  }).catch(() => {
+    showToast('Gagal menyalin ucapan', 'danger');
+  });
+}
+
 function renderAllViews() {
   updateMetrics();
   renderTimelineView();
