@@ -199,33 +199,35 @@ const CARDS_THIS_WEEK = [
   },
   {
     tgl: '24/10',
+    localBase: 'public/assets/adetya_yandri_base.jpg',
     baseFile: 'adetya_yandri.jpg',
     name: 'ADETYA YANDRI',
     jabatan: 'MKA Jonggol 1',
-    boxTop: 410,
-    boxWidth: 485,
-    boxHeight: 275,
+    boxTop: 445,
+    boxWidth: 470,
+    boxHeight: 265,
     nameSize: 28,
     roleSize: 19,
-    wishSize: 21.5,
+    wishSize: 21,
     mbr5Size: 21,
     eraseResidual: false,
-    targets: ['EMP-0298.jpg', 'adetya_yandri.jpg', 'nip_1592585640.jpg']
+    targets: ['EMP-0298.jpg', 'EMP-0360.jpg', 'adetya_yandri.jpg', 'nip_1592585640.jpg']
   },
   {
     tgl: '25/10',
+    localBase: 'public/assets/adri_fauzan_base.jpg',
     baseFile: 'adri_fauzan.jpg',
     name: 'ADRI FAUZAN',
     jabatan: 'SGP Micro Banking Reg V/Jak 3',
-    boxTop: 410,
-    boxWidth: 485,
-    boxHeight: 275,
+    boxTop: 445,
+    boxWidth: 470,
+    boxHeight: 265,
     nameSize: 28,
     roleSize: 18.5,
-    wishSize: 21.5,
+    wishSize: 21,
     mbr5Size: 21,
     eraseResidual: false,
-    targets: ['EMP-0262.jpg', 'adri_fauzan.jpg', 'nip_1991020080.jpg']
+    targets: ['EMP-0262.jpg', 'EMP-0429.jpg', 'adri_fauzan.jpg', 'nip_1991020080.jpg']
   }
 ];
 
@@ -234,7 +236,12 @@ async function generateAll() {
 
   for (const item of CARDS_THIS_WEEK) {
     console.log(`Generating card for ${item.name} (${item.tgl} - ${item.jabatan})...`);
-    const cleanBaseBuffer = cp.execSync(`git show 4bf56a5:public/assets/f1_cards/${item.baseFile}`);
+    let cleanBaseBuffer;
+    if (item.localBase && fs.existsSync(item.localBase)) {
+      cleanBaseBuffer = fs.readFileSync(item.localBase);
+    } else {
+      cleanBaseBuffer = cp.execSync(`git show 4bf56a5:public/assets/f1_cards/${item.baseFile}`);
+    }
 
     const svgOverlay = createLegibleCardSvg(item);
 
