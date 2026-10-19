@@ -908,7 +908,7 @@ function renderBirthdayListModal() {
   if (displayList.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 2.5rem 1rem; color: #64748B;">
-        <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎈</div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8" style="width: 44px; height: 44px; margin-bottom: 0.5rem;"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
         <div style="font-weight: 700; font-size: 1.05rem; color: #002D5A;">Tidak Ada Pegawai Ditemukan</div>
         <p style="font-size: 0.85rem; margin-top: 0.25rem;">${query ? `Tidak ada data yang cocok dengan pencarian "${query}".` : 'Belum ada pegawai yang berulang tahun pada periode ini.'}</p>
       </div>
@@ -924,17 +924,12 @@ function renderBirthdayListModal() {
     const dayName = dayNames[targetDate.getDay()];
     
     let dateBadge = '';
-    let statusBorder = '#E2E8F0';
     if (emp.offset === 0) {
-      dateBadge = `<span class="badge" style="background: #10B981; color: #FFFFFF; font-weight: 700; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">🎉 Hari Ini (${emp.tanggalLahir})</span>`;
-      statusBorder = '#10B981';
+      dateBadge = `<span class="bday-status-pill status-today">Hari Ini (${emp.tanggalLahir})</span>`;
     } else if (emp.offset === 1) {
-      dateBadge = `<span class="badge" style="background: #0284C7; color: #FFFFFF; font-weight: 700;">⏰ Besok (${emp.tanggalLahir})</span>`;
-      statusBorder = '#0284C7';
-    } else if (emp.offset > 1) {
-      dateBadge = `<span class="badge" style="background: #FEF3C7; color: #92400E; font-weight: 600;">📅 ${dayName}, ${emp.tanggalLahir} (${emp.offset} hari lagi)</span>`;
+      dateBadge = `<span class="bday-status-pill status-tomorrow">Besok (${emp.tanggalLahir})</span>`;
     } else {
-      dateBadge = `<span class="badge" style="background: #F1F5F9; color: #64748B;">📅 ${dayName}, ${emp.tanggalLahir}</span>`;
+      dateBadge = `<span class="bday-status-pill status-upcoming">${dayName}, ${emp.tanggalLahir}</span>`;
     }
 
     const photoSrc = emp.foto ? normalizeGoogleDriveUrl(emp.foto) : `assets/source_photos/${emp.id}.jpg`;
@@ -942,29 +937,31 @@ function renderBirthdayListModal() {
 
     html += `
       <div class="bday-item-card">
-        <div style="display: flex; align-items: center; gap: 0.95rem; flex: 1; min-width: 0;">
-          <div class="bday-avatar-wrap" style="border: 2px solid ${statusBorder};">
+        <div class="bday-item-main">
+          <div class="bday-avatar-wrap">
             <img src="${photoSrc}" alt="${emp.nama}" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${initial}';" />
           </div>
           <div class="bday-info">
-            <div class="bday-name-row">
-              <h4 class="bday-emp-name">${emp.nama}</h4>
-              ${dateBadge}
-            </div>
+            <h4 class="bday-emp-name" title="${emp.nama}">${emp.nama}</h4>
             <div class="bday-meta-row">
               <span class="bday-meta-role">${emp.jabatan || 'Micro Banking'}</span>
-              ${emp.unit && emp.unit !== '-' ? `<span style="color: #CBD5E1;">•</span><span class="bday-meta-unit">Unit: ${emp.unit}</span>` : ''}
-              ${emp.nip && emp.nip !== '-' ? `<span style="color: #CBD5E1;">•</span><span style="font-size: 0.76rem; color: #94A3B8;">NIP: ${emp.nip}</span>` : ''}
+              ${emp.unit && emp.unit !== '-' ? `<span class="bday-meta-unit">${emp.unit}</span>` : ''}
+              ${emp.nip && emp.nip !== '-' ? `<span class="bday-meta-nip">NIP ${emp.nip}</span>` : ''}
             </div>
           </div>
         </div>
 
+        <div class="bday-status-col">
+          ${dateBadge}
+        </div>
+
         <div class="bday-actions">
-          <button type="button" class="btn btn-gold btn-sm" onclick="openCardFromList('${emp.id}')" title="Buka Kartu Ucapan F1 Resmi" style="font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
-            <span>🏎️ Buka Kartu F1</span>
+          <button type="button" class="btn-bday-card" onclick="openCardFromList('${emp.id}')" title="Buka Kartu Ucapan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Buka Kartu</span>
           </button>
-          <button type="button" class="btn btn-secondary btn-sm" onclick="copyGreetingForEmp('${emp.id}')" title="Salin Ucapan WhatsApp" style="padding: 0.45rem 0.65rem;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <button type="button" class="btn-bday-copy" onclick="copyGreetingForEmp('${emp.id}')" title="Salin Template Ucapan WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           </button>
         </div>
       </div>
@@ -988,7 +985,7 @@ function copyGreetingForEmp(empId) {
   const roleDisplay = emp.jabatan || 'Micro Banking';
   const unitDisplay = (emp.unit && emp.unit !== '-') ? ` • ${emp.unit}` : '';
 
-  const text = `✨ *SELAMAT ULANG TAHUN* ✨\n\nKepada Yth. Rekan *\u202A${emp.nama}*\n(${roleDisplay}${unitDisplay} • Micro Banking Region V / Jakarta 3)\n\nSemoga senantiasa diberikan kesehatan, kebahagiaan, serta kesuksesan yang berlimpah dalam karir dan kehidupan.\n\nTerima kasih atas dedikasi dan kontribusi terbaik bagi Bank Mandiri.\n\n- M B R 5 -\n\n🏎️🏁 *Danantara x Mandiri F1 Official Edition*`;
+  const text = `SELAMAT ULANG TAHUN\n\nKepada Yth. Rekan *${emp.nama}*\n(${roleDisplay}${unitDisplay} • Micro Banking Region V / Jakarta 3)\n\nSemoga senantiasa diberikan kesehatan, kebahagiaan, serta kesuksesan yang berlimpah dalam karir dan kehidupan.\n\nTerima kasih atas dedikasi dan kontribusi terbaik bagi Bank Mandiri.\n\n- Micro Banking Region V / Jakarta 3 -`;
 
   navigator.clipboard.writeText(text).then(() => {
     showToast(`Ucapan WhatsApp untuk ${emp.nama} berhasil disalin ke clipboard!`, 'success');
