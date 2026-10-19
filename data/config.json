@@ -13,13 +13,18 @@
       "name": "Yodha 2",
       "phone": "+62 878-9610-8664",
       "active": true
+    },
+    {
+      "name": "Bu Alif",
+      "phone": "+62 82213945460",
+      "active": true
     }
   ],
   "h1AlertHour": 17,
   "h1AlertMinute": 0,
   "h0AlertHour": 7,
   "h0AlertMinute": 0,
-  "lastSyncTime": "2026-10-19T02:18:01.620Z",
+  "lastSyncTime": "2026-10-19T02:34:30.634Z",
   "canvaTemplateUrl": "https://www.canva.com",
   "totalSheetRows": 502,
   "uniqueEmployees": 493
