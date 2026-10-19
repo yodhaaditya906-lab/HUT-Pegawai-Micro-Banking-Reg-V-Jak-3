@@ -243,8 +243,9 @@ async function runScheduledAlertCheck() {
   const h1Hour = config.h1AlertHour ?? 17;
   const h1Minute = config.h1AlertMinute ?? 0;
 
-  const isH0Time = currentHour === h0Hour && currentMinute === h0Minute;
-  const isH1Time = currentHour === h1Hour && currentMinute === h1Minute;
+  // Toleransi waktu 5 menit (misal 17:00 - 17:05) agar tidak terlewat jika ada sedikit timer drift
+  const isH0Time = (currentHour === h0Hour && currentMinute >= h0Minute && currentMinute <= h0Minute + 5);
+  const isH1Time = (currentHour === h1Hour && currentMinute >= h1Minute && currentMinute <= h1Minute + 5);
 
   if (!isH0Time && !isH1Time) return;
 
