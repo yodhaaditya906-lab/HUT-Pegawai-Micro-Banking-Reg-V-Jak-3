@@ -210,13 +210,15 @@ function buildRobotAlert(category, employee) {
   const statusLabel = isHariH ? 'HARI H (Ulang Tahun Hari Ini)' : 'H-1 (Pengingat Persiapan Esok Hari)';
   const hariLabel = isHariH ? 'Hari Ini' : (category === 'H_MINUS_1' ? 'Besok' : (employee.tanggalLahir || '-'));
 
+  const unitText = employee.unit && employee.unit !== '-' ? ` (${employee.unit})` : '';
+
   return `[SISTEM NOTIFIKASI OTOMATIS - MICRO BANKING REG V/JAK 3]
 Pemberitahuan Jadwal Ulang Tahun Pegawai
 
 Status   : ${statusLabel}
 Nama     : ${employee.nama}
 NIP      : ${employee.nip || '-'}
-Jabatan  : ${employee.jabatan || '-'}
+Jabatan  : ${employee.jabatan || '-'}${unitText}
 Hari     : ${hariLabel}
 
 Pesan ini dibuat dan dikirim secara otomatis oleh Micro Banking Reg V/Jak 3 Birthday Tracker.
@@ -444,6 +446,7 @@ function parseEmployeesCsv(csvText) {
     let nama = '';
     let nip = '';
     let jabatan = '';
+    let unit = '';
     let tanggalLahir = '';
     let foto = '';
     let kartu = '';
@@ -454,6 +457,7 @@ function parseEmployeesCsv(csvText) {
 
       if (cleanKey.includes('nama')) nama = strVal;
       else if (cleanKey.includes('nip')) nip = strVal;
+      else if (cleanKey.includes('unit')) unit = strVal;
       else if (cleanKey.includes('jabatan') || cleanKey.includes('role') || cleanKey.includes('posisi')) jabatan = strVal;
       else if (cleanKey.includes('tgl') || cleanKey.includes('tanggal') || cleanKey.includes('lahir') || cleanKey.includes('birth')) tanggalLahir = strVal;
       else if (cleanKey.includes('kartu') || cleanKey.includes('card') || cleanKey.includes('hasil') || cleanKey.includes('f1') || (cleanKey.includes('column 1') && strVal.startsWith('http'))) kartu = strVal;
@@ -475,6 +479,7 @@ function parseEmployeesCsv(csvText) {
           nama,
           nip: cleanNip,
           jabatan: jabatan || 'Pegawai',
+          unit: unit || '-',
           tanggalLahir: normalized,
           tahunLahir: tahun,
           foto: normalizeGoogleDriveUrl(foto),

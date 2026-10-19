@@ -12,7 +12,8 @@ function createLegibleCardSvg({
   nameSize = 28,
   roleSize = 19.5,
   wishSize = 21.5,
-  mbr5Size = 21
+  mbr5Size = 21,
+  eraseResidual = true
 }) {
   const leftStripWidth = 6.5;
   const rx = 16;
@@ -23,6 +24,11 @@ function createLegibleCardSvg({
   const wishLine1Y = boxTop + 140;
   const wishLine2Y = boxTop + 174;
   const mbr5Y = boxTop + 238;
+
+  const eraseRect = eraseResidual ? `
+    <!-- Erase any residual old template text below the box seamlessly -->
+    <rect x="0" y="${boxTop + boxHeight - 20}" width="515" height="110" fill="url(#trackBlend)" />
+  ` : '';
 
   return Buffer.from(`
     <svg width="896" height="1200" viewBox="0 0 896 1200" xmlns="http://www.w3.org/2000/svg">
@@ -40,8 +46,7 @@ function createLegibleCardSvg({
         </clipPath>
       </defs>
 
-      <!-- Erase any residual old template text below the box seamlessly -->
-      <rect x="0" y="${boxTop + boxHeight - 20}" width="515" height="110" fill="url(#trackBlend)" />
+      ${eraseRect}
 
       <!-- Main Compact Box Container -->
       <g clip-path="url(#boxClip)">
@@ -71,8 +76,9 @@ function createLegibleCardSvg({
   `);
 }
 
-const CARDS = [
+const CARDS_THIS_WEEK = [
   {
+    tgl: '19/10',
     baseFile: 'andina_rezana_mandasari.jpg',
     name: 'ANDINA REZANA MANDASARI',
     jabatan: 'MKA Bogor Warung Jambu 1',
@@ -80,51 +86,14 @@ const CARDS = [
     boxWidth: 495,
     boxHeight: 275,
     nameSize: 27,
-    roleSize: 19.5,
+    roleSize: 19,
     wishSize: 21.5,
     mbr5Size: 21,
+    eraseResidual: true,
     targets: ['EMP-0109.jpg', 'EMP-0458.jpg', 'andina_rezana_mandasari.jpg', 'nip_1284449196.jpg']
   },
   {
-    baseFile: 'dedy_imam_setiawan.jpg',
-    name: 'DEDY IMAM SETIAWAN',
-    jabatan: 'MBM Jakarta Saharjo 1',
-    boxTop: 388,
-    boxWidth: 495,
-    boxHeight: 275,
-    nameSize: 28,
-    roleSize: 19.5,
-    wishSize: 21.5,
-    mbr5Size: 21,
-    targets: ['EMP-0126.jpg', 'dedy_imam_setiawan.jpg', 'nip_1585583198.jpg']
-  },
-  {
-    baseFile: 'ernawati.jpg',
-    name: 'ERNAWATI',
-    jabatan: 'SGP Depok Cinangka 2',
-    boxTop: 478,
-    boxWidth: 495,
-    boxHeight: 275,
-    nameSize: 28,
-    roleSize: 19.5,
-    wishSize: 21.5,
-    mbr5Size: 21,
-    targets: ['EMP-0178.jpg', 'EMP-0173.jpg', 'ernawati.jpg', 'nip_1288190083.jpg']
-  },
-  {
-    baseFile: 'dharmawan_indra_wicaksana.jpg',
-    name: 'DHARMAWAN INDRA WICAKSANA',
-    jabatan: 'MKA Bogor Klapanunggal 1',
-    boxTop: 466,
-    boxWidth: 478,
-    boxHeight: 270,
-    nameSize: 24.5,
-    roleSize: 19,
-    wishSize: 21,
-    mbr5Size: 21,
-    targets: ['EMP-0478.jpg', 'dharmawan_indra_wicaksana.jpg', 'nip_2502838089.jpg']
-  },
-  {
+    tgl: '20/10',
     baseFile: 'qori_ah_yanter.jpg',
     name: "QORI'AH YANTER",
     jabatan: 'MKA Jakarta Universitas Pancasila 1',
@@ -132,18 +101,139 @@ const CARDS = [
     boxWidth: 495,
     boxHeight: 275,
     nameSize: 28,
-    roleSize: 19.5,
+    roleSize: 18,
     wishSize: 21.5,
     mbr5Size: 21,
+    eraseResidual: true,
     targets: ['EMP-0485.jpg', 'EMP-0259.jpg', 'qori_ah_yanter.jpg', 'nip_2603894494.jpg']
+  },
+  {
+    tgl: '21/10',
+    baseFile: 'dedy_imam_setiawan.jpg',
+    name: 'DEDY IMAM SETIAWAN',
+    jabatan: 'MBM Jakarta Saharjo 1',
+    boxTop: 388,
+    boxWidth: 495,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 19,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0126.jpg', 'dedy_imam_setiawan.jpg', 'nip_1585583198.jpg']
+  },
+  {
+    tgl: '21/10',
+    baseFile: 'dharmawan_indra_wicaksana.jpg',
+    name: 'DHARMAWAN INDRA WICAKSANA',
+    jabatan: 'MKA Bogor Klapanunggal 1',
+    boxTop: 466,
+    boxWidth: 478,
+    boxHeight: 270,
+    nameSize: 24,
+    roleSize: 18.5,
+    wishSize: 21,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0478.jpg', 'dharmawan_indra_wicaksana.jpg', 'nip_2502838089.jpg']
+  },
+  {
+    tgl: '22/10',
+    baseFile: 'silvana_rahmawati.jpg',
+    name: 'SILVANA RAHMAWATI',
+    jabatan: 'MKA Depok Jatijajar 1',
+    boxTop: 366,
+    boxWidth: 495,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 19,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0203.jpg', 'silvana_rahmawati.jpg', 'nip_1289453979.jpg']
+  },
+  {
+    tgl: '22/10',
+    baseFile: 'frahesa_oktafia_rofah.jpg',
+    name: 'FRAHESA OKTAFIA ROFAH',
+    jabatan: 'MKA Bogor Nirwana Residence 1',
+    boxTop: 366,
+    boxWidth: 495,
+    boxHeight: 275,
+    nameSize: 26,
+    roleSize: 18,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0446.jpg', 'frahesa_oktafia_rofah.jpg', 'nip_2400819165.jpg']
+  },
+  {
+    tgl: '22/10',
+    baseFile: 'anisah_puspita_sari.jpg',
+    name: 'ANISAH PUSPITA SARI',
+    jabatan: 'SGP Micro Banking Reg V/Jak 3',
+    boxTop: 366,
+    boxWidth: 495,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 18.5,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0479.jpg', 'anisah_puspita_sari.jpg', 'nip_2602491630.jpg']
+  },
+  {
+    tgl: '24/10',
+    baseFile: 'arifin_parinduri.jpg',
+    name: 'ARIFIN PARINDURI',
+    jabatan: 'KM Micro Banking Reg V/Jak 3',
+    boxTop: 366,
+    boxWidth: 495,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 18.5,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: true,
+    targets: ['EMP-0127.jpg', 'arifin_parinduri.jpg', 'nip_1085401321.jpg']
+  },
+  {
+    tgl: '24/10',
+    baseFile: 'adetya_yandri.jpg',
+    name: 'ADETYA YANDRI',
+    jabatan: 'MKA Jonggol 1',
+    boxTop: 410,
+    boxWidth: 485,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 19,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: false,
+    targets: ['EMP-0298.jpg', 'adetya_yandri.jpg', 'nip_1592585640.jpg']
+  },
+  {
+    tgl: '25/10',
+    baseFile: 'adri_fauzan.jpg',
+    name: 'ADRI FAUZAN',
+    jabatan: 'SGP Micro Banking Reg V/Jak 3',
+    boxTop: 410,
+    boxWidth: 485,
+    boxHeight: 275,
+    nameSize: 28,
+    roleSize: 18.5,
+    wishSize: 21.5,
+    mbr5Size: 21,
+    eraseResidual: false,
+    targets: ['EMP-0262.jpg', 'adri_fauzan.jpg', 'nip_1991020080.jpg']
   }
 ];
 
 async function generateAll() {
   const outputDir = path.join('public', 'assets', 'f1_cards');
 
-  for (const item of CARDS) {
-    console.log(`Generating enlarged legible card for ${item.name}...`);
+  for (const item of CARDS_THIS_WEEK) {
+    console.log(`Generating card for ${item.name} (${item.tgl} - ${item.jabatan})...`);
     const cleanBaseBuffer = cp.execSync(`git show 4bf56a5:public/assets/f1_cards/${item.baseFile}`);
 
     const svgOverlay = createLegibleCardSvg(item);
@@ -160,7 +250,7 @@ async function generateAll() {
     }
   }
 
-  console.log('✅ Semua kartu resmi F1 berhasil diperbarui dengan font ekstra besar, jelas tanpa zoom, dan tidak menutupi tulisan HAPPY BIRTHDAY maupun tokoh!');
+  console.log('✅ Semua 10 kartu resmi untuk yang ultah minggu ini berhasil digenerate dengan jabatan & unit terbaru!');
 }
 
 generateAll();

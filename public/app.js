@@ -205,6 +205,7 @@ function parseGoogleSheetCsvClient(text) {
   let nameIdx = headerRow.findIndex(h => h.includes('nama'));
   let nipIdx = headerRow.findIndex(h => h.includes('nip'));
   let jabatanIdx = headerRow.findIndex(h => h.includes('jabatan') || h.includes('role') || h.includes('posisi'));
+  let unitIdx = headerRow.findIndex(h => h.includes('unit'));
   let tglIdx = headerRow.findIndex(h => h.includes('tgl') || h.includes('tanggal') || h.includes('lahir') || h.includes('birth'));
   let kartuIdx = headerRow.findIndex(h => h.includes('kartu') || h.includes('card') || h.includes('hasil') || h.includes('f1') || h === 'column 1');
   let fotoIdx = headerRow.findIndex(h => h.includes('foto') || h.includes('image') || h.includes('avatar') || h.includes('link'));
@@ -224,6 +225,7 @@ function parseGoogleSheetCsvClient(text) {
 
     const nip = nipIdx !== -1 ? (curRow[nipIdx] || '').trim() : '-';
     const jabatan = jabatanIdx !== -1 ? (curRow[jabatanIdx] || '').trim() : 'Pegawai';
+    const unit = unitIdx !== -1 ? (curRow[unitIdx] || '').trim() : '-';
     const tanggalLahir = tglIdx !== -1 ? (curRow[tglIdx] || '').trim() : '';
     const foto = fotoIdx !== -1 ? (curRow[fotoIdx] || '').trim() : '';
     const kartu = kartuIdx !== -1 ? (curRow[kartuIdx] || '').trim() : '';
@@ -239,6 +241,7 @@ function parseGoogleSheetCsvClient(text) {
         nama,
         nip: cleanNip,
         jabatan: jabatan || 'Pegawai',
+        unit: unit || '-',
         tanggalLahir: normalized,
         tahunLahir: tahun,
         foto: normalizeGoogleDriveUrl(foto),
