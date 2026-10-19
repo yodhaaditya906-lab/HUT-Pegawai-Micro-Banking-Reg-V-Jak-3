@@ -384,7 +384,10 @@ async function startStatusPolling() {
       } catch (_) {}
     }
 
-    setTimeout(poll, 15000);
+    // Adaptif polling: Cepat jika sedang menunggu scan QR / koneksi (2s), normal jika stabil (8s)
+    const isWaitingQR = state.waStatus && (state.waStatus.connectionStatus === 'qr' || state.waStatus.connectionStatus === 'connecting');
+    const nextInterval = isWaitingQR ? 2000 : 8000;
+    setTimeout(poll, nextInterval);
   };
   poll();
 
@@ -398,6 +401,36 @@ async function startStatusPolling() {
   window.addEventListener('focus', () => {
     fetchInitialData(true);
   });
+}
+
+async function checkWAStatusNow() {
+  try {
+    const res = await fetch('/api/status');
+    if (res.ok) {
+      const data = await res.json();
+      const prevStatus = state.waStatus.connectionStatus;
+      state.waStatus = data;
+      updateWAStatusUI();
+      if (data.connectionStatus === 'connected' && prevStatus !== 'connected' && prevStatus !== undefined) {
+        showToast('✅ WhatsApp Berhasil Terhubung!', 'success');
+      }
+      return data;
+    }
+  } catch (_) {}
+  return null;
+}
+
+let fastPollTimer = null;
+function startFastStatusPolling(durationMs = 45000) {
+  if (fastPollTimer) clearInterval(fastPollTimer);
+  const startTime = Date.now();
+  fastPollTimer = setInterval(async () => {
+    const data = await checkWAStatusNow();
+    if (!data || data.connectionStatus === 'connected' || (Date.now() - startTime > durationMs)) {
+      clearInterval(fastPollTimer);
+      fastPollTimer = null;
+    }
+  }, 1500);
 }
 
 function updateWAStatusUI() {
@@ -430,21 +463,39 @@ function updateWAStatusUI() {
   if (boxDot && boxText) {
     boxDot.className = `status-dot ${status}`;
     if (status === 'connected') {
-      boxText.innerHTML = `<strong>WhatsApp Terhubung!</strong> Pengingat otomatis aktif untuk nomor tujuan.`;
+      const phone = user?.id ? user.id.split(':')[0] : 'Aktif';
+      boxText.innerHTML = `<strong>WhatsApp Terhubung (+${phone})!</strong> Pengingat otomatis aktif untuk nomor tujuan.`;
       if (btnConnect) btnConnect.style.display = 'none';
       if (btnDisconnect) btnDisconnect.style.display = 'inline-flex';
       if (qrContainer) qrContainer.style.display = 'none';
     } else if (status === 'qr') {
-      boxText.innerHTML = `<strong>Menunggu Pemindaian QR Code:</strong> Buka WhatsApp di ponsel Anda.`;
-      if (btnConnect) btnConnect.style.display = 'none';
+      boxText.innerHTML = `<strong>Menunggu Pemindaian QR Code:</strong> Buka WhatsApp &gt; Perangkat Tertaut &gt; Tautkan Perangkat.`;
+      if (btnConnect) {
+        btnConnect.style.display = 'inline-flex';
+        btnConnect.disabled = false;
+        btnConnect.textContent = 'Muat Ulang QR';
+      }
       if (btnDisconnect) btnDisconnect.style.display = 'none';
       if (qrContainer) qrContainer.style.display = 'flex';
       if (qrImage && state.waStatus.qrCodeData) {
         qrImage.src = state.waStatus.qrCodeData;
       }
+    } else if (status === 'connecting') {
+      boxText.innerHTML = `<strong>Menghubungkan Server Baileys...</strong> Menyiapkan QR Code login.`;
+      if (btnConnect) {
+        btnConnect.style.display = 'inline-flex';
+        btnConnect.disabled = true;
+        btnConnect.innerHTML = `<span class="spinner-sm"></span> Menyiapkan QR...`;
+      }
+      if (btnDisconnect) btnDisconnect.style.display = 'none';
+      if (qrContainer) qrContainer.style.display = 'none';
     } else {
       boxText.innerHTML = `<strong>WhatsApp Belum Terhubung.</strong> Klik tombol di samping untuk memindai QR Code.`;
-      if (btnConnect) btnConnect.style.display = 'inline-flex';
+      if (btnConnect) {
+        btnConnect.style.display = 'inline-flex';
+        btnConnect.disabled = false;
+        btnConnect.textContent = 'Hubungkan WhatsApp';
+      }
       if (btnDisconnect) btnDisconnect.style.display = 'none';
       if (qrContainer) qrContainer.style.display = 'none';
     }
@@ -452,24 +503,42 @@ function updateWAStatusUI() {
 }
 
 async function connectWhatsApp() {
+  const btn = document.getElementById('btnConnectWA');
+  const boxText = document.getElementById('waBoxStatusText');
   try {
-    showToast('Menginisialisasi WhatsApp...', 'info');
-    const res = await fetch('/api/connect', { method: 'POST' });
-    const data = await res.json();
-    if (data.success) {
-      showToast(data.message || 'Silakan scan QR code jika diminta.', 'info');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-sm"></span> Menyiapkan QR...`;
     }
+    if (boxText) {
+      boxText.innerHTML = `<strong>Menghubungkan Server Baileys...</strong> Menyiapkan QR Code login.`;
+    }
+    showToast('Menginisialisasi WhatsApp... Mohon tunggu kode QR muncul.', 'info');
+    const res = await fetch('/api/connect?force=1', { method: 'POST' });
+    const data = await res.json();
+    
+    // Check status immediately and trigger fast polling
+    setTimeout(checkWAStatusNow, 600);
+    setTimeout(checkWAStatusNow, 1600);
+    startFastStatusPolling();
   } catch (err) {
     showToast('Gagal memulai koneksi: ' + err.message, 'danger');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Hubungkan WhatsApp';
+    }
   }
 }
 
 async function disconnectWhatsApp() {
-  if (!confirm('Apakah Anda yakin ingin memutuskan sesi WhatsApp?')) return;
+  if (!confirm('Apakah Anda yakin ingin memutuskan sesi WhatsApp? Anda perlu scan QR Code kembali nanti.')) return;
   try {
+    showToast('Memutuskan sesi WhatsApp...', 'info');
     const res = await fetch('/api/disconnect', { method: 'POST' });
     const data = await res.json();
     if (data.success) {
+      state.waStatus = { connectionStatus: 'disconnected', qrCodeData: null, connectedUser: null };
+      updateWAStatusUI();
       showToast('WhatsApp telah diputus.', 'info');
     }
   } catch (err) {
@@ -1504,15 +1573,15 @@ function downloadF1Card() {
 }
 
 function copyF1WhatsAppText() {
-  const nama = (state.f1Studio && state.f1Studio.nama) ? state.f1Studio.nama : 'Colleague';
+  const nama = (state.f1Studio && state.f1Studio.nama) ? state.f1Studio.nama : 'Rekan';
   const jabatan = (state.f1Studio && state.f1Studio.jabatan) ? state.f1Studio.jabatan : 'Micro Banking';
   
-  const text = `✨ *HAPPY BIRTHDAY* ✨\n\nDear *\u202A${nama}*\n(${jabatan} • Micro Banking Region V / Jakarta 3)\n\nWishing you continued health, happiness, and abundant success in your career and life.\n\nThank you for your dedicated service and outstanding contribution to Bank Mandiri.\n\n-MBR5-\n\n🏎️🏁 *Danantara x Mandiri F1 Official Edition*`;
+  const text = `✨ *SELAMAT ULANG TAHUN* ✨\n\nKepada Yth. Rekan *\u202A${nama}*\n(${jabatan} • Micro Banking Region V / Jakarta 3)\n\nSemoga senantiasa diberikan kesehatan, kebahagiaan, serta kesuksesan yang berlimpah dalam karir dan kehidupan.\n\nTerima kasih atas dedikasi dan kontribusi terbaik bagi Bank Mandiri.\n\n-MBR5-\n\n🏎️🏁 *Danantara x Mandiri F1 Official Edition*`;
 
   navigator.clipboard.writeText(text).then(() => {
-    showToast("English birthday message copied to clipboard!", "success");
+    showToast("Pesan ucapan WhatsApp berhasil disalin ke clipboard!", "success");
   }).catch(() => {
-    showToast("Failed to copy message", "error");
+    showToast("Gagal menyalin pesan", "error");
   });
 }
 

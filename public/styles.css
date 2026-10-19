@@ -2420,3 +2420,78 @@ body {
   border-radius: 4px;
   transition: width 0.3s ease;
 }
+
+/* WhatsApp Baileys QR Container Styling */
+.wa-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #FFFFFF;
+  border: 2px dashed #0284C7;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);
+  animation: fadeIn 0.3s ease;
+}
+
+.wa-qr-container h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  margin-bottom: 0.35rem;
+}
+
+.wa-qr-container p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  max-width: 420px;
+}
+
+.qr-image-wrapper {
+  background: #FFFFFF;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 0.85rem;
+  display: inline-block;
+}
+
+.qr-image-wrapper img {
+  width: 220px;
+  height: 220px;
+  display: block;
+  image-rendering: pixelated;
+  border-radius: 4px;
+}
+
+.wa-qr-container small {
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+
+.spinner-sm {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

@@ -88,9 +88,36 @@ function formatToJid(phone) {
   return `${cleaned}@s.whatsapp.net`;
 }
 
+function clearSessionDir() {
+  try {
+    if (fs.existsSync(SESSION_DIR)) {
+      fs.rmSync(SESSION_DIR, { recursive: true, force: true });
+      fs.mkdirSync(SESSION_DIR, { recursive: true });
+      console.log('[WA] Cleared Baileys auth session directory');
+    }
+  } catch (err) {
+    console.error('[WA] Error clearing auth session:', err.message);
+  }
+}
+
 // Initialize Baileys Socket
-async function initWhatsApp() {
-  if (isInitializing) return;
+async function initWhatsApp(forceFresh = false) {
+  if (isInitializing) {
+    console.log('[WA] Already initializing, ignoring duplicate call');
+    return;
+  }
+
+  if (forceFresh) {
+    console.log('[WA] Forcing fresh connection: clearing session credentials...');
+    if (sock) {
+      try {
+        sock.end(new Error('Force fresh login'));
+      } catch (_) {}
+      sock = null;
+    }
+    clearSessionDir();
+  }
+
   isInitializing = true;
   connectionStatus = 'connecting';
   qrCodeData = null;
@@ -113,22 +140,31 @@ async function initWhatsApp() {
       if (qr) {
         connectionStatus = 'qr';
         try {
-          qrCodeData = await QRCode.toDataURL(qr);
+          qrCodeData = await QRCode.toDataURL(qr, {
+            margin: 2,
+            width: 256,
+            color: { dark: '#002D5A', light: '#FFFFFF' }
+          });
+          console.log('[WA] QR Code generated successfully. Ready for scan in UI.');
         } catch (qrErr) {
-          console.error('Failed to generate QR code data URL:', qrErr);
+          console.error('[WA] Failed to generate QR code data URL:', qrErr);
         }
       }
 
       if (connection === 'close') {
         const statusCode = lastDisconnect?.error?.output?.statusCode;
-        const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+        const isLoggedOut = statusCode === DisconnectReason.loggedOut || statusCode === 401;
+        const shouldReconnect = !isLoggedOut;
         connectionStatus = 'disconnected';
         connectedUser = null;
         isInitializing = false;
         qrCodeData = null;
 
-        console.log(`WA connection closed (${statusCode}). Reconnecting: ${shouldReconnect}`);
-        if (shouldReconnect) {
+        console.log(`[WA] Connection closed (${statusCode}). Reconnecting: ${shouldReconnect}`);
+        if (isLoggedOut) {
+          console.log('[WA] Session logged out (401). Clearing auth_session directory so next connect gets fresh QR...');
+          clearSessionDir();
+        } else if (shouldReconnect) {
           setTimeout(() => initWhatsApp(), 5000);
         }
       } else if (connection === 'open') {
@@ -136,11 +172,11 @@ async function initWhatsApp() {
         connectedUser = sock.user;
         qrCodeData = null;
         isInitializing = false;
-        console.log(`WA Connected successfully as ${connectedUser?.id || 'User'}`);
+        console.log(`[WA] Connected successfully as ${connectedUser?.id || 'User'}`);
       }
     });
   } catch (err) {
-    console.error('Error initializing WhatsApp socket:', err);
+    console.error('[WA] Error initializing WhatsApp socket:', err);
     connectionStatus = 'disconnected';
     isInitializing = false;
   }
@@ -519,8 +555,10 @@ app.post('/api/connect', async (req, res) => {
     if (connectionStatus === 'connected') {
       return res.json({ success: true, message: 'WhatsApp sudah terhubung', connectionStatus });
     }
-    await initWhatsApp();
-    res.json({ success: true, message: 'Menginisialisasi koneksi WhatsApp...', connectionStatus });
+    // If disconnected or force requested, ensure stale creds do not block QR generation
+    const force = req.query.force === '1' || req.body?.force === true || connectionStatus === 'disconnected';
+    await initWhatsApp(force);
+    res.json({ success: true, message: 'Menginisialisasi WhatsApp... QR code akan muncul dalam beberapa detik.', connectionStatus });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -529,12 +567,36 @@ app.post('/api/connect', async (req, res) => {
 app.post('/api/disconnect', async (req, res) => {
   try {
     if (sock) {
-      await sock.logout();
-      connectionStatus = 'disconnected';
-      connectedUser = null;
-      qrCodeData = null;
+      try {
+        await sock.logout();
+      } catch (_) {
+        try { sock.end(); } catch (__) {}
+      }
+      sock = null;
     }
-    res.json({ success: true, message: 'WhatsApp berhasil diputus' });
+    clearSessionDir();
+    connectionStatus = 'disconnected';
+    connectedUser = null;
+    qrCodeData = null;
+    isInitializing = false;
+    res.json({ success: true, message: 'WhatsApp berhasil diputus dan sesi dibersihkan.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/reset-session', async (req, res) => {
+  try {
+    if (sock) {
+      try { sock.end(); } catch (_) {}
+      sock = null;
+    }
+    clearSessionDir();
+    connectionStatus = 'disconnected';
+    connectedUser = null;
+    qrCodeData = null;
+    isInitializing = false;
+    res.json({ success: true, message: 'Sesi WhatsApp berhasil direset. Silakan klik Hubungkan WhatsApp untuk scan QR baru.' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
