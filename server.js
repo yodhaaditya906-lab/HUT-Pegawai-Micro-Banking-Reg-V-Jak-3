@@ -692,14 +692,38 @@ app.delete('/api/employees/:id', (req, res) => {
   res.json({ success: true, employees });
 });
 
+// Calculate days remaining until next birthday from a reference date
+function getDaysUntilBirthday(tanggalLahir, refDate = new Date()) {
+  if (!tanggalLahir) return 999;
+  const parts = String(tanggalLahir).trim().split('/');
+  if (parts.length < 2) return 999;
+  const day = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  if (isNaN(day) || isNaN(month)) return 999;
+
+  const currentYear = refDate.getFullYear();
+  let bday = new Date(currentYear, month, day);
+  const ref = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
+  
+  if (bday < ref) {
+    bday = new Date(currentYear + 1, month, day);
+  }
+  const diffTime = bday - ref;
+  return Math.round(diffTime / (1000 * 60 * 60 * 24));
+}
+
 app.post('/api/send-test-alert', async (req, res) => {
   const config = readJson(CONFIG_FILE, {});
   const employees = readJson(EMPLOYEES_FILE, []);
 
-  const employee = req.body.employee || employees.find(e => e.tanggalLahir === '15/10') || employees[0];
+  const now = new Date();
+  const todayStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = `${String(tomorrow.getDate()).padStart(2, '0')}/${String(tomorrow.getMonth() + 1).padStart(2, '0')}`;
 
-  const category = req.body.category || 'HARI_H';
   const customRecipient = req.body.recipient;
+  const requestedCategory = req.body.category; // 'HARI_H', 'H_MINUS_1', 'ALL', or undefined
 
   const targets = customRecipient
     ? [{ name: 'Custom Test', phone: customRecipient, active: true }]
@@ -709,38 +733,95 @@ app.post('/api/send-test-alert', async (req, res) => {
     return res.status(400).json({ error: 'Tidak ada nomor WhatsApp tujuan yang aktif dalam konfigurasi.' });
   }
 
-  const alertMessage = buildRobotAlert(category, employee);
-  const results = [];
+  const itemsToSend = [];
 
-  for (const target of targets) {
-    try {
-      await sendWAMessage(target.phone, alertMessage);
-      results.push({ phone: target.phone, success: true });
-      dispatchLogs.unshift({
-        timestamp: new Date().toISOString(),
-        recipient: target.phone,
-        employee: employee.nama,
-        type: `TEST_${category}`,
-        status: 'SUCCESS'
-      });
-      await delay(1500);
-    } catch (err) {
-      results.push({ phone: target.phone, success: false, error: err.message });
-      dispatchLogs.unshift({
-        timestamp: new Date().toISOString(),
-        recipient: target.phone,
-        employee: employee.nama,
-        type: `TEST_${category}`,
-        status: 'FAILED',
-        error: err.message
-      });
+  if (req.body.employee) {
+    itemsToSend.push({
+      employee: req.body.employee,
+      category: requestedCategory || 'HARI_H'
+    });
+  } else {
+    const todayEmployees = employees.filter(e => e.tanggalLahir && e.tanggalLahir.startsWith(todayStr));
+    const tomorrowEmployees = employees.filter(e => e.tanggalLahir && e.tanggalLahir.startsWith(tomorrowStr));
+
+    if (requestedCategory === 'HARI_H') {
+      todayEmployees.forEach(emp => itemsToSend.push({ employee: emp, category: 'HARI_H' }));
+    } else if (requestedCategory === 'H_MINUS_1') {
+      tomorrowEmployees.forEach(emp => itemsToSend.push({ employee: emp, category: 'H_MINUS_1' }));
+    } else {
+      // Default: Kirim update untuk semua pegawai yang ultah HARI INI (Hari H) dan BESOK (H-1)
+      todayEmployees.forEach(emp => itemsToSend.push({ employee: emp, category: 'HARI_H' }));
+      tomorrowEmployees.forEach(emp => itemsToSend.push({ employee: emp, category: 'H_MINUS_1' }));
+    }
+
+    // Fallback dinamis: Jika hari ini dan besok tidak ada yang ultah, cari pegawai dengan ultah terdekat
+    if (itemsToSend.length === 0) {
+      const upcoming = employees
+        .filter(e => e.tanggalLahir && e.tanggalLahir.includes('/'))
+        .map(e => ({ emp: e, days: getDaysUntilBirthday(e.tanggalLahir, now) }))
+        .sort((a, b) => a.days - b.days);
+
+      if (upcoming.length > 0) {
+        const nextEmp = upcoming[0].emp;
+        const days = upcoming[0].days;
+        itemsToSend.push({
+          employee: nextEmp,
+          category: days === 1 ? 'H_MINUS_1' : 'HARI_H'
+        });
+      } else if (employees.length > 0) {
+        itemsToSend.push({
+          employee: employees[0],
+          category: 'HARI_H'
+        });
+      }
     }
   }
 
+  const results = [];
+  const sentSummary = [];
+
+  for (const item of itemsToSend) {
+    const alertMessage = buildRobotAlert(item.category, item.employee);
+    const catLabel = item.category === 'HARI_H' ? `Hari Ini (${item.employee.tanggalLahir})` : `Besok H-1 (${item.employee.tanggalLahir})`;
+    sentSummary.push(`${item.employee.nama} [${catLabel}]`);
+
+    for (const target of targets) {
+      try {
+        await sendWAMessage(target.phone, alertMessage);
+        results.push({ phone: target.phone, employee: item.employee.nama, category: item.category, success: true });
+        dispatchLogs.unshift({
+          timestamp: new Date().toISOString(),
+          recipient: target.phone,
+          employee: item.employee.nama,
+          type: `TEST_${item.category}`,
+          status: 'SUCCESS'
+        });
+        await delay(1500);
+      } catch (err) {
+        results.push({ phone: target.phone, employee: item.employee.nama, category: item.category, success: false, error: err.message });
+        dispatchLogs.unshift({
+          timestamp: new Date().toISOString(),
+          recipient: target.phone,
+          employee: item.employee.nama,
+          type: `TEST_${item.category}`,
+          status: 'FAILED',
+          error: err.message
+        });
+      }
+    }
+  }
+
+  const anySuccess = results.some(r => r.success);
+  const summaryText = sentSummary.join(' & ');
+
   res.json({
-    success: results.some(r => r.success),
-    results,
-    messagePreview: alertMessage
+    success: anySuccess,
+    countSent: itemsToSend.length,
+    sentSummary,
+    message: anySuccess
+      ? `Berhasil mengirim notifikasi untuk: ${summaryText}`
+      : `Gagal mengirim notifikasi ke target WhatsApp.`,
+    results
   });
 });
 

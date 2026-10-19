@@ -1980,20 +1980,20 @@ async function saveConfigToServer() {
   }
 }
 
-async function triggerTestRobotAlert() {
+async function triggerTestRobotAlert(category = 'ALL') {
   try {
-    showToast('Mengirimkan pesan uji coba notifikasi robot ke nomor tujuan...', 'info');
+    showToast('Mengirimkan notifikasi robot untuk pegawai yang ultah hari ini & besok...', 'info');
     const res = await fetch('/api/send-test-alert', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category: 'HARI_H' })
+      body: JSON.stringify({ category })
     });
     const data = await res.json();
     if (data.success) {
-      showToast('Pesan robot otomatis BERHASIL terkirim ke WhatsApp tujuan!', 'success');
+      showToast(data.message || 'Pesan robot otomatis BERHASIL terkirim ke WhatsApp tujuan!', 'success');
       fetchLogs();
     } else {
-      const msg = data.results?.map(r => `${r.phone}: ${r.error || 'Gagal'}`).join(', ') || 'Pengiriman gagal';
+      const msg = data.results?.map(r => `${r.phone}: ${r.error || 'Gagal'}`).join(', ') || data.error || 'Pengiriman gagal';
       showToast('Hasil kirim: ' + msg, 'warning');
     }
   } catch (err) {
