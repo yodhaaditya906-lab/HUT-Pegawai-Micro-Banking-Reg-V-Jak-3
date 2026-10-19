@@ -211,6 +211,7 @@ body {
 .status-dot.connected { background: var(--success); box-shadow: 0 0 8px var(--success); }
 .status-dot.qr { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
 .status-dot.disconnected { background: var(--danger); }
+.status-dot.static { background: #3B82F6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
 
 /* ==========================================================================
    BUTTONS

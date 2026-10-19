@@ -350,15 +350,22 @@ async function startStatusPolling() {
             await fetchInitialData();
             showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
           }
+          state.backendAvailable = true;
           if (data.lastSyncTime) prevSyncTime = data.lastSyncTime;
           backendAvailable = true;
         } else {
+          state.backendAvailable = false;
+          updateWAStatusUI();
           backendAvailable = false;
         }
       } else {
+        state.backendAvailable = false;
+        updateWAStatusUI();
         backendAvailable = false;
       }
     } catch (_) {
+      state.backendAvailable = false;
+      updateWAStatusUI();
       backendAvailable = false;
     }
 
@@ -461,6 +468,20 @@ function updateWAStatusUI() {
   }
 
   if (boxDot && boxText) {
+    if (state.backendAvailable === false && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      boxDot.className = 'status-dot static';
+      boxText.innerHTML = `<strong>Mode Netlify (Static Hosting):</strong> Data Google Sheet tersinkronisasi langsung. Bot Baileys WhatsApp otomatis berjalan melalui server lokal Anda (<a href="http://localhost:8083" target="_blank" style="color:#002B49;font-weight:700;text-decoration:underline;">Buka localhost:8083</a>).`;
+      if (btnConnect) {
+        btnConnect.style.display = 'inline-flex';
+        btnConnect.disabled = false;
+        btnConnect.textContent = 'Buka Server Lokal';
+        btnConnect.onclick = () => window.open('http://localhost:8083', '_blank');
+      }
+      if (btnDisconnect) btnDisconnect.style.display = 'none';
+      if (qrContainer) qrContainer.style.display = 'none';
+      return;
+    }
+
     boxDot.className = `status-dot ${status}`;
     if (status === 'connected') {
       const phone = user?.id ? user.id.split(':')[0] : 'Aktif';
@@ -503,6 +524,13 @@ function updateWAStatusUI() {
 }
 
 async function connectWhatsApp() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  if (!isLocal && state.backendAvailable === false) {
+    showToast('Layanan Bot WhatsApp Baileys berjalan di server lokal Node.js. Silakan buka http://localhost:8083.', 'warning');
+    window.open('http://localhost:8083', '_blank');
+    return;
+  }
+
   const btn = document.getElementById('btnConnectWA');
   const boxText = document.getElementById('waBoxStatusText');
   try {
@@ -515,6 +543,10 @@ async function connectWhatsApp() {
     }
     showToast('Menginisialisasi WhatsApp... Mohon tunggu kode QR muncul.', 'info');
     const res = await fetch('/api/connect?force=1', { method: 'POST' });
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      throw new Error('Server backend Node.js tidak aktif di domain ini. Silakan buka melalui http://localhost:8083');
+    }
     const data = await res.json();
     
     // Check status immediately and trigger fast polling
@@ -1988,6 +2020,11 @@ async function triggerTestRobotAlert(category = 'ALL') {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ category })
     });
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      showToast('Bot WhatsApp berjalan di server lokal Node.js. Buka http://localhost:8083 untuk melakukan uji coba kirim.', 'warning');
+      return;
+    }
     const data = await res.json();
     if (data.success) {
       showToast(data.message || 'Pesan robot otomatis BERHASIL terkirim ke WhatsApp tujuan!', 'success');
