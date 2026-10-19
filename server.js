@@ -18,6 +18,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8083;
 
+// Global process error handlers to prevent Baileys connection drops from crashing server
+process.on('uncaughtException', (err) => {
+  console.error('[SERVER UNCAUGHT]', err.message);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[SERVER UNHANDLED REJECTION]', reason?.message || reason);
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -111,7 +119,8 @@ async function initWhatsApp(forceFresh = false) {
     console.log('[WA] Forcing fresh connection: clearing session credentials...');
     if (sock) {
       try {
-        sock.end(new Error('Force fresh login'));
+        sock.ev?.removeAllListeners();
+        sock.ws?.close();
       } catch (_) {}
       sock = null;
     }
