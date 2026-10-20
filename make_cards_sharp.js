@@ -100,7 +100,12 @@ async function run() {
     'EMP-0003', // Rini
     'EMP-0110', // Subakti
     'EMP-0173', // Ernawati
-    'EMP-0259', // Qori'ah
+    'EMP-0259', // Qori'ah (legacy ID)
+    'EMP-0485', // Qori'ah Yanter
+    'EMP-0203', // SILVANA RAHMAWATI
+    'EMP-0126', // DEDY IMAM SETIAWAN
+    'EMP-0446', // FRAHESA OKTAFIA ROFAH
+    'EMP-0478', // DHARMAWAN INDRA WICAKSANA
     'EMP-0458', // Andina
     'EMP-0489'  // Prabowo
   ]);
