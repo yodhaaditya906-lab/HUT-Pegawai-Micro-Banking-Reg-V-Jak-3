@@ -172,6 +172,33 @@ function normalizeGoogleDriveUrl(url, highRes = false) {
   return url;
 }
 
+const CLIENT_CARD_OVERRIDES = {
+  "muhamad alpan buhori": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w1200",
+  "1893020033": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w1200",
+  "muhamad hary erlangga": "https://drive.google.com/thumbnail?id=1aPhqCh_QaNLtMf8xaweN5iqDWiM7w0rQ&sz=w1200",
+  "2193060059": "https://drive.google.com/thumbnail?id=1aPhqCh_QaNLtMf8xaweN5iqDWiM7w0rQ&sz=w1200",
+  "arifin parinduri": "https://drive.google.com/thumbnail?id=1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D&sz=w1200",
+  "1085401321": "https://drive.google.com/thumbnail?id=1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D&sz=w1200",
+  "adetya yandri": "https://drive.google.com/thumbnail?id=1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2&sz=w1200",
+  "1592585640": "https://drive.google.com/thumbnail?id=1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2&sz=w1200",
+  "adri fauzan": "https://drive.google.com/thumbnail?id=19noj3JJfVDNnfM2OZKvIePQWz7mS2icF&sz=w1200",
+  "1991020080": "https://drive.google.com/thumbnail?id=19noj3JJfVDNnfM2OZKvIePQWz7mS2icF&sz=w1200",
+  "anisah puspita sari": "https://drive.google.com/thumbnail?id=1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA&sz=w1200",
+  "2602491630": "https://drive.google.com/thumbnail?id=1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA&sz=w1200",
+  "dedy imam setiawan": "https://drive.google.com/thumbnail?id=1ZxBojw1O1zroB09irWLUN9bo3aesX13T&sz=w1200",
+  "1585583198": "https://drive.google.com/thumbnail?id=1ZxBojw1O1zroB09irWLUN9bo3aesX13T&sz=w1200",
+  "dharmawan indra wicaksana": "https://drive.google.com/thumbnail?id=11ffnIZgUfRJzp_Gh6_KntYc_xeABzbsq&sz=w1200",
+  "2502838089": "https://drive.google.com/thumbnail?id=11ffnIZgUfRJzp_Gh6_KntYc_xeABzbsq&sz=w1200",
+  "ernawati": "https://drive.google.com/thumbnail?id=1UdFSclrkb6GOggA2RP7tIb3-EPc_pqvz&sz=w1200",
+  "1288190083": "https://drive.google.com/thumbnail?id=1UdFSclrkb6GOggA2RP7tIb3-EPc_pqvz&sz=w1200",
+  "frahesa oktafia rofah": "https://drive.google.com/thumbnail?id=1XEW0Z8ybojMNxupnwLA9cegHuForOaWn&sz=w1200",
+  "2400819165": "https://drive.google.com/thumbnail?id=1XEW0Z8ybojMNxupnwLA9cegHuForOaWn&sz=w1200",
+  "qori ah yanter": "https://drive.google.com/thumbnail?id=1JeQsqKhOLgjVSEiAAwIx5eFfeScKkU8s&sz=w1200",
+  "2603894494": "https://drive.google.com/thumbnail?id=1JeQsqKhOLgjVSEiAAwIx5eFfeScKkU8s&sz=w1200",
+  "silvana rahmawati": "https://drive.google.com/thumbnail?id=1IE4PCy45WdSB-K8VFe7HTYgCji3ecdhJ&sz=w1200",
+  "1289453979": "https://drive.google.com/thumbnail?id=1IE4PCy45WdSB-K8VFe7HTYgCji3ecdhJ&sz=w1200"
+};
+
 function parseGoogleSheetCsvClient(text) {
   const lines = [];
   let row = [''];
@@ -236,6 +263,8 @@ function parseGoogleSheetCsvClient(text) {
     if (!seenKeys.has(dedupeKey)) {
       seenKeys.add(dedupeKey);
       const { normalized, tahun } = parseDateSpreadsheet(tanggalLahir);
+      const overrideKartu = CLIENT_CARD_OVERRIDES[nama.toLowerCase()] || (cleanNip !== '-' ? CLIENT_CARD_OVERRIDES[cleanNip] : '');
+      const finalKartu = kartu ? normalizeGoogleDriveUrl(kartu, true) : (overrideKartu || '');
       employees.push({
         id: `EMP-${String(counter++).padStart(4, '0')}`,
         nama,
@@ -245,7 +274,7 @@ function parseGoogleSheetCsvClient(text) {
         tanggalLahir: normalized,
         tahunLahir: tahun,
         foto: normalizeGoogleDriveUrl(foto),
-        kartu: kartu ? normalizeGoogleDriveUrl(kartu, true) : ''
+        kartu: finalKartu
       });
     }
   }
@@ -1696,7 +1725,8 @@ function getEmployeeCardCandidateUrls(emp) {
   if (!emp) return [];
   const nameSlug = (emp.nama || '').toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
 
-  let sheetCardUrl = emp.kartu || '';
+  const overrideKartu = CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] || (emp.nip && emp.nip !== '-' ? CLIENT_CARD_OVERRIDES[emp.nip] : '');
+  let sheetCardUrl = emp.kartu || overrideKartu || '';
   if (sheetCardUrl) {
     const match = sheetCardUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/) || sheetCardUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
     if (match) {
@@ -1705,13 +1735,13 @@ function getEmployeeCardCandidateUrls(emp) {
   }
 
   const list = [
-    `assets/f1_cards/${emp.id}.jpg`,
+    sheetCardUrl ? sheetCardUrl : null, // #1 TOP PRIORITY: Kartu langsung dari Google Drive thumbnail
     `assets/f1_cards/${emp.id}.png`,
-    nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
+    `assets/f1_cards/${emp.id}.jpg`,
     nameSlug ? `assets/f1_cards/${nameSlug}.png` : null,
+    nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
     emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null,
-    sheetCardUrl ? `/api/photo-proxy?url=${encodeURIComponent(sheetCardUrl)}` : null,
-    sheetCardUrl ? sheetCardUrl : null
+    sheetCardUrl ? `/api/photo-proxy?url=${encodeURIComponent(sheetCardUrl)}` : null
   ].filter(Boolean);
   return list;
 }
