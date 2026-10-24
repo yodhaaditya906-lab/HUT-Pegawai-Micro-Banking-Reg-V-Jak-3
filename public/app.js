@@ -334,9 +334,6 @@ async function fetchInitialData(forceSync = false) {
 }
 
 async function startStatusPolling() {
-  let prevSyncTime = null;
-  let backendAvailable = true;
-
   const poll = async () => {
     try {
       const res = await fetch('/api/status');
@@ -346,71 +343,26 @@ async function startStatusPolling() {
           const data = await res.json();
           state.waStatus = data;
           updateWAStatusUI();
-
-          // If backend auto-synced new data from Google Sheet, refresh client view automatically!
-          if (data.lastSyncTime && prevSyncTime && data.lastSyncTime !== prevSyncTime) {
-            console.log('🔄 Mendeteksi pembaruan data Google Sheet dari server, memperbarui tampilan...');
-            await fetchInitialData();
-            showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
-          }
           state.backendAvailable = true;
-          if (data.lastSyncTime) prevSyncTime = data.lastSyncTime;
-          backendAvailable = true;
         } else {
           state.backendAvailable = false;
           updateWAStatusUI();
-          backendAvailable = false;
         }
       } else {
         state.backendAvailable = false;
         updateWAStatusUI();
-        backendAvailable = false;
       }
     } catch (_) {
       state.backendAvailable = false;
       updateWAStatusUI();
-      backendAvailable = false;
     }
 
-    // Jika berjalan di Netlify (tanpa backend /api/status), lakukan auto-sync langsung ke Google Sheet setiap 30 detik
-    if (!backendAvailable) {
-      try {
-        const sheetUrl = (state.config && state.config.sheetUrl) ? state.config.sheetUrl : 'https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing';
-        const csvUrl = getGoogleSheetCsvExportUrl(sheetUrl);
-        const res = await fetch(csvUrl);
-        if (res.ok) {
-          const csvText = await res.text();
-          const parsed = parseGoogleSheetCsvClient(csvText);
-          if (parsed && parsed.employees.length !== state.employees.length) {
-            console.log('🔄 Mendeteksi data baru di Google Sheet (Netlify Mode)!');
-            state.employees = parsed.employees;
-            state.config.totalSheetRows = parsed.totalRawRows;
-            state.config.uniqueEmployees = parsed.employees.length;
-            updateRoleChipsCount();
-            renderAllViews();
-            showToast('Data otomatis diperbarui dari Google Sheet!', 'info');
-          }
-        }
-      } catch (_) {}
-    }
-
-    // Adaptif polling: Cepat jika sedang menunggu scan QR / koneksi (2s), normal jika stabil (8s)
+    // Adaptif polling status WhatsApp: Cepat jika sedang scan QR (2s), normal jika stabil (10s)
     const isWaitingQR = state.waStatus && (state.waStatus.connectionStatus === 'qr' || state.waStatus.connectionStatus === 'connecting');
-    const nextInterval = isWaitingQR ? 2000 : 8000;
+    const nextInterval = isWaitingQR ? 2000 : 10000;
     setTimeout(poll, nextInterval);
   };
   poll();
-
-  // Auto-refresh when user switches back to this browser tab after editing Google Sheets
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      fetchInitialData(true);
-    }
-  });
-
-  window.addEventListener('focus', () => {
-    fetchInitialData(true);
-  });
 }
 
 async function checkWAStatusNow() {
@@ -754,12 +706,7 @@ function updateMetrics() {
     kpiWeekSub.textContent = `Senin - Minggu (${monStr} - ${sunStr})`;
   }
   if (kpiTotalEmployees) {
-    const totalRaw = state.config && state.config.totalSheetRows ? state.config.totalSheetRows : state.employees.length;
-    if (totalRaw > state.employees.length) {
-      kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Unik`;
-    } else {
-      kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Terdaftar`;
-    }
+    kpiTotalEmployees.textContent = `${state.employees.length} Pegawai Micro`;
   }
   const kpiSourceSub = document.getElementById('kpiSourceSub');
   if (kpiSourceSub) {
@@ -1006,7 +953,9 @@ function renderAllViews() {
 // -------------------------------------------------------------
 function renderTimelineView() {
   const track = document.getElementById('timelineTrack');
+  const viewport = document.getElementById('timelineViewport');
   if (!track) return;
+  const prevScrollLeft = viewport ? viewport.scrollLeft : null;
 
   const filtered = getFilteredEmployees();
 
@@ -1062,6 +1011,9 @@ function renderTimelineView() {
   });
 
   track.innerHTML = html;
+  if (viewport && prevScrollLeft !== null && prevScrollLeft > 0) {
+    viewport.scrollLeft = prevScrollLeft;
+  }
 }
 
 function renderTimelineCardHtml(emp, type) {
@@ -1753,10 +1705,13 @@ function getEmployeeCardCandidateUrls(emp) {
   }
 
   const list = [
-    sheetCardUrl ? sheetCardUrl : null, // #1 TOP PRIORITY: Kartu langsung dari Google Sheet!
     `assets/f1_cards/${emp.id}.jpg`,
+    `assets/f1_cards/${emp.id}.png`,
     nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
-    emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null
+    nameSlug ? `assets/f1_cards/${nameSlug}.png` : null,
+    emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null,
+    sheetCardUrl ? `/api/photo-proxy?url=${encodeURIComponent(sheetCardUrl)}` : null,
+    sheetCardUrl ? sheetCardUrl : null
   ].filter(Boolean);
   return list;
 }
@@ -1886,7 +1841,7 @@ function renderCard() {
     ctx.textAlign = 'center';
     ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#67B2E8';
-    ctx.fillText("Memuat Kartu Ucapan F1 Resmi...", width / 2, height / 2);
+    ctx.fillText("Memuat Kartu Ucapan F1...", width / 2, height / 2);
 
     ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#94A3B8';

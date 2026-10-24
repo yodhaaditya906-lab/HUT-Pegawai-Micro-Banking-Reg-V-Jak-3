@@ -9,6 +9,6 @@ auth_session/
 npm-debug.log*
 yarn-debug.log*
 
-# System files
-.DS_Store
-Thumbs.db
+# Scratch intermediate files
+scratch_crops/
+scratch_downloaded_photos/

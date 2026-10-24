@@ -1,6 +1,6 @@
 {
   "sheetUrl": "https://docs.google.com/spreadsheets/d/1883s0pX5hiik7HticDe3TfrqqYv6K1KTsM2Q4EJS9kY/edit?usp=sharing",
-  "autoSync": true,
+  "autoSync": false,
   "syncIntervalMinutes": 30,
   "waAlertEnabled": true,
   "alertRecipients": [
@@ -24,7 +24,7 @@
   "h1AlertMinute": 0,
   "h0AlertHour": 7,
   "h0AlertMinute": 0,
-  "lastSyncTime": "2026-10-20T01:27:14.380Z",
+  "lastSyncTime": "2026-10-23T06:29:02.494Z",
   "canvaTemplateUrl": "https://www.canva.com",
   "totalSheetRows": 502,
   "uniqueEmployees": 493

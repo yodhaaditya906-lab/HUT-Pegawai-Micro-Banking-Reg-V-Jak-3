@@ -1,0 +1,36 @@
+{
+  "Arifin Parinduri": {
+    "empId": "EMP-0127",
+    "nip": "1085401321",
+    "driveId": "1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D",
+    "kartu": "https://drive.google.com/thumbnail?id=1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D&sz=w1200",
+    "driveUrl": "https://drive.google.com/file/d/1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D/view?usp=sharing",
+    "cardAsset": "assets/f1_cards/EMP-0127.jpg"
+  },
+  "ADETYA YANDRI": {
+    "empId": "EMP-0298",
+    "aliasIds": ["EMP-0360"],
+    "nip": "1592585640",
+    "driveId": "1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2",
+    "kartu": "https://drive.google.com/thumbnail?id=1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2&sz=w1200",
+    "driveUrl": "https://drive.google.com/file/d/1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2/view?usp=drive_link",
+    "cardAsset": "assets/f1_cards/EMP-0298.jpg"
+  },
+  "Adri Fauzan": {
+    "empId": "EMP-0262",
+    "aliasIds": ["EMP-0429"],
+    "nip": "1991020080",
+    "driveId": "19noj3JJfVDNnfM2OZKvIePQWz7mS2icF",
+    "kartu": "https://drive.google.com/thumbnail?id=19noj3JJfVDNnfM2OZKvIePQWz7mS2icF&sz=w1200",
+    "driveUrl": "https://drive.google.com/file/d/19noj3JJfVDNnfM2OZKvIePQWz7mS2icF/view?usp=drive_link",
+    "cardAsset": "assets/f1_cards/EMP-0262.jpg"
+  },
+  "Anisah Puspita Sari": {
+    "empId": "EMP-0479",
+    "nip": "2602491630",
+    "driveId": "1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA",
+    "kartu": "https://drive.google.com/thumbnail?id=1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA&sz=w1200",
+    "driveUrl": "https://drive.google.com/file/d/1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA/view?usp=drive_link",
+    "cardAsset": "assets/f1_cards/EMP-0479.jpg"
+  }
+}

@@ -437,6 +437,9 @@ function parseEmployeesCsv(csvText) {
   const worksheet = workbook.Sheets[firstSheetName];
   const rows = xlsx.utils.sheet_to_json(worksheet, { defval: '', raw: false });
 
+  const existingEmployees = readJson(EMPLOYEES_FILE, []);
+  const cardOverrides = readJson(path.join(DATA_DIR, 'card_overrides.json'), {});
+
   const result = [];
   const seenKeys = new Set();
   let counter = 1;
@@ -474,8 +477,26 @@ function parseEmployeesCsv(csvText) {
 
         const { normalized, tahun } = parseDate(tanggalLahir);
 
+        // Find existing emp to preserve kartu if sheet does not have it
+        const existingEmp = existingEmployees.find(e => 
+          (cleanNip !== '-' && e.nip === cleanNip) || 
+          (e.nama && e.nama.toLowerCase().trim() === nama.toLowerCase().trim())
+        );
+
+        // Check override registry
+        const override = cardOverrides[nama] || 
+          Object.values(cardOverrides).find(o => 
+            (cleanNip !== '-' && o.nip === cleanNip) || 
+            (o.empId && existingEmp && o.empId === existingEmp.id) ||
+            (o.nama && o.nama.toLowerCase().trim() === nama.toLowerCase().trim())
+          );
+
+        const finalKartu = kartu 
+          ? normalizeGoogleDriveUrl(kartu, true) 
+          : (override?.kartu || existingEmp?.kartu || '');
+
         result.push({
-          id: `EMP-${String(counter++).padStart(4, '0')}`,
+          id: existingEmp?.id || `EMP-${String(counter++).padStart(4, '0')}`,
           nama,
           nip: cleanNip,
           jabatan: jabatan || 'Pegawai',
@@ -483,7 +504,7 @@ function parseEmployeesCsv(csvText) {
           tanggalLahir: normalized,
           tahunLahir: tahun,
           foto: normalizeGoogleDriveUrl(foto),
-          kartu: kartu ? normalizeGoogleDriveUrl(kartu, true) : ''
+          kartu: finalKartu
         });
       }
     }
@@ -532,15 +553,7 @@ async function performGoogleSheetSync(force = false) {
   }
 }
 
-// Background polling for Google Sheets every 25 seconds
-setInterval(() => {
-  performGoogleSheetSync(false);
-}, 25000);
-
-// Perform initial sync check shortly after startup
-setTimeout(() => {
-  performGoogleSheetSync(false);
-}, 3000);
+// Note: Background auto-sync interval disabled as requested by user. Sync is performed manually via 'Sync Sheets' button (/api/sync-sheets).
 
 // API Routes
 
@@ -849,12 +862,12 @@ async function syncFromGoogleSheet() {
   }
 }
 
-// Interval Auto-Sync: Setiap 10 menit otomatis sinkronisasi dari Google Sheet di background
-setInterval(syncFromGoogleSheet, 10 * 60 * 1000);
-
-// Auto-sync Google Sheet on start if sheetUrl is present
+// Auto-sync Google Sheet on start ONLY if employee database is empty
 (async () => {
-  await syncFromGoogleSheet();
+  const currentEmps = readJson(EMPLOYEES_FILE, []);
+  if (!currentEmps || currentEmps.length === 0) {
+    await syncFromGoogleSheet();
+  }
 })();
 
 
@@ -938,7 +951,7 @@ app.post('/api/generate-f1-card', async (req, res) => {
     if (fs.existsSync(cardPath)) {
       return res.json({
         success: true,
-        message: 'Kartu AI resmi tersedia',
+        message: 'Kartu AI tersedia',
         cardUrl: `assets/f1_cards/${safeEmpId}.jpg?t=${Date.now()}`
       });
     }
