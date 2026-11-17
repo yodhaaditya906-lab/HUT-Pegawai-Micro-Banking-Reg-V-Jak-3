@@ -12,3 +12,5 @@ yarn-debug.log*
 # Scratch intermediate files
 scratch_crops/
 scratch_downloaded_photos/
+
+downloaded_from_netlify_alpan.jpg

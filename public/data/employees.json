@@ -34,14 +34,14 @@
   },
   {
     "id": "EMP-0004",
-    "nama": "M disemsi",
+    "nama": "M. Disemsi",
     "nip": "1687051271",
     "jabatan": "MM",
     "unit": "-",
     "tanggalLahir": "12/12",
     "tahunLahir": 1971,
     "foto": "https://drive.google.com/thumbnail?id=17acahLnclEGIC-moO2nYFy6xbisO6BDG&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1R5QznbaUw5BQN9heqxwtqgvQJWY57dpg&sz=w1200"
   },
   {
     "id": "EMP-0005",
@@ -56,7 +56,7 @@
   },
   {
     "id": "EMP-0006",
-    "nama": "Visnu giri wijaya",
+    "nama": "Visnu Giri W.",
     "nip": "772300071",
     "jabatan": "KM",
     "unit": "-",
@@ -67,7 +67,7 @@
   },
   {
     "id": "EMP-0007",
-    "nama": "Rini Nurul Hasanah",
+    "nama": "Rini Nurul H.",
     "nip": "9972033377",
     "jabatan": "MBCM",
     "unit": "Depok Tengah 1",
@@ -82,21 +82,21 @@
     "nip": "872100846",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/07",
+    "tanggalLahir": "07/04",
     "tahunLahir": 1972,
     "foto": "https://drive.google.com/thumbnail?id=1S6iXnF6p81Dn2nnvUi5Pek0F-wKWIG_V&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0009",
-    "nama": "Imron chaeruddin",
+    "nama": "Imron Chaeruddin",
     "nip": "772100203",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "17/11",
     "tahunLahir": 1972,
     "foto": "https://drive.google.com/thumbnail?id=1zqVB7yO3MjMFnrok2HbZ5qukC5P_Dimw&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1qzHFL_TEZsV5meHahTeyCpyxhg7nqF6x&sz=w1200"
   },
   {
     "id": "EMP-0010",
@@ -111,14 +111,14 @@
   },
   {
     "id": "EMP-0011",
-    "nama": "Sri Rahayu Musdalifah",
+    "nama": "Sri Rahayu M.",
     "nip": "9973026172",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Pasar Minggu 1",
-    "tanggalLahir": "12/11",
+    "tanggalLahir": "11/12",
     "tahunLahir": 1973,
     "foto": "https://drive.google.com/thumbnail?id=1ZS-Dug6fChh-kdwCY6SX3TNJeXtOZdJy&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1UPSiGIpQoYcbc1PSUuQE_MbL7dCVxjKv&sz=w1200"
   },
   {
     "id": "EMP-0012",
@@ -159,7 +159,7 @@
     "nip": "1374190115",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "09/08",
+    "tanggalLahir": "08/09",
     "tahunLahir": 1974,
     "foto": "https://drive.google.com/thumbnail?id=1cpMKnh_HDq-0Q2J1yju-b7wn-z8-g9pP&sz=w500",
     "kartu": ""
@@ -177,11 +177,11 @@
   },
   {
     "id": "EMP-0017",
-    "nama": "ALFA FARAH",
+    "nama": "Alfa Farah",
     "nip": "75173179",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Sawangan Sari Plaza 1",
-    "tanggalLahir": "07/02",
+    "tanggalLahir": "02/07",
     "tahunLahir": 1975,
     "foto": "https://drive.google.com/thumbnail?id=1ibMknrPOnUwZjIVjEh-q_1Wfy-S8TOYI&sz=w500",
     "kartu": ""
@@ -199,7 +199,7 @@
   },
   {
     "id": "EMP-0019",
-    "nama": "Reza, fauzy lubis",
+    "nama": "Reza, Fauzy L.",
     "nip": "Gigit",
     "jabatan": "MM",
     "unit": "-",
@@ -228,11 +228,11 @@
     "tanggalLahir": "12/12",
     "tahunLahir": 1975,
     "foto": "https://drive.google.com/thumbnail?id=1a677OrmCPTLrj5Sf--kODBt399wLmN7R&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1a0gTHK5M-OP8MH464bNMedXUSw9N1VfT&sz=w1200"
   },
   {
     "id": "EMP-0022",
-    "nama": "Noor Rizki Aulia",
+    "nama": "Noor Rizki A.",
     "nip": "75153908",
     "jabatan": "CAO",
     "unit": "Depok 1",
@@ -243,7 +243,7 @@
   },
   {
     "id": "EMP-0023",
-    "nama": "asfiya",
+    "nama": "Asfiya",
     "nip": "976400734",
     "jabatan": "CA",
     "unit": "-",
@@ -258,20 +258,9 @@
     "nip": "1176394328",
     "jabatan": "MBCM",
     "unit": "Cibinong City Center 1",
-    "tanggalLahir": "04/03",
+    "tanggalLahir": "03/04",
     "tahunLahir": 1976,
     "foto": "https://drive.google.com/thumbnail?id=1ni9lpN9_a59vWA5kIHcaH-G2WxjjHxio&sz=w500",
-    "kartu": ""
-  },
-  {
-    "id": "EMP-0024",
-    "nama": "Leonard Rido Butarbutar",
-    "nip": "1176394328",
-    "jabatan": "MBCM",
-    "unit": "Cibinong City Center 1",
-    "tanggalLahir": "04/03",
-    "tahunLahir": 1976,
-    "foto": "https://drive.google.com/thumbnail?id=1crauYn4Hsa8SJ0BAJZAF9KT3WgEcH2Gv&sz=w500",
     "kartu": ""
   },
   {
@@ -291,7 +280,7 @@
     "nip": "1076401302",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "07/12",
+    "tanggalLahir": "12/07",
     "tahunLahir": 1976,
     "foto": "https://drive.google.com/thumbnail?id=16N6U7BHWFHHplQBBe4HH4-5TrExCuw9i&sz=w500",
     "kartu": ""
@@ -309,7 +298,7 @@
   },
   {
     "id": "EMP-0029",
-    "nama": "Raden Mohamad Rizki Muslihat",
+    "nama": "Raden Mohamad R.M.",
     "nip": "1076355338",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Gunung Sindur 1",
@@ -331,7 +320,7 @@
   },
   {
     "id": "EMP-0031",
-    "nama": "Shanti utami",
+    "nama": "Shanti Utami",
     "nip": "177176492",
     "jabatan": "MBCM",
     "unit": "Jakarta Fatmawati 1",
@@ -353,7 +342,7 @@
   },
   {
     "id": "EMP-0033",
-    "nama": "Tomi Bagus Nugroho",
+    "nama": "Tomi Bagus N.",
     "nip": "1077401514",
     "jabatan": "KM",
     "unit": "-",
@@ -364,7 +353,7 @@
   },
   {
     "id": "EMP-0034",
-    "nama": "Abdul latif adnan",
+    "nama": "Abdul Latif A.",
     "nip": "1378190077",
     "jabatan": "SGP",
     "unit": "-",
@@ -379,18 +368,18 @@
     "nip": "1078389954",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Universitas Pancasila 1",
-    "tanggalLahir": "03/06",
+    "tanggalLahir": "06/03",
     "tahunLahir": 1978,
     "foto": "https://drive.google.com/thumbnail?id=1mONeRppXYoYtW9PzKLshVVtOrsM6gMAW&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0036",
-    "nama": "Hendra Saryono Hasugian",
+    "nama": "Hendra Saryono H.",
     "nip": "1378524623",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Gedung Patrajasa 1",
-    "tanggalLahir": "03/10",
+    "tanggalLahir": "10/03",
     "tahunLahir": 1978,
     "foto": "https://drive.google.com/thumbnail?id=1Ewx9ViF9dIamqcshDWhv6SkIywUi2QS0&sz=w500",
     "kartu": ""
@@ -430,7 +419,7 @@
   },
   {
     "id": "EMP-0040",
-    "nama": "HERDYANA",
+    "nama": "Herdyana",
     "nip": "1078201558",
     "jabatan": "SGP",
     "unit": "-",
@@ -441,7 +430,7 @@
   },
   {
     "id": "EMP-0041",
-    "nama": "RANO",
+    "nama": "Rano",
     "nip": "1678170877",
     "jabatan": "MM",
     "unit": "-",
@@ -456,14 +445,14 @@
     "nip": "1378190611",
     "jabatan": "KM",
     "unit": "-",
-    "tanggalLahir": "08/12",
+    "tanggalLahir": "12/08",
     "tahunLahir": 1978,
     "foto": "https://drive.google.com/thumbnail?id=17aU91i3Ulikf4BcEv1x11UAPIvPAHoIY&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0043",
-    "nama": "MICHAEL PURWANTO",
+    "nama": "Michael Purwanto",
     "nip": "1178401700",
     "jabatan": "MM",
     "unit": "-",
@@ -478,18 +467,18 @@
     "nip": "978900044",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "11/02",
+    "tanggalLahir": "02/11",
     "tahunLahir": 1978,
     "foto": "https://drive.google.com/thumbnail?id=1aIA9KfUQI7H0lwfZkT846lEgLwIdxpo3&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0045",
-    "nama": "PIPIN AL ARIF",
+    "nama": "Pipin Al A.",
     "nip": "879400004",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/05",
+    "tanggalLahir": "05/01",
     "tahunLahir": 1979,
     "foto": "https://drive.google.com/thumbnail?id=1oxgn-XA3oOJJNm0tThBXXq7Znt_0vAty&sz=w500",
     "kartu": ""
@@ -500,7 +489,7 @@
     "nip": "1279190089",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/05",
+    "tanggalLahir": "05/01",
     "tahunLahir": 1979,
     "foto": "https://drive.google.com/thumbnail?id=14P4fOSgylCX9J_ONXdbescobG5k2pBA-&sz=w500",
     "kartu": ""
@@ -518,18 +507,18 @@
   },
   {
     "id": "EMP-0048",
-    "nama": "Adhy Cahya Ghardiya Putra",
+    "nama": "Adhy Cahya G.P.",
     "nip": "1079376521",
     "jabatan": "MBCM",
     "unit": "Jakarta Tebet Supomo 1",
-    "tanggalLahir": "06/03",
+    "tanggalLahir": "03/06",
     "tahunLahir": 1979,
     "foto": "https://drive.google.com/thumbnail?id=1wuwHiHLm8yYkL6ta7zQfmfVuMy1WgqDV&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0049",
-    "nama": "Yudi suryadi",
+    "nama": "Yudi Suryadi",
     "nip": "1479190281",
     "jabatan": "SGP",
     "unit": "-",
@@ -540,11 +529,11 @@
   },
   {
     "id": "EMP-0050",
-    "nama": "Yosephus y kolibongso",
+    "nama": "Yosephus Y.K.",
     "nip": "1779170748",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "08/01",
+    "tanggalLahir": "01/08",
     "tahunLahir": 1979,
     "foto": "https://drive.google.com/thumbnail?id=1SIO6dk5tiWFAf84S488hVas4YcUQZsZd&sz=w500",
     "kartu": ""
@@ -562,7 +551,7 @@
   },
   {
     "id": "EMP-0052",
-    "nama": "DENDI HARYANTO",
+    "nama": "Dendi Haryanto",
     "nip": "1280190121",
     "jabatan": "SGP",
     "unit": "-",
@@ -573,11 +562,11 @@
   },
   {
     "id": "EMP-0053",
-    "nama": "Heri suhendar",
+    "nama": "Heri Suhendar",
     "nip": "1080201708",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "05/08",
+    "tanggalLahir": "08/05",
     "tahunLahir": 1980,
     "foto": "https://drive.google.com/thumbnail?id=1uP_u4oSpyD5pS-7vDX0wE6_k6k-D7AVp&sz=w500",
     "kartu": ""
@@ -606,7 +595,7 @@
   },
   {
     "id": "EMP-0056",
-    "nama": "RENDRA SUSALIT SETIADY",
+    "nama": "Rendra Susalit S.",
     "nip": "1080201305",
     "jabatan": "MM",
     "unit": "-",
@@ -617,7 +606,7 @@
   },
   {
     "id": "EMP-0057",
-    "nama": "Khaerul ahmad",
+    "nama": "Khaerul Ahmad",
     "nip": "1380190025",
     "jabatan": "SGP",
     "unit": "-",
@@ -643,18 +632,18 @@
     "nip": "480258326",
     "jabatan": "CAO",
     "unit": "Jakarta Gedung Bidakara 1",
-    "tanggalLahir": "12/05",
+    "tanggalLahir": "05/12",
     "tahunLahir": 1980,
     "foto": "https://drive.google.com/thumbnail?id=1DPk368YDgKnWSFMW9wz9vf2677ZnJUpJ&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1clBgjLe-hFix7z6zreZqjSIFQXiJkj05&sz=w1200"
   },
   {
     "id": "EMP-0060",
-    "nama": "Yanuar ibni",
+    "nama": "Yanuar Ibni",
     "nip": "1281449553",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Simprug 1",
-    "tanggalLahir": "01/12",
+    "tanggalLahir": "12/01",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=1CY7uc5v9VE4ZAd39MQtGs8Cp2i_wL_G2&sz=w500",
     "kartu": ""
@@ -665,7 +654,7 @@
     "nip": "1581060157",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/05",
+    "tanggalLahir": "05/02",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=11pe4wUEBLfPmvnNsFN7UTEdHFa-W6oHS&sz=w500",
     "kartu": ""
@@ -683,11 +672,11 @@
   },
   {
     "id": "EMP-0063",
-    "nama": "Ibnu hajar",
+    "nama": "Ibnu Hajar",
     "nip": "1481564748",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Lebak Bulus 1",
-    "tanggalLahir": "04/08",
+    "tanggalLahir": "08/04",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=1MsPd2OC-1Kj-rv2IB3oXnXT2NbEzlv-k&sz=w500",
     "kartu": ""
@@ -705,7 +694,7 @@
   },
   {
     "id": "EMP-0065",
-    "nama": "Agung setiawan",
+    "nama": "Agung Setiawan",
     "nip": "1081401527",
     "jabatan": "MM",
     "unit": "-",
@@ -716,18 +705,18 @@
   },
   {
     "id": "EMP-0066",
-    "nama": "Agustina Sri Indah Susanti",
+    "nama": "Agustina Sri I.S.",
     "nip": "1081363871",
     "jabatan": "CAO",
     "unit": "Jakarta Tebet Supomo 1",
-    "tanggalLahir": "08/03",
+    "tanggalLahir": "03/08",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=196yp1bngT4KBi8xXtuxC1AQ_A7HGUI7e&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0067",
-    "nama": "Fitra romadona",
+    "nama": "Fitra Romadona",
     "nip": "1381190452",
     "jabatan": "MM",
     "unit": "-",
@@ -738,7 +727,7 @@
   },
   {
     "id": "EMP-0068",
-    "nama": "RIKI DARIJKI",
+    "nama": "Riki Darijki",
     "nip": "1281190090",
     "jabatan": "SGP",
     "unit": "-",
@@ -749,7 +738,7 @@
   },
   {
     "id": "EMP-0069",
-    "nama": "SRI ASTUTI",
+    "nama": "Sri Astuti",
     "nip": "1581060025",
     "jabatan": "SGP",
     "unit": "-",
@@ -760,11 +749,11 @@
   },
   {
     "id": "EMP-0070",
-    "nama": "Diki krismanova",
+    "nama": "Diki Krismanova",
     "nip": "1181193086",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "11/02",
+    "tanggalLahir": "02/11",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=1nugY6WyBFhb5LOQT5s27EVUsKvAN0v4s&sz=w500",
     "kartu": ""
@@ -775,7 +764,7 @@
     "nip": "1481564763",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Cisalak 1",
-    "tanggalLahir": "11/06",
+    "tanggalLahir": "06/11",
     "tahunLahir": 1981,
     "foto": "[link removed]__i9_3Qbt/view?usp=drivesdk",
     "kartu": ""
@@ -786,10 +775,10 @@
     "nip": "781297114",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Bukit Cinere Gandul 1",
-    "tanggalLahir": "12/04",
+    "tanggalLahir": "04/12",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=1TVtqVivM-I3kT1Yq8up0FVsDNymWU5OF&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1ud5WKTRNeERltiUck2KFbtNavBkQnhEo&sz=w1200"
   },
   {
     "id": "EMP-0073",
@@ -797,14 +786,14 @@
     "nip": "581277506",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "-",
-    "tanggalLahir": "12/08",
+    "tanggalLahir": "08/12",
     "tahunLahir": 1981,
     "foto": "https://drive.google.com/thumbnail?id=1PnOzUJmfGIr5RPHpJsUxrxeRDGwfRwrs&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1V064ltH9OJsMOx-M3wangzHX7g932hTY&sz=w1200"
   },
   {
     "id": "EMP-0074",
-    "nama": "SRI UTAMI",
+    "nama": "Sri Utami",
     "nip": "1781668165",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Arteri Pondok Indah 1",
@@ -837,7 +826,7 @@
   },
   {
     "id": "EMP-0077",
-    "nama": "Angga bandara kusuma",
+    "nama": "Angga Bandara K.",
     "nip": "1382524601",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Pajajaran 1",
@@ -859,7 +848,7 @@
   },
   {
     "id": "EMP-0079",
-    "nama": "Ulman jaya",
+    "nama": "Ulman Jaya",
     "nip": "1582060469",
     "jabatan": "MM",
     "unit": "-",
@@ -881,7 +870,7 @@
   },
   {
     "id": "EMP-0081",
-    "nama": "Nina Ita Sembiring",
+    "nama": "Nina Ita S.",
     "nip": "1282449404",
     "jabatan": "MKA",
     "unit": "Jakarta Tebet Barat 1",
@@ -892,7 +881,7 @@
   },
   {
     "id": "EMP-0082",
-    "nama": "Epen haryadi",
+    "nama": "Epen Haryadi",
     "nip": "1182102582",
     "jabatan": "KM",
     "unit": "-",
@@ -907,7 +896,7 @@
     "nip": "1282445857",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta World Trade Center 1",
-    "tanggalLahir": "08/04",
+    "tanggalLahir": "04/08",
     "tahunLahir": 1982,
     "foto": "https://drive.google.com/thumbnail?id=16NnKpFl4baDE1LRYsL9TPJxh-Yuwlx_f&sz=w500",
     "kartu": ""
@@ -925,11 +914,11 @@
   },
   {
     "id": "EMP-0085",
-    "nama": "Abdul Maulana Sidik",
+    "nama": "Abdul Maulana S.",
     "nip": "1383190303",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/07",
+    "tanggalLahir": "07/01",
     "tahunLahir": 1983,
     "foto": "[link removed]_qzqJdM2QnKoXglPka9Ioeg/view?usp=drivesdk",
     "kartu": ""
@@ -958,7 +947,7 @@
   },
   {
     "id": "EMP-0088",
-    "nama": "Rahmat khumaidillah",
+    "nama": "Rahmat Khumaidillah",
     "nip": "1383190200",
     "jabatan": "KM",
     "unit": "-",
@@ -973,7 +962,7 @@
     "nip": "1083389940",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta M.T. Haryono 1",
-    "tanggalLahir": "06/04",
+    "tanggalLahir": "04/06",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1cwpSjfkK12w2LMqms2pUjby-wlmAacwZ&sz=w500",
     "kartu": ""
@@ -991,22 +980,22 @@
   },
   {
     "id": "EMP-0091",
-    "nama": "ILMAN SYAHID MUSLIM",
+    "nama": "Ilman Syahid M.",
     "nip": "1583060277",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "07/09",
+    "tanggalLahir": "09/07",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1Gn9cvQEV4w-DwaNG9dIb1w3LJzznyVHa&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0092",
-    "nama": "Mirwan haryadi",
+    "nama": "Mirwan Haryadi",
     "nip": "1283190147",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/09",
+    "tanggalLahir": "09/08",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1JkzNt1jdv0ZQKClRU9VQGkpspXJRRWpP&sz=w500",
     "kartu": ""
@@ -1024,7 +1013,7 @@
   },
   {
     "id": "EMP-0094",
-    "nama": "Aep saepudin",
+    "nama": "Aep Saepudin",
     "nip": "1083401290",
     "jabatan": "SGP",
     "unit": "-",
@@ -1039,18 +1028,18 @@
     "nip": "1283449353",
     "jabatan": "MKA",
     "unit": "Depok Timur 1",
-    "tanggalLahir": "09/02",
+    "tanggalLahir": "02/09",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=18jNARMmQycnj44tUmu0OQhc-LDzYmxlE&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0096",
-    "nama": "FAELANI FAHMI",
+    "nama": "Faelani Fahmi",
     "nip": "1083360214",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Cileungsi 1",
-    "tanggalLahir": "09/10",
+    "tanggalLahir": "10/09",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1La0wH4cGluLRmChrQ608yWuF1fr5CqiV&sz=w500",
     "kartu": ""
@@ -1068,25 +1057,25 @@
   },
   {
     "id": "EMP-0098",
-    "nama": "HENDRY MAULANA",
+    "nama": "Hendry Maulana",
     "nip": "1483190377",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/06",
+    "tanggalLahir": "06/12",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1GQhEgmhIMrAZ41hDrvWEyG6wjXFNh-rx&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=120FQkUB1foveA4iNXSscDaA8bbDTDSoD&sz=w1200"
   },
   {
     "id": "EMP-0099",
-    "nama": "YEPI HERMAWAN",
+    "nama": "Yepi Hermawan",
     "nip": "1183193120",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/10",
+    "tanggalLahir": "10/12",
     "tahunLahir": 1983,
     "foto": "https://drive.google.com/thumbnail?id=1TwHaoDihUq6d_djMFVjcf9twUWVuk0d6&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1b5tEecNiVxttAu8VuDS-dTwYfYk8yGgm&sz=w1200"
   },
   {
     "id": "EMP-0100",
@@ -1094,14 +1083,14 @@
     "nip": "1184409365",
     "jabatan": "MKA",
     "unit": "Depok Citayam 1",
-    "tanggalLahir": "02/06",
+    "tanggalLahir": "06/02",
     "tahunLahir": 1984,
     "foto": "https://drive.google.com/thumbnail?id=1RV3NODclc4R7yjVXmoQ4hTUPRoEqK8IB&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0101",
-    "nama": "Zul Azizah Rianti",
+    "nama": "Zul Azizah R.",
     "nip": "1084355403",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Cilandak Barat 1",
@@ -1123,18 +1112,18 @@
   },
   {
     "id": "EMP-0103",
-    "nama": "Wawan setiawan",
+    "nama": "Wawan Setiawan",
     "nip": "1784171478",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/03",
+    "tanggalLahir": "03/05",
     "tahunLahir": 1984,
     "foto": "https://drive.google.com/thumbnail?id=1sKTuBSybE68iuNkxW3trCL9FvZ3rj2iG&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0104",
-    "nama": "Yudha setia permana",
+    "nama": "Yudha Setia P.",
     "nip": "1784171187",
     "jabatan": "MM",
     "unit": "-",
@@ -1156,7 +1145,7 @@
   },
   {
     "id": "EMP-0106",
-    "nama": "GAGAK MAS CITRA PRAJASA AGUSTIN",
+    "nama": "Gagak Mas C.P.A.",
     "nip": "1184190047",
     "jabatan": "SGP",
     "unit": "-",
@@ -1167,11 +1156,11 @@
   },
   {
     "id": "EMP-0107",
-    "nama": "FANI DWI PRASETYA",
+    "nama": "Fani Dwi P.",
     "nip": "1284457546",
     "jabatan": "MBCM",
     "unit": "Jakarta Gedung Bidakara 1",
-    "tanggalLahir": "09/01",
+    "tanggalLahir": "01/09",
     "tahunLahir": 1984,
     "foto": "https://drive.google.com/thumbnail?id=1vZMG_8k6WM4JE8UmAHUCpTsPEs6DGmsS&sz=w500",
     "kartu": ""
@@ -1189,7 +1178,7 @@
   },
   {
     "id": "EMP-0109",
-    "nama": "Andina Rezana Mandasari",
+    "nama": "Andina Rezana M.",
     "nip": "1284449196",
     "jabatan": "MKA",
     "unit": "Bogor Warung Jambu 1",
@@ -1200,7 +1189,7 @@
   },
   {
     "id": "EMP-0110",
-    "nama": "Andrie pamungkas",
+    "nama": "Andrie Pamungkas",
     "nip": "1784171226",
     "jabatan": "MM",
     "unit": "-",
@@ -1211,18 +1200,18 @@
   },
   {
     "id": "EMP-0111",
-    "nama": "Arief nurohman",
+    "nama": "Arief Nurohman",
     "nip": "1584060820",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "12/09",
+    "tanggalLahir": "09/12",
     "tahunLahir": 1984,
     "foto": "https://drive.google.com/thumbnail?id=1GIJfoy4CFj2BeLK5HqcYIh5EDXcichKe&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1qnI6GQKGnZb6MDU3LxhgY5MdZC-ZJX7x&sz=w1200"
   },
   {
     "id": "EMP-0112",
-    "nama": "JAKA DARMA",
+    "nama": "Jaka Darma",
     "nip": "785294182",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Gunung Putri 1",
@@ -1233,11 +1222,11 @@
   },
   {
     "id": "EMP-0113",
-    "nama": "ago jaya sasmita",
+    "nama": "Ago Jaya S.",
     "nip": "1685171086⁰/",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/06",
+    "tanggalLahir": "06/02",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1Z42JKBkybjy4xJVxrqNJJOpOoa4npWh-&sz=w500",
     "kartu": ""
@@ -1248,25 +1237,25 @@
     "nip": "1785171937",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "03/07",
+    "tanggalLahir": "07/03",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1D2J8GryyQ3kMKWMCmhMZciBO06dXDL8P&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0115",
-    "nama": "DEDI SUPRIADI",
+    "nama": "Dedi Supriadi",
     "nip": "1185193011",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "03/10",
+    "tanggalLahir": "10/03",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1beJFRLj6Tpit7O-LtZQX5c8np4zaXcbi&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0116",
-    "nama": "Oliva Roma Sinaga",
+    "nama": "Oliva Roma S.",
     "nip": "1085389856",
     "jabatan": "MKA",
     "unit": "Dramaga 1",
@@ -1277,11 +1266,11 @@
   },
   {
     "id": "EMP-0117",
-    "nama": "BUDY PRIANDI",
+    "nama": "Budy Priandi",
     "nip": "1685171205",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/07",
+    "tanggalLahir": "07/05",
     "tahunLahir": 1985,
     "foto": "[link removed]__/view?usp=drivesdk",
     "kartu": ""
@@ -1310,7 +1299,7 @@
   },
   {
     "id": "EMP-0120",
-    "nama": "Pudji rahmadhan",
+    "nama": "Pudji Rahmadhan",
     "nip": "1485190070",
     "jabatan": "SGP",
     "unit": "-",
@@ -1358,25 +1347,25 @@
     "nip": "1085389823",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Juanda 1",
-    "tanggalLahir": "08/07",
+    "tanggalLahir": "07/08",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1-lMFDNtW1GCGUYIuccQGeZ_dx3zsAAfW&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0125",
-    "nama": "Heriy Agus setiawan",
+    "nama": "Heriy Agus S.",
     "nip": "1785172218",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/10",
+    "tanggalLahir": "10/08",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1kJIwKhMyfqYqpJC9pgQaaH1fWQtTeiCR&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0126",
-    "nama": "DEDY IMAM SETIAWAN",
+    "nama": "Dedy Imam S.",
     "nip": "1585583198",
     "jabatan": "MBM",
     "unit": "Jakarta Saharjo 1",
@@ -1398,7 +1387,7 @@
   },
   {
     "id": "EMP-0128",
-    "nama": "Zainal tarmuji",
+    "nama": "Zainal Tarmuji",
     "nip": "1585060654",
     "jabatan": "SGP",
     "unit": "-",
@@ -1413,32 +1402,32 @@
     "nip": "1085381663",
     "jabatan": "MBCM",
     "unit": "Bogor Juanda 1",
-    "tanggalLahir": "11/08",
+    "tanggalLahir": "08/11",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1AVvBUF67e_9poAArTlBj14xSD7B3ZPat&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0130",
-    "nama": "Fandi Ahmaf Yani",
+    "nama": "Fandi Ahmaf Y.",
     "nip": "1085374072",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Cinere 1",
     "tanggalLahir": "17/11",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1U1TjonNZUBgp4nIy9eSrwF-4dZVGdlbX&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1KamKBrkShnsezTCYFAr1Laoh8Q1zzBW1&sz=w1200"
   },
   {
     "id": "EMP-0131",
-    "nama": "Ricky setiawan",
+    "nama": "Ricky Setiawan",
     "nip": "1084201802",
     "jabatan": "KM",
     "unit": "-",
-    "tanggalLahir": "12/11",
+    "tanggalLahir": "11/12",
     "tahunLahir": 1985,
     "foto": "https://drive.google.com/thumbnail?id=1Dsr0yW5-OGJN3eki-9dzMNhkVgeadklG&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1nLmY-dKJ0PGtlYoQRCThabDk067hcdyO&sz=w1200"
   },
   {
     "id": "EMP-0132",
@@ -1453,7 +1442,7 @@
   },
   {
     "id": "EMP-0133",
-    "nama": "Mochamad Nur Sahib",
+    "nama": "Mochamad Nur S.",
     "nip": "1986712487",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Sentul City 1",
@@ -1464,7 +1453,7 @@
   },
   {
     "id": "EMP-0134",
-    "nama": "Riki budiman",
+    "nama": "Riki Budiman",
     "nip": "1186193056",
     "jabatan": "SGP",
     "unit": "-",
@@ -1479,25 +1468,25 @@
     "nip": "1486190029",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/04",
+    "tanggalLahir": "04/02",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1lPG1O4aTtWmooVjoTZf7afPU73p_rHkS&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0136",
-    "nama": "Arfian Kusumayanto Wibowo",
+    "nama": "Arfian Kusumayanto W.",
     "nip": "986337475",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Tendean 1",
-    "tanggalLahir": "03/11",
+    "tanggalLahir": "11/03",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1HLQeAUzAln9dYidorV1npEgvHb8Kr0h6&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0137",
-    "nama": "Adi saptono",
+    "nama": "Adi Saptono",
     "nip": "1183041784",
     "jabatan": "SGP",
     "unit": "-",
@@ -1508,7 +1497,7 @@
   },
   {
     "id": "EMP-0138",
-    "nama": "Adi Sofyana Latif",
+    "nama": "Adi Sofyana L.",
     "nip": "1286458963",
     "jabatan": "MKA",
     "unit": "Jakarta Arteri Pondok Indah 1",
@@ -1519,7 +1508,7 @@
   },
   {
     "id": "EMP-0139",
-    "nama": "Arif kurnia",
+    "nama": "Arif Kurnia",
     "nip": "1886190069",
     "jabatan": "MM",
     "unit": "-",
@@ -1530,11 +1519,11 @@
   },
   {
     "id": "EMP-0140",
-    "nama": "BHARATA HARRYPUTRO PRIBADI",
+    "nama": "Bharata Harryputro P.",
     "nip": "1086358207",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Citeureup 1",
-    "tanggalLahir": "06/02",
+    "tanggalLahir": "02/06",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=162EedPumDrFYgT1QEWA14AlZqL_vFqK6&sz=w500",
     "kartu": ""
@@ -1545,25 +1534,25 @@
     "nip": "1786170508",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/12",
+    "tanggalLahir": "12/06",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1bbMi-1GzsH5zKqbIfswd084seDUKD1tY&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0142",
-    "nama": "yuliantini mahesawati",
+    "nama": "Yuliantini Mahesawati",
     "nip": "1286454004",
     "jabatan": "MKA",
     "unit": "Jakarta Simprug 1",
-    "tanggalLahir": "07/09",
+    "tanggalLahir": "09/07",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=19euemvyLfwt0Vjm5729kc1-m9U9hZvi2&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0143",
-    "nama": "Ahmad nuroni",
+    "nama": "Ahmad Nuroni",
     "nip": "1986060564",
     "jabatan": "SGP",
     "unit": "-",
@@ -1578,14 +1567,14 @@
     "nip": "1186409355",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Meruyung 1",
-    "tanggalLahir": "09/02",
+    "tanggalLahir": "02/09",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1il1_okA8PWcy5_rDdY_5blHJ38UsRRxi&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0145",
-    "nama": "NASRULLOH",
+    "nama": "Nasrulloh",
     "nip": "1986020074",
     "jabatan": "SGP",
     "unit": "-",
@@ -1596,7 +1585,7 @@
   },
   {
     "id": "EMP-0146",
-    "nama": "Irsyahbayu Akmal Hardono",
+    "nama": "Irsyahbayu Akmal H.",
     "nip": "1186404620",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Dramaga 1",
@@ -1611,7 +1600,7 @@
     "nip": "1586587354",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok 1",
-    "tanggalLahir": "10/04",
+    "tanggalLahir": "04/10",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1NuXSty0JeNbap30SVjvRcBOG9oAIOh3R&sz=w500",
     "kartu": ""
@@ -1625,11 +1614,11 @@
     "tanggalLahir": "19/11",
     "tahunLahir": 1986,
     "foto": "https://drive.google.com/thumbnail?id=1KbvrKSXtO9gZB7MjHEONyywDa_xlYAri&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=11HO1uBqEVFmZk3IE4G_7Olk8W1fB40xG&sz=w1200"
   },
   {
     "id": "EMP-0149",
-    "nama": "Dewanto Galih Pratomo",
+    "nama": "Dewanto Galih P.",
     "nip": "986332179",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Pakubuwono 1",
@@ -1640,7 +1629,7 @@
   },
   {
     "id": "EMP-0150",
-    "nama": "Andri febi mulyadi",
+    "nama": "Andri Febi M.",
     "nip": "1887020381",
     "jabatan": "SGP",
     "unit": "-",
@@ -1655,14 +1644,14 @@
     "nip": "1287453997",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Kampus IPB Darmaga 1",
-    "tanggalLahir": "03/09",
+    "tanggalLahir": "09/03",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1-WfoJXqyd7lSBP7KbH4sNnxvwiAyrOB9&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0152",
-    "nama": "Muhammad ramdonny",
+    "nama": "Muhammad Ramdonny",
     "nip": "1388190378",
     "jabatan": "SGP",
     "unit": "-",
@@ -1677,7 +1666,7 @@
     "nip": "1487190022",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/05",
+    "tanggalLahir": "05/04",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1V95RN87TcCE13hD5gkHJ7DtFywPSInpU&sz=w500",
     "kartu": ""
@@ -1688,7 +1677,7 @@
     "nip": "1987726726",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Tebet Supomo 1",
-    "tanggalLahir": "04/08",
+    "tanggalLahir": "08/04",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1HEPqN2qVMBYMej6w877ZmXywvO96K0lg&sz=w500",
     "kartu": ""
@@ -1699,18 +1688,18 @@
     "nip": "1587060645",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/08",
+    "tanggalLahir": "08/04",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=183RHEx4n6yF5UqhCtFexUU2FuF5lpgsH&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0156",
-    "nama": "Budi tanoto",
+    "nama": "Budi Tanoto",
     "nip": "2097060376",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/07",
+    "tanggalLahir": "07/05",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1MQoqg-IBel2DXndsUIzREuqKfQkqwjPA&sz=w500",
     "kartu": ""
@@ -1728,29 +1717,29 @@
   },
   {
     "id": "EMP-0158",
-    "nama": "AZANG AKMAL",
+    "nama": "Azang Akmal",
     "nip": "1187193183",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/07",
+    "tanggalLahir": "07/06",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1VX90_DFknCqO6MjLlGIB5XzYW84VtLbl&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0159",
-    "nama": "Y SONNY SULAKSONO",
+    "nama": "Y Sonny S.",
     "nip": "1187041818",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "06/12",
+    "tanggalLahir": "12/06",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1Kdf9vHW6vc_iTKrapC8Db4LGG1BI-uSe&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0160",
-    "nama": "Muhamad Gilang Kurniawan",
+    "nama": "Muhamad Gilang K.",
     "nip": "1287453914",
     "jabatan": "MKA",
     "unit": "Jakarta Cilandak Barat 1",
@@ -1761,7 +1750,7 @@
   },
   {
     "id": "EMP-0161",
-    "nama": "AGRY DWIPUTRA",
+    "nama": "Agry Dwiputra",
     "nip": "1087352092",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Pondok Pinang Center 1",
@@ -1776,25 +1765,25 @@
     "nip": "1387523749",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Ciluar 1",
-    "tanggalLahir": "11/01",
+    "tanggalLahir": "01/11",
     "tahunLahir": 1987,
     "foto": "https://drive.google.com/thumbnail?id=1lf-WhRj43CjVlL8W_3IcpgQ2q0w944A7&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0163",
-    "nama": "Yunus bayu saputro",
+    "nama": "Yunus Bayu S.",
     "nip": "1288190130",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/06",
+    "tanggalLahir": "06/02",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1lyM9XplXZ5Vv4_19f9K6cvCaI5uWRj3P&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0164",
-    "nama": "LIANTY FEBRIANA",
+    "nama": "Lianty Febriana",
     "nip": "1288449374",
     "jabatan": "MKA",
     "unit": "Jakarta Mayestik 1",
@@ -1805,7 +1794,7 @@
   },
   {
     "id": "EMP-0165",
-    "nama": "DICKY IKHSANUDDIN",
+    "nama": "Dicky Ikhsanuddin",
     "nip": "1888020228",
     "jabatan": "SGP",
     "unit": "-",
@@ -1816,11 +1805,11 @@
   },
   {
     "id": "EMP-0166",
-    "nama": "Fatimah Ramadhini Putri",
+    "nama": "Fatimah Ramadhini P.",
     "nip": "1288449309",
     "jabatan": "MKA",
     "unit": "Depok Cisalak 1",
-    "tanggalLahir": "05/04",
+    "tanggalLahir": "04/05",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=19arf5E-OBD2htIjad-8JiJyCsRtNVEm1&sz=w500",
     "kartu": ""
@@ -1838,7 +1827,7 @@
   },
   {
     "id": "EMP-0168",
-    "nama": "Dendi darmawan",
+    "nama": "Dendi Darmawan",
     "nip": "2088020027",
     "jabatan": "SGP",
     "unit": "-",
@@ -1853,14 +1842,14 @@
     "nip": "1688171791",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/02",
+    "tanggalLahir": "02/06",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1H2uimkdsL_gqFS97vNN6Pg6_GMkUyaVK&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0170",
-    "nama": "mochamad fauzi",
+    "nama": "Mochamad Fauzi",
     "nip": "1688170619",
     "jabatan": "KM",
     "unit": "-",
@@ -1897,7 +1886,7 @@
     "nip": "1888686011",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Radio Dalam 1",
-    "tanggalLahir": "08/02",
+    "tanggalLahir": "02/08",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1p084iGQt0fIaGamNsApBFpR6TJLCN6Ku&sz=w500",
     "kartu": ""
@@ -1908,14 +1897,14 @@
     "nip": "1588060244",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/11",
+    "tanggalLahir": "11/08",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1MMSLY585JToW_Mu9-8AOp8k6McSd8ag3&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0175",
-    "nama": "Rajullah Dur Putra Gulo",
+    "nama": "Rajullah Dur P.G.",
     "nip": "2388031926",
     "jabatan": "MM",
     "unit": "-",
@@ -1926,7 +1915,7 @@
   },
   {
     "id": "EMP-0176",
-    "nama": "AYU TRI MUHAROMAH",
+    "nama": "Ayu Tri M.",
     "nip": "1388190251",
     "jabatan": "SGP",
     "unit": "-",
@@ -1937,11 +1926,11 @@
   },
   {
     "id": "EMP-0177",
-    "nama": "Firman Dwi Putra",
+    "nama": "Firman Dwi P.",
     "nip": "1188427181",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Mayestik 1",
-    "tanggalLahir": "09/06",
+    "tanggalLahir": "06/09",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1gZAj8DJjyeapNiDdSBNDygS9H3uuwZMB&sz=w500",
     "kartu": ""
@@ -1970,25 +1959,25 @@
   },
   {
     "id": "EMP-0180",
-    "nama": "Novie Intan Purnamawati",
+    "nama": "Novie Intan P.",
     "nip": "1188402200",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Pekapuran 1",
-    "tanggalLahir": "11/10",
+    "tanggalLahir": "10/11",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1GZjjAT_ewfJMZ4qy_UumoYBCk78WvS9_&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0181",
-    "nama": "Boy Triandi Irawan",
+    "nama": "Boy Triandi I.",
     "nip": "1388190588",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "23/11",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1L1LUsUrDZ4f_U6UAI3Gv1pmDqUFz3BWI&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1OuLj2pHOFKSX8k1Xv2ILo3n4-axzuJ3d&sz=w1200"
   },
   {
     "id": "EMP-0182",
@@ -1996,10 +1985,10 @@
     "nip": "1788171472",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/02",
+    "tanggalLahir": "02/12",
     "tahunLahir": 1988,
     "foto": "https://drive.google.com/thumbnail?id=1bwu1oUJAtLXNN7H1aTbMp30E7hX24Mvd&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1DfOj01SQ7Htn4_QTna5EE_YMroHBDz2o&sz=w1200"
   },
   {
     "id": "EMP-0183",
@@ -2014,7 +2003,7 @@
   },
   {
     "id": "EMP-0184",
-    "nama": "NIKO BIMANTORO PUTRO",
+    "nama": "Niko Bimantoro P.",
     "nip": "1388519795",
     "jabatan": "MKA",
     "unit": "Depok Kelapa Dua 2",
@@ -2025,22 +2014,22 @@
   },
   {
     "id": "EMP-0185",
-    "nama": "RATNA SARI",
+    "nama": "Ratna Sari",
     "nip": "1289453953",
     "jabatan": "MKA",
     "unit": "Jakarta Pakubuwono 1",
-    "tanggalLahir": "01/10",
+    "tanggalLahir": "10/01",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1jhBggAl7GsKOlXDpi4uEYjPtQKaWUHvJ&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0186",
-    "nama": "Tagor Bungaran Siraja Oloan",
+    "nama": "Tagor Bungaran S.O.",
     "nip": "2489030395",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/09",
+    "tanggalLahir": "09/02",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1IZXpgDNZ8chM1rtvDU1hEhO3WrZm5mXK&sz=w500",
     "kartu": ""
@@ -2058,11 +2047,11 @@
   },
   {
     "id": "EMP-0188",
-    "nama": "Edo William Saputra",
+    "nama": "Edo William S.",
     "nip": "1389190101",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/09",
+    "tanggalLahir": "09/04",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1Por55uB4gxnXpcj_UwR42huptTWG8wdM&sz=w500",
     "kartu": ""
@@ -2073,18 +2062,18 @@
     "nip": "1189404536",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Grand Wijaya 1",
-    "tanggalLahir": "05/10",
+    "tanggalLahir": "10/05",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1y2d8_YmnPfgWdrOv65dhDqlVqZKy_685&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0190",
-    "nama": "Usep sepiyade",
+    "nama": "Usep Sepiyade",
     "nip": "2089020145",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/12",
+    "tanggalLahir": "12/05",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1elJdoPGqToL6yCyKl9D9chqOErrQKU8J&sz=w500",
     "kartu": ""
@@ -2102,7 +2091,7 @@
   },
   {
     "id": "EMP-0192",
-    "nama": "Arif Alfa Budiman",
+    "nama": "Arif Alfa B.",
     "nip": "1289431660",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Falatehan 1",
@@ -2139,7 +2128,7 @@
     "nip": "2289060063",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/09",
+    "tanggalLahir": "09/06",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1pevh9-HLxnOHVSJ8ibCis7lFZITyDXLK&sz=w500",
     "kartu": ""
@@ -2150,14 +2139,14 @@
     "nip": "1689171639",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/12",
+    "tanggalLahir": "12/06",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1mSN2lYsufqkT_CHkJ_n1z-uufwr87HSQ&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0197",
-    "nama": "Firdaus LP Napitupulu",
+    "nama": "Firdaus Lp N.",
     "nip": "1189409386",
     "jabatan": "MBCM",
     "unit": "Bogor Kapten Muslihat 1",
@@ -2168,29 +2157,29 @@
   },
   {
     "id": "EMP-0198",
-    "nama": "Siti sobariah",
+    "nama": "Siti Sobariah",
     "nip": "1389536624",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Kartini 1",
-    "tanggalLahir": "08/09",
+    "tanggalLahir": "09/08",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1o6rulj6P5BaNm4l6FCR3pFozv6AYgWIL&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0199",
-    "nama": "Septo aji lelono",
+    "nama": "Septo Aji L.",
     "nip": "1989060892",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "09/07",
+    "tanggalLahir": "07/09",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=11CQgmj0oyF_v18YcvC4i7uejFxMhyFW_&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0200",
-    "nama": "Dwi iswari",
+    "nama": "Dwi Iswari",
     "nip": "1489190373",
     "jabatan": "CA, MM",
     "unit": "-",
@@ -2201,7 +2190,7 @@
   },
   {
     "id": "EMP-0201",
-    "nama": "Ana silviana",
+    "nama": "Ana Silviana",
     "nip": "1789668175",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Warung Buncit Raya 1",
@@ -2212,7 +2201,7 @@
   },
   {
     "id": "EMP-0202",
-    "nama": "Subakti prihastono",
+    "nama": "Subakti Prihastono",
     "nip": "1289449530",
     "jabatan": "MKA",
     "unit": "Jakarta World Trade Center 1",
@@ -2245,11 +2234,11 @@
   },
   {
     "id": "EMP-0205",
-    "nama": "IRFAN NOVI TRIHANDOKO",
+    "nama": "Irfan Novi T.",
     "nip": "1489553131",
     "jabatan": "MKA",
     "unit": "Depok Cinere Limo 1",
-    "tanggalLahir": "11/08",
+    "tanggalLahir": "08/11",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1uirbo2RGYxip9TtDFSvx28RX60ZvU8cU&sz=w500",
     "kartu": ""
@@ -2260,10 +2249,10 @@
     "nip": "1389190306",
     "jabatan": "KM",
     "unit": "-",
-    "tanggalLahir": "12/07",
+    "tanggalLahir": "07/12",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=1agIm5bUK2CJElGQmQessFTB0JqGAAknf&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1ZznaasJqu93UaMyCStGEasqu60zWjJ4P&sz=w1200"
   },
   {
     "id": "EMP-0207",
@@ -2271,10 +2260,10 @@
     "nip": "1289453961",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Pasar Anyar 1",
-    "tanggalLahir": "12/08",
+    "tanggalLahir": "08/12",
     "tahunLahir": 1989,
     "foto": "https://drive.google.com/thumbnail?id=12OU0rPXpu-9p-WfpNti5ECy7HBZ_Cuvq&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=15fKdqnl4OZh1Bt1FI5kszwpUjW_vta9h&sz=w1200"
   },
   {
     "id": "EMP-0208",
@@ -2289,29 +2278,29 @@
   },
   {
     "id": "EMP-0209",
-    "nama": "Anastasia Sheron Pebriani Pandiangan",
+    "nama": "Anastasia Sheron P.P.",
     "nip": "1790170741",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/01",
+    "tanggalLahir": "01/02",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=16v2F1q1CgfzttxPwfEvAwiEOJ2FSbccx&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0210",
-    "nama": "FEBRIANA RIYANTI",
+    "nama": "Febriana Riyanti",
     "nip": "1790160066",
     "jabatan": "CA",
     "unit": "-",
-    "tanggalLahir": "02/08",
+    "tanggalLahir": "08/02",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1ZpJi7x-M8LHKEjF2gmJZTmdHZTlshhhc&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0211",
-    "nama": "Maulana mustakim",
+    "nama": "Maulana Mustakim",
     "nip": "2490034885",
     "jabatan": "SGP",
     "unit": "-",
@@ -2322,7 +2311,7 @@
   },
   {
     "id": "EMP-0212",
-    "nama": "Prasetyo Nugroho Aritonang",
+    "nama": "Prasetyo Nugroho A.",
     "nip": "2490031116",
     "jabatan": "SGP",
     "unit": "-",
@@ -2333,7 +2322,7 @@
   },
   {
     "id": "EMP-0213",
-    "nama": "MUHAMMAD RAMADHAN",
+    "nama": "Muhammad Ramadhan",
     "nip": "2390032884",
     "jabatan": "SGP",
     "unit": "-",
@@ -2348,40 +2337,40 @@
     "nip": "1490553120",
     "jabatan": "MKA",
     "unit": "Bogor Pasar Anyar 1",
-    "tanggalLahir": "04/11",
+    "tanggalLahir": "11/04",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1JLlkv4FI_GcQldZaXfROkOJaFYGtUfRM&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0215",
-    "nama": "Juang Dwi Ramadhan",
+    "nama": "Juang Dwi R.",
     "nip": "1790160003",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "04/12",
+    "tanggalLahir": "12/04",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1HlmkocKjn6mhp8nGz7SSCaMLmqWx-op3&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0216",
-    "nama": "KEVIN ROBERTHO",
+    "nama": "Kevin Robertho",
     "nip": "2190020132",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/11",
+    "tanggalLahir": "11/05",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1q4oyDbY9pGCqEBty9lqS713QycodAuwc&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0217",
-    "nama": "Firman disastra",
+    "nama": "Firman Disastra",
     "nip": "1390509859",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Bintaro Veteran 1",
-    "tanggalLahir": "05/11",
+    "tanggalLahir": "11/05",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=13BXKDh6vqGjbDol92cze3hS6b2mal6Ot&sz=w500",
     "kartu": ""
@@ -2392,7 +2381,7 @@
     "nip": "1690060206",
     "jabatan": "CA",
     "unit": "-",
-    "tanggalLahir": "05/12",
+    "tanggalLahir": "12/05",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1qbcvfjGzqJts8RvbbjTjcwCvRaeXJHyo&sz=w500",
     "kartu": ""
@@ -2421,7 +2410,7 @@
   },
   {
     "id": "EMP-0221",
-    "nama": "Rifky wira pratama sembiring",
+    "nama": "Rifky Wira P.S.",
     "nip": "1890020074",
     "jabatan": "SGP",
     "unit": "-",
@@ -2432,11 +2421,11 @@
   },
   {
     "id": "EMP-0222",
-    "nama": "Harits Adli Tegar Nevada",
+    "nama": "Harits Adli T.N.",
     "nip": "1290459718",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Petukangan 1",
-    "tanggalLahir": "07/09",
+    "tanggalLahir": "09/07",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1LtwYBxhn9q4-AFwFkiYuyClE4BqoZkyL&sz=w500",
     "kartu": ""
@@ -2465,7 +2454,7 @@
   },
   {
     "id": "EMP-0225",
-    "nama": "Muhammad haryono",
+    "nama": "Muhammad Haryono",
     "nip": "1590060523",
     "jabatan": "SGP",
     "unit": "-",
@@ -2487,7 +2476,7 @@
   },
   {
     "id": "EMP-0227",
-    "nama": "Farid Maulana Hidayat",
+    "nama": "Farid Maulana H.",
     "nip": "1790170698",
     "jabatan": "SGP",
     "unit": "-",
@@ -2509,7 +2498,7 @@
   },
   {
     "id": "EMP-0229",
-    "nama": "jaenudin",
+    "nama": "Jaenudin",
     "nip": "2490034944",
     "jabatan": "MMA",
     "unit": "-",
@@ -2535,7 +2524,7 @@
     "nip": "1690636543",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Metland Cileungsi 1",
-    "tanggalLahir": "11/02",
+    "tanggalLahir": "02/11",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=12PscDijYlGFQeI6k_Gqkr9-ZrxKWESav&sz=w500",
     "kartu": ""
@@ -2546,7 +2535,7 @@
     "nip": "1590570339",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Cibinong City Center 1",
-    "tanggalLahir": "11/09",
+    "tanggalLahir": "09/11",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1bNd8W78iJzA56WABk3c1qelgc38vKMqN&sz=w500",
     "kartu": ""
@@ -2564,29 +2553,29 @@
   },
   {
     "id": "EMP-0234",
-    "nama": "Anugrah putra aditya",
+    "nama": "Anugrah Putra A.",
     "nip": "1590060581",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "22/11",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1zmZCDXuBr5K0YYr3lWUJ5XuY4FhM7QDq&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1Ql9JU3YPnFQ3c5rBcmeTq5IjKCN0SZHI&sz=w1200"
   },
   {
     "id": "EMP-0235",
-    "nama": "TRIANA NOVITASARI",
+    "nama": "Triana Novitasari",
     "nip": "1490553146",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Yasmin 1",
     "tanggalLahir": "26/11",
     "tahunLahir": 1990,
     "foto": "https://drive.google.com/thumbnail?id=1h9YEOUdM4yELZqj4lxFciJm8NoOCjRmv&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1-L9eCS8AoWxb-yG27Kr3-C1ScE8QXhVM&sz=w1200"
   },
   {
     "id": "EMP-0236",
-    "nama": "Egy rizky dekapaty",
+    "nama": "Egy Rizky D.",
     "nip": "2190020002",
     "jabatan": "SGP",
     "unit": "-",
@@ -2597,7 +2586,7 @@
   },
   {
     "id": "EMP-0237",
-    "nama": "RENDI FAHRIZAL",
+    "nama": "Rendi Fahrizal",
     "nip": "1491190264",
     "jabatan": "SGP",
     "unit": "-",
@@ -2612,7 +2601,7 @@
     "nip": "1391498805",
     "jabatan": "CAO",
     "unit": "Jakarta Fatmawati 1",
-    "tanggalLahir": "01/06",
+    "tanggalLahir": "06/01",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1OJCwQTiHJjrI1Aj0m86bNKl-LVzEbtej&sz=w500",
     "kartu": ""
@@ -2630,7 +2619,7 @@
   },
   {
     "id": "EMP-0240",
-    "nama": "Ricardo Liberthy Tanniels",
+    "nama": "Ricardo Liberthy T.",
     "nip": "1391522794",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Lapangan Ros 1",
@@ -2645,25 +2634,25 @@
     "nip": "1691200055",
     "jabatan": "Pramubhakti",
     "unit": "-",
-    "tanggalLahir": "03/06",
+    "tanggalLahir": "06/03",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1U-T9D0jmM-a4E3ad7hBgZPu7hiXnYE-n&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0242",
-    "nama": "DEDE KURNIAWAN",
+    "nama": "Dede Kurniawan",
     "nip": "2391030199",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "03/08",
+    "tanggalLahir": "08/03",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1xyYdljE5DZvaBUYB2MaaWjr1S3tcZYOJ&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0243",
-    "nama": "wisnu nugroho",
+    "nama": "Wisnu Nugroho",
     "nip": "1691170649",
     "jabatan": "MM",
     "unit": "-",
@@ -2674,7 +2663,7 @@
   },
   {
     "id": "EMP-0244",
-    "nama": "Albertus denis prasetya",
+    "nama": "Albertus Denis P.",
     "nip": "1591570346",
     "jabatan": "MKA",
     "unit": "Jakarta Pondok Pinang Center 1",
@@ -2685,22 +2674,22 @@
   },
   {
     "id": "EMP-0245",
-    "nama": "VERA RETNOWATI",
+    "nama": "Vera Retnowati",
     "nip": "1591586468",
     "jabatan": "MKA",
     "unit": "Bogor Pajajaran 1",
-    "tanggalLahir": "04/01",
+    "tanggalLahir": "01/04",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=12cwzTpoPTz8DrsARQfVf1bG7dwKN-n_5&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0246",
-    "nama": "BINTANG RAMDHAN IRAWAN",
+    "nama": "Bintang Ramdhan I.",
     "nip": "1491542494",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Graha Mitra 1",
-    "tanggalLahir": "04/08",
+    "tanggalLahir": "08/04",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=110lIXYXCdBipmRfUQNqcXrJ1NZWS3-1A&sz=w500",
     "kartu": ""
@@ -2718,7 +2707,7 @@
   },
   {
     "id": "EMP-0248",
-    "nama": "Andri wibisono",
+    "nama": "Andri Wibisono",
     "nip": "1591593173",
     "jabatan": "MKA",
     "unit": "Depok Meruyung 1",
@@ -2729,7 +2718,7 @@
   },
   {
     "id": "EMP-0249",
-    "nama": "adytia prasetya",
+    "nama": "Adytia Prasetya",
     "nip": "1191193042",
     "jabatan": "SGP",
     "unit": "-",
@@ -2751,18 +2740,18 @@
   },
   {
     "id": "EMP-0251",
-    "nama": "ANISA FAUZIAH",
+    "nama": "Anisa Fauziah",
     "nip": "1591592548",
     "jabatan": "MKA",
     "unit": "Bogor Cisarua 1",
-    "tanggalLahir": "05/06",
+    "tanggalLahir": "06/05",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1KIbkqH-ics6TSNpc9-3RKoaGnQZppTs3&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0252",
-    "nama": "Anneke Putri Meilasari",
+    "nama": "Anneke Putri M.",
     "nip": "1591604251",
     "jabatan": "MKA",
     "unit": "Jakarta ITC Fatmawati 1",
@@ -2773,7 +2762,7 @@
   },
   {
     "id": "EMP-0253",
-    "nama": "Hani purnama",
+    "nama": "Hani Purnama",
     "nip": "1391519782",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Ciomas 1",
@@ -2784,11 +2773,11 @@
   },
   {
     "id": "EMP-0254",
-    "nama": "DINA PURNAMA SARI",
+    "nama": "Dina Purnama S.",
     "nip": "1391503976",
     "jabatan": "MKA",
     "unit": "Cinere 1",
-    "tanggalLahir": "06/01",
+    "tanggalLahir": "01/06",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=12srp514yEEQnFV7efZYK24f6QxbX3AE6&sz=w500",
     "kartu": ""
@@ -2810,14 +2799,14 @@
     "nip": "2191020133",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/10",
+    "tanggalLahir": "10/06",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1Z_NNibX2hPUaU2wL_0YAvVhltv46jL4Y&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0257",
-    "nama": "Anggi Dwi Rizkasari",
+    "nama": "Anggi Dwi R.",
     "nip": "1691160790",
     "jabatan": "CA",
     "unit": "-",
@@ -2828,7 +2817,7 @@
   },
   {
     "id": "EMP-0258",
-    "nama": "Zulfi anugrah",
+    "nama": "Zulfi Anugrah",
     "nip": "2491033095",
     "jabatan": "SGP",
     "unit": "-",
@@ -2850,11 +2839,11 @@
   },
   {
     "id": "EMP-0260",
-    "nama": "Putu Debby Sari Mustika",
+    "nama": "Putu Debby S.M.",
     "nip": "1591589239",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Warung Jambu 1",
-    "tanggalLahir": "09/06",
+    "tanggalLahir": "06/09",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=19RfoK2TyLQl0MumAUn96Lc4_8GT3v963&sz=w500",
     "kartu": ""
@@ -2883,7 +2872,7 @@
   },
   {
     "id": "EMP-0263",
-    "nama": "Ricky Andreas Harefa",
+    "nama": "Ricky Andreas H.",
     "nip": "1691171986",
     "jabatan": "SGP",
     "unit": "-",
@@ -2894,36 +2883,36 @@
   },
   {
     "id": "EMP-0264",
-    "nama": "NOVRIANTY",
+    "nama": "Novrianty",
     "nip": "1391503968",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Klapanunggal 1",
     "tanggalLahir": "23/11",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=13_RUSfoP11qKXzUiZifdSxkujDQ9Vwxk&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=11qi0S--DfQ_bA-DpkAKwZfcNVRWuVNIP&sz=w1200"
   },
   {
     "id": "EMP-0265",
-    "nama": "Jajang indra fadila",
+    "nama": "Jajang Indra F.",
     "nip": "1691619712",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Karadenan 1",
-    "tanggalLahir": "12/02",
+    "tanggalLahir": "02/12",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1sGFPfdP7Ey8Ip5fs7f7tSgyy5LKT-p0e&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1mn-Y2b37d1V65mFGRtGZemMiVjSjoUQk&sz=w1200"
   },
   {
     "id": "EMP-0266",
-    "nama": "Christ Sakti IW Ekon",
+    "nama": "Christ Sakti I.E.",
     "nip": "2691494505",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/05",
+    "tanggalLahir": "05/12",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1zGSujwzwuC6cosgTnW5NJvwzGEKEkqxw&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1aDfiT3pfXU4lPVUDqh4RRUGUvTFq4FHp&sz=w1200"
   },
   {
     "id": "EMP-0267",
@@ -2931,25 +2920,25 @@
     "nip": "1891020227",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/08",
+    "tanggalLahir": "08/12",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1oW1UHy22fxIvdPIC40BnAqBNXXJ9c8DH&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=18ooG7veaj5x4VXWHx_wRDfwUkV0XxIhM&sz=w1200"
   },
   {
     "id": "EMP-0268",
-    "nama": "Lelita harahap",
+    "nama": "Lelita Harahap",
     "nip": "1691060092",
     "jabatan": "CA",
     "unit": "-",
     "tanggalLahir": "12/12",
     "tahunLahir": 1991,
     "foto": "https://drive.google.com/thumbnail?id=1MQqlMzQhjMQfPdiD2RBEhyn4ApyDHMaU&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1fDIGbrqFMktm1Jeg5xgTYNTs7DR2bu0I&sz=w1200"
   },
   {
     "id": "EMP-0269",
-    "nama": "Muhammad Sofyanhadi Agungnagara",
+    "nama": "Muhammad Sofyanhadi A.",
     "nip": "1189041835",
     "jabatan": "SGP",
     "unit": "-",
@@ -2960,7 +2949,7 @@
   },
   {
     "id": "EMP-0270",
-    "nama": "DAVID KRISTANTO",
+    "nama": "David Kristanto",
     "nip": "1691650550",
     "jabatan": "MKA",
     "unit": "Bogor Sentul City 1",
@@ -2982,7 +2971,7 @@
   },
   {
     "id": "EMP-0272",
-    "nama": "ADE PUTRA",
+    "nama": "Ade Putra",
     "nip": "2291020129",
     "jabatan": "SGP",
     "unit": "-",
@@ -2993,7 +2982,7 @@
   },
   {
     "id": "EMP-0273",
-    "nama": "Jiwo agung Pangestu",
+    "nama": "Jiwo Agung P.",
     "nip": "1992020010",
     "jabatan": "MM",
     "unit": "-",
@@ -3004,7 +2993,7 @@
   },
   {
     "id": "EMP-0274",
-    "nama": "Wulandari Tri Saputri",
+    "nama": "Wulandari Tri S.",
     "nip": "1792160115",
     "jabatan": "CA",
     "unit": "-",
@@ -3015,7 +3004,7 @@
   },
   {
     "id": "EMP-0275",
-    "nama": "Widya Rahma Dwinaya",
+    "nama": "Widya Rahma D.",
     "nip": "1492546221",
     "jabatan": "MKA",
     "unit": "Citeureup 1",
@@ -3026,18 +3015,18 @@
   },
   {
     "id": "EMP-0276",
-    "nama": "Edwin Febriananda Susanto",
+    "nama": "Edwin Febriananda S.",
     "nip": "1692643208",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Cibinong Mayor Oking 1",
     "tanggalLahir": "20/02",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1Lm2HJmL9GC1A9B49lyAYhpEkmu1lud7o&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1VtBfGaebu9Fkz4B2HEKFutQuu13lDv8l&sz=w1200"
   },
   {
     "id": "EMP-0277",
-    "nama": "Robith hidayat",
+    "nama": "Robith Hidayat",
     "nip": "1592592513",
     "jabatan": "MKA",
     "unit": "Bogor Metland Cileungsi 1",
@@ -3048,7 +3037,7 @@
   },
   {
     "id": "EMP-0278",
-    "nama": "Aldy permana",
+    "nama": "Aldy Permana",
     "nip": "2192020059",
     "jabatan": "SGP",
     "unit": "-",
@@ -3059,7 +3048,7 @@
   },
   {
     "id": "EMP-0279",
-    "nama": "Andika Sitoresmi Prastiasti",
+    "nama": "Andika Sitoresmi P.",
     "nip": "1592588982",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Kapten Muslihat 1",
@@ -3070,11 +3059,11 @@
   },
   {
     "id": "EMP-0280",
-    "nama": "Rizky Chandra Ramadhan",
+    "nama": "Rizky Chandra R.",
     "nip": "2292060009",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "03/09",
+    "tanggalLahir": "09/03",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1JyX04lb6XjauaEqrEDZGM2uK7cugYid-&sz=w500",
     "kartu": ""
@@ -3085,29 +3074,29 @@
     "nip": "1692171339",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/01",
+    "tanggalLahir": "01/04",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1AQJt3AHdMgPBz24S-4Vr2sC1UGSyhvvS&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0282",
-    "nama": "Anggun Fitria Sualangi",
+    "nama": "Anggun Fitria S.",
     "nip": "1692632003",
     "jabatan": "MKA",
     "unit": "Sawangan Sari Plaza 1",
-    "tanggalLahir": "04/09",
+    "tanggalLahir": "09/04",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1HOLu8bPkxlD580fbn_xT4ZH7PVBxTutz&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0283",
-    "nama": "Sopyan Aprian Danang",
+    "nama": "Sopyan Aprian D.",
     "nip": "2492034239",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "04/09",
+    "tanggalLahir": "09/04",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=17wFdtFjdkJ594ovWZbsuajQh8-B3a6lt&sz=w500",
     "kartu": ""
@@ -3118,14 +3107,14 @@
     "nip": "1592586390",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok I 1",
-    "tanggalLahir": "04/12",
+    "tanggalLahir": "12/04",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1sWKfPmHP37vnvMjozkMHYdOhrvFRXjWG&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0285",
-    "nama": "Fiftria husnita",
+    "nama": "Fiftria Husnita",
     "nip": "1592593180",
     "jabatan": "MKA",
     "unit": "Depok Pekapuran 1",
@@ -3136,11 +3125,11 @@
   },
   {
     "id": "EMP-0286",
-    "nama": "Achmad Farhan Abdullah",
+    "nama": "Achmad Farhan A.",
     "nip": "2092060398",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/03",
+    "tanggalLahir": "03/05",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1w3oaSCXEvsyFolf4cXV8hrQcNePruMax&sz=w500",
     "kartu": ""
@@ -3151,7 +3140,7 @@
     "nip": "1692626559",
     "jabatan": "MKA",
     "unit": "Jakarta Cilandak KKO 1",
-    "tanggalLahir": "05/08",
+    "tanggalLahir": "08/05",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1t5oRceS6kai3ZIrSkxqtkjzoU1etJ5-n&sz=w500",
     "kartu": ""
@@ -3169,7 +3158,7 @@
   },
   {
     "id": "EMP-0289",
-    "nama": "Tya Setyawati Supriyanto",
+    "nama": "Tya Setyawati S.",
     "nip": "1592578645",
     "jabatan": "MKA",
     "unit": "Jakarta Grand Wijaya 1",
@@ -3180,7 +3169,7 @@
   },
   {
     "id": "EMP-0290",
-    "nama": "YUNIA LESTARI R",
+    "nama": "Yunia Lestari R.",
     "nip": "1692619745",
     "jabatan": "MKA",
     "unit": "Depok Tengah 1",
@@ -3202,7 +3191,7 @@
   },
   {
     "id": "EMP-0292",
-    "nama": "Amri rosyad",
+    "nama": "Amri Rosyad",
     "nip": "1592060543",
     "jabatan": "SGP",
     "unit": "-",
@@ -3213,7 +3202,7 @@
   },
   {
     "id": "EMP-0293",
-    "nama": "SAEPUDIN",
+    "nama": "Saepudin",
     "nip": "1892020310",
     "jabatan": "MBR",
     "unit": "-",
@@ -3228,29 +3217,29 @@
     "nip": "1592595169",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Bogor Nirwana Residence 1",
-    "tanggalLahir": "08/10",
+    "tanggalLahir": "10/08",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1LjwmMdY0DZZSoRFUmv8uheEflXIVb4ht&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0295",
-    "nama": "Iwo kusuma wardhana",
+    "nama": "Iwo Kusuma W.",
     "nip": "2592033952",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "09/04",
+    "tanggalLahir": "04/09",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1uaR50SwY2pxNhJFcuLHqjlzcSTkAayQv&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0296",
-    "nama": "KURNIA PUTRI MAYANTI",
+    "nama": "Kurnia Putri M.",
     "nip": "1592592539",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Kelapa Dua 2",
-    "tanggalLahir": "10/05",
+    "tanggalLahir": "05/10",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=17MOOtb2O8aTgcDvJ6GZjLeEdCHL9M8RD&sz=w500",
     "kartu": ""
@@ -3261,14 +3250,14 @@
     "nip": "1792171881",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "10/07",
+    "tanggalLahir": "07/10",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1iJ9eVl1b2uf1T1Gak7KXLtS3Cri_WaLs&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0298",
-    "nama": "ADETYA YANDRI",
+    "nama": "Adetya Yandri",
     "nip": "1592585640",
     "jabatan": "MKA",
     "unit": "Jonggol 1",
@@ -3279,29 +3268,29 @@
   },
   {
     "id": "EMP-0299",
-    "nama": "Vivo razezki siswanto",
+    "nama": "Vivo Razezki S.",
     "nip": "2392032879",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "11/03",
+    "tanggalLahir": "03/11",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1uzcV2KNuvQx8nz8IbFldTJ50qu-JImSk&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0300",
-    "nama": "Mochamad Abdul Rachman",
+    "nama": "Mochamad Abdul R.",
     "nip": "2192060377",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "11/04",
+    "tanggalLahir": "04/11",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1jWBRoQkiT5JM8q_a-InfJeK33-pocOXX&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0301",
-    "nama": "Arti Mutiara Sari",
+    "nama": "Arti Mutiara S.",
     "nip": "1492566450",
     "jabatan": "MKA",
     "unit": "Depok Cinangka 2",
@@ -3323,7 +3312,7 @@
   },
   {
     "id": "EMP-0303",
-    "nama": "Tiara gusti rahayu",
+    "nama": "Tiara Gusti R.",
     "nip": "1692624638",
     "jabatan": "MKA",
     "unit": "Cileungsi 1",
@@ -3334,14 +3323,14 @@
   },
   {
     "id": "EMP-0304",
-    "nama": "Angga firmansyah",
+    "nama": "Angga Firmansyah",
     "nip": "1792171762",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/04",
+    "tanggalLahir": "04/12",
     "tahunLahir": 1992,
     "foto": "https://drive.google.com/thumbnail?id=1ncyfHtK27LKLrgnW4ryDgCGyOP5c_BDd&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1AdjLRrn-XW1wiHF7B-e3ndiZjtePAb5-&sz=w1200"
   },
   {
     "id": "EMP-0305",
@@ -3349,14 +3338,14 @@
     "nip": "1693616252",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Universitas Indonesia 1",
-    "tanggalLahir": "02/07",
+    "tanggalLahir": "07/02",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=1VPAOk9NMDzkHwDV9jMQuysL-4Vhy6wnF&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0306",
-    "nama": "FITRIA SUMAWARDANI",
+    "nama": "Fitria Sumawardani",
     "nip": "1693624645",
     "jabatan": "MKA",
     "unit": "Depok 1",
@@ -3389,7 +3378,7 @@
   },
   {
     "id": "EMP-0309",
-    "nama": "Intan pratiwi",
+    "nama": "Intan Pratiwi",
     "nip": "2393034544",
     "jabatan": "SGP",
     "unit": "-",
@@ -3411,18 +3400,18 @@
   },
   {
     "id": "EMP-0311",
-    "nama": "Eka Rahmi Fajriah",
+    "nama": "Eka Rahmi F.",
     "nip": "2693494829",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/10",
+    "tanggalLahir": "10/05",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=1YbaqdBY-PZ3RtxhVbRVtkOn4D257xSpU&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0312",
-    "nama": "WAHYU ELIA BONA PENA SIRAIT",
+    "nama": "Wahyu Elia B.P.S.",
     "nip": "1893020256",
     "jabatan": "SGP",
     "unit": "-",
@@ -3433,7 +3422,7 @@
   },
   {
     "id": "EMP-0313",
-    "nama": "HABEL ARNOLD SAHULATA",
+    "nama": "Habel Arnold S.",
     "nip": "1898020061",
     "jabatan": "SGP",
     "unit": "-",
@@ -3444,7 +3433,7 @@
   },
   {
     "id": "EMP-0314",
-    "nama": "Taufan Adha Saprudin",
+    "nama": "Taufan Adha S.",
     "nip": "1793656497",
     "jabatan": "MKA",
     "unit": "Cibinong City Center 1",
@@ -3488,11 +3477,11 @@
   },
   {
     "id": "EMP-0318",
-    "nama": "ACHMAD ANGGA DWITAMA",
+    "nama": "Achmad Angga D.",
     "nip": "1893679076",
     "jabatan": "MKA",
     "unit": "Depok 2",
-    "tanggalLahir": "07/04",
+    "tanggalLahir": "04/07",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=1k-kEwbpKjqQ7PQ8_9mEPhzBDHaw27ofP&sz=w500",
     "kartu": ""
@@ -3510,7 +3499,7 @@
   },
   {
     "id": "EMP-0320",
-    "nama": "Raden dwi rachma yuliani",
+    "nama": "Raden Dwi R.Y.",
     "nip": "1593600042",
     "jabatan": "MKA",
     "unit": "Bogor Bojong Gede 1",
@@ -3525,14 +3514,25 @@
     "nip": "2293060427",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/12",
+    "tanggalLahir": "12/08",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=131942rWXXo-M4XTW-E80GktlVLfxw2Pk&sz=w500",
     "kartu": ""
   },
   {
+    "id": "EMP-0323",
+    "nama": "Rofy Pratama",
+    "nip": "1793171805",
+    "jabatan": "SGP",
+    "unit": "-",
+    "tanggalLahir": "09/10",
+    "tahunLahir": 1993,
+    "foto": "https://drive.google.com/thumbnail?id=1r9Uf8u18UP0gGP91mRNsURU9tLMalL2S&sz=w500",
+    "kartu": ""
+  },
+  {
     "id": "EMP-0322",
-    "nama": "MELATI AYUNINGTYAS PAMBUDI",
+    "nama": "Melati Ayuningtyas P.",
     "nip": "1793653643",
     "jabatan": "MKA",
     "unit": "Sawangan Sari Plaza 2",
@@ -3542,30 +3542,19 @@
     "kartu": ""
   },
   {
-    "id": "EMP-0323",
-    "nama": "Rofy pratama",
-    "nip": "1793171805",
-    "jabatan": "SGP",
-    "unit": "-",
-    "tanggalLahir": "10/09",
-    "tahunLahir": 1993,
-    "foto": "https://drive.google.com/thumbnail?id=1r9Uf8u18UP0gGP91mRNsURU9tLMalL2S&sz=w500",
-    "kartu": ""
-  },
-  {
     "id": "EMP-0324",
-    "nama": "Muhamad Alpan Buhori",
+    "nama": "Muhamad Alpan B.",
     "nip": "1893020033",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "26/10",
     "tahunLahir": 1993,
-    "foto": "https://drive.google.com/thumbnail?id=1j4YI9HWNy6l82zEinHv8A5COtR9cVuhE&sz=w500",
+    "foto": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w500",
     "kartu": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w1200"
   },
   {
     "id": "EMP-0325",
-    "nama": "Muhamad Hary Erlangga",
+    "nama": "Muhamad Hary E.",
     "nip": "2193060059",
     "jabatan": "SGP",
     "unit": "-",
@@ -3580,7 +3569,7 @@
     "nip": "2193020078",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "11/01",
+    "tanggalLahir": "01/11",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=1yRZIeg78KBNZ3Zkcv3v66i1Jy_D3EEYS&sz=w500",
     "kartu": ""
@@ -3591,36 +3580,36 @@
     "nip": "2693494670",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/04",
+    "tanggalLahir": "04/12",
     "tahunLahir": 1993,
     "foto": "https://drive.google.com/thumbnail?id=1ZEH8U0dApbhlNj6bkzoUyW1CL8tAqLHd&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1ml7U3XM7eJwT6nAmWlwrYh4NE0RJUOL5&sz=w1200"
   },
   {
     "id": "EMP-0328",
-    "nama": "JANUAR FADILAH",
+    "nama": "Januar Fadilah",
     "nip": "1794171928",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/07",
+    "tanggalLahir": "07/01",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=13ymLnSDKhD5nnXb6Q2f6CTIlSA4I9wLw&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0329",
-    "nama": "Isti ningrum handayani",
+    "nama": "Isti Ningrum H.",
     "nip": "1594597155",
     "jabatan": "CAO",
     "unit": "Jakarta Falatehan 1",
-    "tanggalLahir": "01/09",
+    "tanggalLahir": "09/01",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1qphxVjHkWUb0xOZq73TzMDxDpoPoIMJ_&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0330",
-    "nama": "RIKI JANWAR",
+    "nama": "Riki Janwar",
     "nip": "1794170521",
     "jabatan": "SGP",
     "unit": "-",
@@ -3646,25 +3635,25 @@
     "nip": "2394034108",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/08",
+    "tanggalLahir": "08/02",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1dMI9--wkTZ6W3Ufu1_hN2LRSWc4C3Z7T&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0333",
-    "nama": "Agung mulyana",
+    "nama": "Agung Mulyana",
     "nip": "1994410407",
     "jabatan": "CA",
     "unit": "-",
-    "tanggalLahir": "03/02",
+    "tanggalLahir": "02/03",
     "tahunLahir": 1994,
     "foto": "[link removed]_/view?usp=drivesdk",
     "kartu": ""
   },
   {
     "id": "EMP-0334",
-    "nama": "Ruddy Ichsanur wage",
+    "nama": "Ruddy Ichsanur W.",
     "nip": "2494031607",
     "jabatan": "SGP",
     "unit": "-",
@@ -3675,11 +3664,11 @@
   },
   {
     "id": "EMP-0335",
-    "nama": "Irena apriani chaerunisa",
+    "nama": "Irena Apriani C.",
     "nip": "1794160072",
     "jabatan": "CA",
     "unit": "-",
-    "tanggalLahir": "04/05",
+    "tanggalLahir": "05/04",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1_PrcAwZOOlAA4jF0HK0ksLWznduqN3Np&sz=w500",
     "kartu": ""
@@ -3719,7 +3708,7 @@
   },
   {
     "id": "EMP-0339",
-    "nama": "Aas Muarif Azis",
+    "nama": "Aas Muarif A.",
     "nip": "2494034020",
     "jabatan": "SGP",
     "unit": "-",
@@ -3730,18 +3719,18 @@
   },
   {
     "id": "EMP-0340",
-    "nama": "Fathur rahman",
+    "nama": "Fathur Rahman",
     "nip": "1694200028",
     "jabatan": "Driver",
     "unit": "-",
-    "tanggalLahir": "06/11",
+    "tanggalLahir": "11/06",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1M5-aVLu9Exy8NVE1RBOmbtMOhUhaCeHC&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0341",
-    "nama": "Ella Anindya Pratiwi",
+    "nama": "Ella Anindya P.",
     "nip": "1894683887",
     "jabatan": "MKA",
     "unit": "Jakarta Melawai 1",
@@ -3763,7 +3752,7 @@
   },
   {
     "id": "EMP-0343",
-    "nama": "MUHAMMAD FIQRI",
+    "nama": "Muhammad Fiqri",
     "nip": "2594032942",
     "jabatan": "SGP",
     "unit": "-",
@@ -3778,7 +3767,7 @@
     "nip": "2594030371",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "10/06",
+    "tanggalLahir": "06/10",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1S-Hqs_l6_c9FDWTkYxd6KBU-KodHm-TG&sz=w500",
     "kartu": ""
@@ -3807,7 +3796,7 @@
   },
   {
     "id": "EMP-0347",
-    "nama": "Arman Jaya Gulo",
+    "nama": "Arman Jaya G.",
     "nip": "2294020122",
     "jabatan": "SGP",
     "unit": "-",
@@ -3822,14 +3811,14 @@
     "nip": "1694644667",
     "jabatan": "MKA",
     "unit": "Depok ITC 1",
-    "tanggalLahir": "11/05",
+    "tanggalLahir": "05/11",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1Zl3xupR82gw1DWOvLZ-sUMrL3gGwBcPb&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0349",
-    "nama": "Elma Hillary Putri Hersyani",
+    "nama": "Elma Hillary P.H.",
     "nip": "1794666495",
     "jabatan": "MKA",
     "unit": "Bogor Karadenan 1",
@@ -3840,14 +3829,14 @@
   },
   {
     "id": "EMP-0350",
-    "nama": "Dede chandra",
+    "nama": "Dede Chandra",
     "nip": "1594060475",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/11",
+    "tanggalLahir": "11/12",
     "tahunLahir": 1994,
     "foto": "https://drive.google.com/thumbnail?id=1kZ-Z08_YMlW88h4fPo4Qfnl3LcQe6Wo4&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1pi_4_-bq7FAsGMd7-VXbrOfUT-80MPac&sz=w1200"
   },
   {
     "id": "EMP-0351",
@@ -3862,7 +3851,7 @@
   },
   {
     "id": "EMP-0352",
-    "nama": "WILLIANSYAH",
+    "nama": "Williansyah",
     "nip": "2395030153",
     "jabatan": "SGP",
     "unit": "-",
@@ -3884,7 +3873,7 @@
   },
   {
     "id": "EMP-0354",
-    "nama": "Muhammad ilul muttaqin",
+    "nama": "Muhammad Ilul M.",
     "nip": "2495030578",
     "jabatan": "SGP",
     "unit": "-",
@@ -3895,7 +3884,7 @@
   },
   {
     "id": "EMP-0355",
-    "nama": "Ridhoni handoyo",
+    "nama": "Ridhoni Handoyo",
     "nip": "2295020186",
     "jabatan": "SGP",
     "unit": "-",
@@ -3906,7 +3895,7 @@
   },
   {
     "id": "EMP-0356",
-    "nama": "Arief Fadlika Apriyanto",
+    "nama": "Arief Fadlika A.",
     "nip": "2195020131",
     "jabatan": "SGP",
     "unit": "-",
@@ -3917,7 +3906,7 @@
   },
   {
     "id": "EMP-0357",
-    "nama": "Elly Anggriani P",
+    "nama": "Elly Anggriani P.",
     "nip": "1895707313",
     "jabatan": "MKA",
     "unit": "Jakarta Lebak Bulus 1",
@@ -3932,7 +3921,7 @@
     "nip": "1895704013",
     "jabatan": "MKA",
     "unit": "Jakarta Kalibata Rawajati 1",
-    "tanggalLahir": "06/02",
+    "tanggalLahir": "02/06",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1QvAWL3rVBo-T80M21wNvk5Lpbs2BDtMX&sz=w500",
     "kartu": ""
@@ -3943,25 +3932,25 @@
     "nip": "1995020006",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "07/12",
+    "tanggalLahir": "12/07",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1erPV4I6oGNwS8GXPNYxGOd_UJAup6RRD&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0360",
-    "nama": "Hapidz padilla",
+    "nama": "Hapidz Padilla",
     "nip": "2695491793",
     "jabatan": "MM",
     "unit": "-",
-    "tanggalLahir": "08/09",
+    "tanggalLahir": "09/08",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1hQ8J2L9kJX0qyjy2GYhnx-FSoGwsbJh2&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0361",
-    "nama": "Indra nugraha",
+    "nama": "Indra Nugraha",
     "nip": "2295060560",
     "jabatan": "SGP",
     "unit": "-",
@@ -3972,7 +3961,7 @@
   },
   {
     "id": "EMP-0362",
-    "nama": "Dian wahyono",
+    "nama": "Dian Wahyono",
     "nip": "2595033954",
     "jabatan": "MM",
     "unit": "-",
@@ -3994,11 +3983,11 @@
   },
   {
     "id": "EMP-0364",
-    "nama": "Doni putra andreas tampubolon",
+    "nama": "Doni Putra A.T.",
     "nip": "2395030647",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "09/08",
+    "tanggalLahir": "08/09",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1Gu1zvM0RvOosF5Cz8PD6-BoTojuTsdZd&sz=w500",
     "kartu": ""
@@ -4027,11 +4016,11 @@
   },
   {
     "id": "EMP-0367",
-    "nama": "Bimo Adi Tirta",
+    "nama": "Bimo Adi T.",
     "nip": "2695493554",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "10/01",
+    "tanggalLahir": "01/10",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1zhik9fQrSfh684rt19D9CiVz9A9d1aO8&sz=w500",
     "kartu": ""
@@ -4049,7 +4038,7 @@
   },
   {
     "id": "EMP-0369",
-    "nama": "ALIFIA RAHMA ANDARINI",
+    "nama": "Alifia Rahma A.",
     "nip": "1895708014",
     "jabatan": "MBR",
     "unit": "-",
@@ -4060,7 +4049,7 @@
   },
   {
     "id": "EMP-0370",
-    "nama": "Niken ayu larasati",
+    "nama": "Niken Ayu L.",
     "nip": "2095729919",
     "jabatan": "MKA",
     "unit": "Bogor Grand Nusa Dua 1",
@@ -4071,40 +4060,40 @@
   },
   {
     "id": "EMP-0371",
-    "nama": "Muhammad yeri termizal",
+    "nama": "Muhammad Yeri T.",
     "nip": "2295020113",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "26/11",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1Rv2Ks7Pon86pkKBjrhyPiKP1ES7na9bC&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1F4vCrmOlhqIcIAHq97aHN4eXt59xZxc5&sz=w1200"
   },
   {
     "id": "EMP-0372",
-    "nama": "Yogi supriatna",
+    "nama": "Yogi Supriatna",
     "nip": "2695492459",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "29/11",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=15rdg0HUGdJMzvgfxxeU0dk7nKqUWlH5f&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1-vc1sKdgY3JEwjjjHbrjvgGtUunpB7Gl&sz=w1200"
   },
   {
     "id": "EMP-0373",
-    "nama": "Daniel bahari",
+    "nama": "Daniel Bahari",
     "nip": "2395032988",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/01",
+    "tanggalLahir": "01/12",
     "tahunLahir": 1995,
     "foto": "https://drive.google.com/thumbnail?id=1Bluili6Exj0xxHrp7Ai4HbhPhXh6P_yB&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1DTWqOlyVfimaDQEhzlP6JzfViVqT0neU&sz=w1200"
   },
   {
     "id": "EMP-0374",
-    "nama": "Panca Tri Utama",
+    "nama": "Panca Tri U.",
     "nip": "2395031192",
     "jabatan": "MM",
     "unit": "-",
@@ -4119,7 +4108,7 @@
     "nip": "2596030509",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/05",
+    "tanggalLahir": "05/01",
     "tahunLahir": 1996,
     "foto": "https://drive.google.com/thumbnail?id=1rD-1D8QxBWusJcFmPtXvx9fN3fUAsoX2&sz=w500",
     "kartu": ""
@@ -4130,14 +4119,14 @@
     "nip": "1996410548",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "01/08",
+    "tanggalLahir": "08/01",
     "tahunLahir": 1996,
     "foto": "https://drive.google.com/thumbnail?id=1HO5mJFgDoQx1MAhFX_a_fFlCb35Gk16m&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0377",
-    "nama": "Anjas friyana sukandar",
+    "nama": "Anjas Friyana S.",
     "nip": "2196020128",
     "jabatan": "SGP",
     "unit": "-",
@@ -4148,11 +4137,11 @@
   },
   {
     "id": "EMP-0378",
-    "nama": "Charlie delie chandra",
+    "nama": "Charlie Delie C.",
     "nip": "2696493564",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/11",
+    "tanggalLahir": "11/05",
     "tahunLahir": 1996,
     "foto": "https://drive.google.com/thumbnail?id=1nigWDNBNE1rYFv4h-3EMkOe7s5Gi7F-q&sz=w500",
     "kartu": ""
@@ -4170,7 +4159,7 @@
   },
   {
     "id": "EMP-0380",
-    "nama": "Samin jaya",
+    "nama": "Samin Jaya",
     "nip": "2969490425",
     "jabatan": "SGP",
     "unit": "-",
@@ -4192,7 +4181,7 @@
   },
   {
     "id": "EMP-0382",
-    "nama": "Muhamad iqbal kusumardi",
+    "nama": "Muhamad Iqbal K.",
     "nip": "2096020063",
     "jabatan": "SGP",
     "unit": "-",
@@ -4214,7 +4203,7 @@
   },
   {
     "id": "EMP-0384",
-    "nama": "Oti Purnama Sari",
+    "nama": "Oti Purnama S.",
     "nip": "2196410290",
     "jabatan": "CA",
     "unit": "-",
@@ -4229,14 +4218,14 @@
     "nip": "1796171453",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "11/07",
+    "tanggalLahir": "07/11",
     "tahunLahir": 1996,
     "foto": "https://drive.google.com/thumbnail?id=1nIr52ecAKyNNjvaAT4AoI1sIy4tSbi__&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0386",
-    "nama": "ELYAS RIZKI SAPUTRO",
+    "nama": "Elyas Rizki S.",
     "nip": "2296410002",
     "jabatan": "Pramubhakti",
     "unit": "-",
@@ -4254,11 +4243,11 @@
     "tanggalLahir": "29/11",
     "tahunLahir": 1996,
     "foto": "https://drive.google.com/thumbnail?id=1B5neBu643pU3xBK7u4z85skjqfcCEG7W&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1RGSptWp69pwZAVWyCWlLXvr7yrXMBtpS&sz=w1200"
   },
   {
     "id": "EMP-0388",
-    "nama": "Mohamad Bagus Trihantoro",
+    "nama": "Mohamad Bagus T.",
     "nip": "2096738133",
     "jabatan": "MKA",
     "unit": "Jakarta Jagakarsa 1",
@@ -4269,7 +4258,7 @@
   },
   {
     "id": "EMP-0389",
-    "nama": "Bayu insan utama",
+    "nama": "Bayu Insan U.",
     "nip": "2596032634",
     "jabatan": "SGP",
     "unit": "-",
@@ -4280,11 +4269,11 @@
   },
   {
     "id": "EMP-0390",
-    "nama": "Hatur cikal yanuari",
+    "nama": "Hatur Cikal Y.",
     "nip": "2397031291",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "01/05",
+    "tanggalLahir": "05/01",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1WK0dclJB3JhP-c0-XmJxWogZyKC7Qpon&sz=w500",
     "kartu": ""
@@ -4306,14 +4295,14 @@
     "nip": "2497030154",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "03/01",
+    "tanggalLahir": "01/03",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1O5_SIYmWeDNPxg-xcpEHUE9EeBJ2Qb46&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0393",
-    "nama": "Saipul anwar",
+    "nama": "Saipul Anwar",
     "nip": "2597032462",
     "jabatan": "SGP",
     "unit": "-",
@@ -4339,14 +4328,14 @@
     "nip": "1797171344",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/03",
+    "tanggalLahir": "03/04",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=12LVSa4n_WrvnX_CzTdYn2X1LszEGih2A&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0396",
-    "nama": "Yehezkiel Brillian Tauriska",
+    "nama": "Yehezkiel Brillian T.",
     "nip": "2697492461",
     "jabatan": "SGP",
     "unit": "-",
@@ -4357,18 +4346,18 @@
   },
   {
     "id": "EMP-0397",
-    "nama": "Ripan Zaenal Pajri",
+    "nama": "Ripan Zaenal P.",
     "nip": "2297768772",
     "jabatan": "MBR",
     "unit": "-",
-    "tanggalLahir": "05/04",
+    "tanggalLahir": "04/05",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1Zxw-LoNcasRcSgHDORDEpejEfAREsDde&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0398",
-    "nama": "Arman Anugerah Gulo",
+    "nama": "Arman Anugerah G.",
     "nip": "2197020106",
     "jabatan": "SGP",
     "unit": "-",
@@ -4379,7 +4368,7 @@
   },
   {
     "id": "EMP-0399",
-    "nama": "Agung prabowo",
+    "nama": "Agung Prabowo",
     "nip": "2697490420",
     "jabatan": "SGP",
     "unit": "-",
@@ -4401,29 +4390,29 @@
   },
   {
     "id": "EMP-0401",
-    "nama": "Ryan Akbar Firdaus",
+    "nama": "Ryan Akbar F.",
     "nip": "2697492837",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/09",
+    "tanggalLahir": "09/08",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1a3W4VFzkc0g033TwVQHsHCqhLFXU25rO&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0402",
-    "nama": "Benny Fernando Harianja",
+    "nama": "Benny Fernando H.",
     "nip": "2697494495",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/12",
+    "tanggalLahir": "12/08",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1oWWWCFLUU1-RJ5-INbewnA904aKZzn8J&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0403",
-    "nama": "IHDA SETIAJI NUGROHO",
+    "nama": "IHDA Setiaji N.",
     "nip": "2497030288",
     "jabatan": "SGP",
     "unit": "-",
@@ -4434,22 +4423,22 @@
   },
   {
     "id": "EMP-0404",
-    "nama": "Sultan Kemal Piagio",
+    "nama": "Sultan Kemal P.",
     "nip": "2497031170",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "10/03",
+    "tanggalLahir": "03/10",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=13Eqo1RcjZ1qYcTIpmwfot4u3hKs-cmwC&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0405",
-    "nama": "FADLILAH",
+    "nama": "Fadlilah",
     "nip": "2397030111",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "10/06",
+    "tanggalLahir": "06/10",
     "tahunLahir": 1997,
     "foto": "https://drive.google.com/thumbnail?id=1cEsYcnZXTkEnuSyJgxdF6hgSRRCFKtYF&sz=w500",
     "kartu": ""
@@ -4460,25 +4449,25 @@
     "nip": "2298020099",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "03/02",
+    "tanggalLahir": "02/03",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1ZHYtRXoXt6z7qdbmS1pjEBujFu3ydYNS&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0407",
-    "nama": "Destiani Amalia Rachmat Wijaya",
+    "nama": "Destiani Amalia R.W.",
     "nip": "2198750408",
     "jabatan": "MKA",
     "unit": "Bogor Juanda 1",
-    "tanggalLahir": "03/07",
+    "tanggalLahir": "07/03",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1VRbUgcUcNHU-N6euN1lXjQhm7fSEylOi&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0408",
-    "nama": "Yandika gema kumara",
+    "nama": "Yandika Gema K.",
     "nip": "2598032481",
     "jabatan": "SGP",
     "unit": "-",
@@ -4489,7 +4478,7 @@
   },
   {
     "id": "EMP-0409",
-    "nama": "Rahmat hidayat syam",
+    "nama": "Rahmat Hidayat S.",
     "nip": "2398032398",
     "jabatan": "SGP",
     "unit": "-",
@@ -4500,18 +4489,18 @@
   },
   {
     "id": "EMP-0410",
-    "nama": "Ikmal Afdila Gifari",
+    "nama": "Ikmal Afdila G.",
     "nip": "2198748261",
     "jabatan": "MKA",
     "unit": "Jakarta Falatehan 1",
-    "tanggalLahir": "04/12",
+    "tanggalLahir": "12/04",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1wz5OMElgtACRrcvMI4KfQKg9go8tB1SV&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0411",
-    "nama": "Adha Al Fahrisin",
+    "nama": "Adha Al F.",
     "nip": "2698492138",
     "jabatan": "MMA",
     "unit": "-",
@@ -4522,11 +4511,11 @@
   },
   {
     "id": "EMP-0412",
-    "nama": "Bincar harisona",
+    "nama": "Bincar Harisona",
     "nip": "2398031336",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/02",
+    "tanggalLahir": "02/05",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1kuCyTj2LHVNHmLTmh_ryRmgJxL2ovtYs&sz=w500",
     "kartu": ""
@@ -4544,29 +4533,29 @@
   },
   {
     "id": "EMP-0414",
-    "nama": "AHMAD EDONI",
+    "nama": "Ahmad Edoni",
     "nip": "2398030518",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/07",
+    "tanggalLahir": "07/05",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1LSlDrS4ygULTUCLGNkglsJGWFrmYRUwr&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0415",
-    "nama": "Ragil trio kusuma",
+    "nama": "Ragil Trio K.",
     "nip": "2598032433",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/01",
+    "tanggalLahir": "01/06",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1D2UOXlUSfYIr37BTbfsDOz7UVxB-geSm&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0416",
-    "nama": "Nada juniar",
+    "nama": "Nada Juniar",
     "nip": "2698494830",
     "jabatan": "SGP",
     "unit": "-",
@@ -4581,14 +4570,14 @@
     "nip": "2198751901",
     "jabatan": "MKA",
     "unit": "Jakarta Gedung Patrajasa 1",
-    "tanggalLahir": "10/11",
+    "tanggalLahir": "11/10",
     "tahunLahir": 1998,
     "foto": "https://drive.google.com/thumbnail?id=1gnXtdf1OS-9j7ifVO7wX69wIeU2mX3QW&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0418",
-    "nama": "Abdul Ibrahim lubis",
+    "nama": "Abdul Ibrahim L.",
     "nip": "2598030383",
     "jabatan": "SGP",
     "unit": "-",
@@ -4610,18 +4599,18 @@
   },
   {
     "id": "EMP-0420",
-    "nama": "Valdi Adil Baqi",
+    "nama": "Valdi Adil B.",
     "nip": "2199754706",
     "jabatan": "MKA",
     "unit": "Depok Tengah 2",
-    "tanggalLahir": "01/02",
+    "tanggalLahir": "02/01",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=1aUOEHh5fqtItvWfBlxm_Xq9JfRNh349V&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0421",
-    "nama": "MOCHAMMAD SULTAN GHANI",
+    "nama": "Mochammad Sultan G.",
     "nip": "2299020050",
     "jabatan": "SGP",
     "unit": "-",
@@ -4632,11 +4621,11 @@
   },
   {
     "id": "EMP-0422",
-    "nama": "Dzikri Azkiya Mahesa",
+    "nama": "Dzikri Azkiya M.",
     "nip": "2698491670",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/07",
+    "tanggalLahir": "07/04",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=12uvfIdBSLP9C_ziTRXVm4DRMQ1ARvFYM&sz=w500",
     "kartu": ""
@@ -4647,9 +4636,9 @@
     "nip": "2199751934",
     "jabatan": "MKA",
     "unit": "Jakarta M.T. Haryono 1",
-    "tanggalLahir": "04/10",
+    "tanggalLahir": "10/04",
     "tahunLahir": 1999,
-    "foto": "https://drive.google.com/thumbnail?id=1ei_Bew2pcg8-bsjVpMZXLAJnMGHhlxjY&sz=w500",
+    "foto": "https://drive.google.com/thumbnail?id=1aPhqCh_QaNLtMf8xaweN5iqDWiM7w0rQ&sz=w500",
     "kartu": ""
   },
   {
@@ -4669,7 +4658,7 @@
     "nip": "2699492812",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/01",
+    "tanggalLahir": "01/06",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=18TwsgqnYHwaufhBXv0FOowbT7HB1ZEUo&sz=w500",
     "kartu": ""
@@ -4687,7 +4676,7 @@
   },
   {
     "id": "EMP-0427",
-    "nama": "Achmad naufal firdaus",
+    "nama": "Achmad Naufal F.",
     "nip": "2299020111",
     "jabatan": "SGP",
     "unit": "-",
@@ -4698,7 +4687,7 @@
   },
   {
     "id": "EMP-0428",
-    "nama": "Syach dillah raka aditama",
+    "nama": "Syach Dillah R.A.",
     "nip": "2399030366",
     "jabatan": "SGP",
     "unit": "-",
@@ -4709,11 +4698,11 @@
   },
   {
     "id": "EMP-0429",
-    "nama": "Muhammad Rafli Pratama Abidin",
+    "nama": "Muhammad Rafli P.A.",
     "nip": "2099020127",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "07/04",
+    "tanggalLahir": "04/07",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=1TVOvSidPQ7-5eIzCVOntEwQDrSpgkZw3&sz=w500",
     "kartu": ""
@@ -4731,7 +4720,7 @@
   },
   {
     "id": "EMP-0431",
-    "nama": "Muhammad Jajuli Muslim",
+    "nama": "Muhammad Jajuli M.",
     "nip": "2599032147",
     "jabatan": "SGP",
     "unit": "-",
@@ -4746,7 +4735,7 @@
     "nip": "2699490724",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "08/06",
+    "tanggalLahir": "06/08",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=18DJNBMFJL6-s14ThdJczZaekwBUID0h2&sz=w500",
     "kartu": ""
@@ -4764,18 +4753,18 @@
   },
   {
     "id": "EMP-0434",
-    "nama": "DEARY SULAEMAN",
+    "nama": "Deary Sulaeman",
     "nip": "2499032489",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "12/02",
+    "tanggalLahir": "02/12",
     "tahunLahir": 1999,
     "foto": "https://drive.google.com/thumbnail?id=12E_7Dw9VgpP2LGd_rrShTaPgRO82Mndn&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1PUiQfhV4prM1eGiD77YrMscfSRVMR59m&sz=w1200"
   },
   {
     "id": "EMP-0435",
-    "nama": "Risa Adha Fahira",
+    "nama": "Risa Adha F.",
     "nip": "2600873582",
     "jabatan": "MKA",
     "unit": "Jakarta Petukangan 1",
@@ -4786,11 +4775,11 @@
   },
   {
     "id": "EMP-0436",
-    "nama": "Maulana Wahid Hakim",
+    "nama": "Maulana Wahid H.",
     "nip": "2500856315",
     "jabatan": "MKA",
     "unit": "Jakarta Fatmawati 1",
-    "tanggalLahir": "04/06",
+    "tanggalLahir": "06/04",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1LXf9sFIoUFGlnDdhFKE88WVRlTo1v95y&sz=w500",
     "kartu": ""
@@ -4808,29 +4797,29 @@
   },
   {
     "id": "EMP-0438",
-    "nama": "Omar Adnan Nasution",
+    "nama": "Omar Adnan N.",
     "nip": "2500032530",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "05/11",
+    "tanggalLahir": "11/05",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1MWUx0Cc4tx-NbZyYGPFkMPGgdath0Or9&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0439",
-    "nama": "ENENG SRI WINDARI HANDAYANI",
+    "nama": "Eneng Sri W.H.",
     "nip": "1900020001",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "06/09",
+    "tanggalLahir": "09/06",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1dEvfwo9egnJl33xauUdE8_6QDBfNhna9&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0440",
-    "nama": "Bella Amara Alifia Putri",
+    "nama": "Bella Amara A.P.",
     "nip": "2200778207",
     "jabatan": "MKA",
     "unit": "Bogor Kemang 1",
@@ -4841,7 +4830,7 @@
   },
   {
     "id": "EMP-0441",
-    "nama": "Yesaya Pandapotan Pardede",
+    "nama": "Yesaya Pandapotan P.",
     "nip": "2600490421",
     "jabatan": "SGP",
     "unit": "-",
@@ -4856,25 +4845,25 @@
     "nip": "2400829446",
     "jabatan": "MKA",
     "unit": "Bogor Tajur 1",
-    "tanggalLahir": "09/01",
+    "tanggalLahir": "01/09",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1n5z8-61PYSwwcajWN75bbmH4xwhzKqNv&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0443",
-    "nama": "Anggita Ayu Safitri",
+    "nama": "Anggita Ayu S.",
     "nip": "2600494828",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "09/12",
+    "tanggalLahir": "12/09",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1ICfEd6WPk90oSPAZrdfDa3yQbP_Oj5tq&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0444",
-    "nama": "Shendy sulaeman",
+    "nama": "Shendy Sulaeman",
     "nip": "2500030469",
     "jabatan": "SGP",
     "unit": "-",
@@ -4885,18 +4874,18 @@
   },
   {
     "id": "EMP-0445",
-    "nama": "Dinda Retno Sarry",
+    "nama": "Dinda Retno S.",
     "nip": "2600863153",
     "jabatan": "MKA",
     "unit": "Bogor Kapten Muslihat 1",
-    "tanggalLahir": "10/07",
+    "tanggalLahir": "07/10",
     "tahunLahir": 2000,
     "foto": "https://drive.google.com/thumbnail?id=1xYIb6_wFeJMKTWUNSTykdKNHGDFXiUb5&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0446",
-    "nama": "Frahesa Oktafia Rofah",
+    "nama": "Frahesa Oktafia R.",
     "nip": "2400819165",
     "jabatan": "MKA",
     "unit": "Bogor Nirwana Residence 1",
@@ -4907,7 +4896,7 @@
   },
   {
     "id": "EMP-0447",
-    "nama": "BOBY TRI HARTANTO",
+    "nama": "Boby Tri H.",
     "nip": "2300031017",
     "jabatan": "MMA",
     "unit": "-",
@@ -4929,7 +4918,7 @@
   },
   {
     "id": "EMP-0449",
-    "nama": "ALFAZRI SIHAQ",
+    "nama": "Alfazri Sihaq",
     "nip": "2601490545",
     "jabatan": "SGP",
     "unit": "-",
@@ -4940,29 +4929,29 @@
   },
   {
     "id": "EMP-0450",
-    "nama": "Ragiel Pebriawan s",
+    "nama": "Ragiel Pebriawan S.",
     "nip": "2401034515",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "02/09",
+    "tanggalLahir": "09/02",
     "tahunLahir": 2001,
     "foto": "https://drive.google.com/thumbnail?id=1ZmTmf9q0bwDNBXcko3n-N5Ygd3zq05Ut&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0451",
-    "nama": "Zidny solihan nafisa",
+    "nama": "Zidny Solihan N.",
     "nip": "2501843023",
     "jabatan": "MKA",
     "unit": "Depok Universitas Indonesia 1",
-    "tanggalLahir": "05/07",
+    "tanggalLahir": "07/05",
     "tahunLahir": 2001,
     "foto": "https://drive.google.com/thumbnail?id=1pOxA_9WbB6POSTlh9cDHTtBrIiDbMZqg&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0452",
-    "nama": "Muhamad adnan fauzi",
+    "nama": "Muhamad Adnan F.",
     "nip": "2601493759",
     "jabatan": "SGP",
     "unit": "-",
@@ -4973,7 +4962,7 @@
   },
   {
     "id": "EMP-0453",
-    "nama": "Heldy Adynata Putra Pratama",
+    "nama": "Heldy Adynata P.P.",
     "nip": "2601867021",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "-",
@@ -4995,7 +4984,7 @@
   },
   {
     "id": "EMP-0455",
-    "nama": "RIZKI FERDIANSYAH",
+    "nama": "Rizki Ferdiansyah",
     "nip": "2201020136",
     "jabatan": "SGP",
     "unit": "-",
@@ -5010,14 +4999,14 @@
     "nip": "2601490443",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "07/12",
+    "tanggalLahir": "12/07",
     "tahunLahir": 2001,
     "foto": "https://drive.google.com/thumbnail?id=1cg9rp35bH6hrTAM4wdhD74-3RVX_kzzf&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0457",
-    "nama": "Faisyal syarip",
+    "nama": "Faisyal Syarip",
     "nip": "2601494460",
     "jabatan": "CA",
     "unit": "-",
@@ -5028,7 +5017,7 @@
   },
   {
     "id": "EMP-0458",
-    "nama": "Rifky Aditiya Friyatno",
+    "nama": "Rifky Aditiya F.",
     "nip": "2601494826",
     "jabatan": "SGP",
     "unit": "-",
@@ -5039,7 +5028,7 @@
   },
   {
     "id": "EMP-0459",
-    "nama": "Charles Kristian Eli Gulo",
+    "nama": "Charles Kristian E.G.",
     "nip": "2601490313",
     "jabatan": "SGP",
     "unit": "-",
@@ -5054,25 +5043,25 @@
     "nip": "2301030124",
     "jabatan": "MMA",
     "unit": "-",
-    "tanggalLahir": "09/07",
+    "tanggalLahir": "07/09",
     "tahunLahir": 2001,
     "foto": "https://drive.google.com/thumbnail?id=1xlmdSrNtB5jNjMIu0dwsGeVnU0J-0hWF&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0461",
-    "nama": "Nota Krisman Jaya Gulo",
+    "nama": "Nota Krisman J.G.",
     "nip": "2501030331",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "11/01",
+    "tanggalLahir": "01/11",
     "tahunLahir": 2001,
     "foto": "https://drive.google.com/thumbnail?id=1jiqacaC-3JRVNGgDFEwTj7cuXyfEXON2&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0462",
-    "nama": "Wildan Jaisy Muhammad El Hadi",
+    "nama": "Wildan Jaisy M.E.H.",
     "nip": "2601494708",
     "jabatan": "SGP",
     "unit": "-",
@@ -5094,7 +5083,7 @@
   },
   {
     "id": "EMP-0464",
-    "nama": "RICCO PRASETYAHADI",
+    "nama": "Ricco Prasetyahadi",
     "nip": "2602494031",
     "jabatan": "SGP",
     "unit": "-",
@@ -5116,7 +5105,7 @@
   },
   {
     "id": "EMP-0466",
-    "nama": "HAFIDZ FAUZI SALIM",
+    "nama": "Hafidz Fauzi S.",
     "nip": "2502032590",
     "jabatan": "SGP",
     "unit": "-",
@@ -5127,11 +5116,11 @@
   },
   {
     "id": "EMP-0467",
-    "nama": "Moch Faddil Zakaria Afidev",
+    "nama": "Moch Faddil Z.A.",
     "nip": "2502031963",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "04/08",
+    "tanggalLahir": "08/04",
     "tahunLahir": 2002,
     "foto": "https://drive.google.com/thumbnail?id=1AlgGRRH_twv8iKuyw9NltxN3xRg_7io1&sz=w500",
     "kartu": ""
@@ -5149,7 +5138,7 @@
   },
   {
     "id": "EMP-0469",
-    "nama": "Muhammad Fariz Maulidi Abdullah",
+    "nama": "Muhammad Fariz M.A.",
     "nip": "2602492838",
     "jabatan": "SGP",
     "unit": "-",
@@ -5171,7 +5160,7 @@
   },
   {
     "id": "EMP-0471",
-    "nama": "Nur Fachriza U",
+    "nama": "Nur Fachriza U.",
     "nip": "2305061292",
     "jabatan": "SGP",
     "unit": "-",
@@ -5182,18 +5171,18 @@
   },
   {
     "id": "EMP-0472",
-    "nama": "Siti Maria Ulpah",
+    "nama": "Siti Maria U.",
     "nip": "2602894487",
     "jabatan": "MKA",
     "unit": "Depok Margo City 1",
-    "tanggalLahir": "07/05",
+    "tanggalLahir": "05/07",
     "tahunLahir": 2002,
     "foto": "https://drive.google.com/thumbnail?id=1IpuxSqr9bVkAhrwROL_FDAKmD5T2g5RG&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0473",
-    "nama": "LEONY NISRINA ROIDAH",
+    "nama": "Leony Nisrina R.",
     "nip": "2502836810",
     "jabatan": "MKA",
     "unit": "Depok I 2",
@@ -5204,7 +5193,7 @@
   },
   {
     "id": "EMP-0474",
-    "nama": "MUHAMMAD RAFI AWLIA",
+    "nama": "Muhammad Rafi A.",
     "nip": "2602492402",
     "jabatan": "SGP",
     "unit": "-",
@@ -5215,7 +5204,7 @@
   },
   {
     "id": "EMP-0475",
-    "nama": "LARASATI PUTRIA NINGRUM",
+    "nama": "Larasati Putria N.",
     "nip": "2502032228",
     "jabatan": "SGP",
     "unit": "-",
@@ -5241,14 +5230,14 @@
     "nip": "2502032123",
     "jabatan": "SGP",
     "unit": "-",
-    "tanggalLahir": "10/11",
+    "tanggalLahir": "11/10",
     "tahunLahir": 2002,
     "foto": "https://drive.google.com/thumbnail?id=1s4mGAx49qnI3e5NOJ_UVoEcI8goqudju&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0478",
-    "nama": "DHARMAWAN INDRA WICAKSANA",
+    "nama": "Dharmawan Indra W.",
     "nip": "2502838089",
     "jabatan": "MKA",
     "unit": "Bogor Klapanunggal 1",
@@ -5259,7 +5248,7 @@
   },
   {
     "id": "EMP-0479",
-    "nama": "Anisah Puspita Sari",
+    "nama": "Anisah Puspita S.",
     "nip": "2602491630",
     "jabatan": "SGP",
     "unit": "-",
@@ -5270,29 +5259,29 @@
   },
   {
     "id": "EMP-0480",
-    "nama": "Irham Firdaus Dwi Nugraha",
+    "nama": "Irham Firdaus D.N.",
     "nip": "2602894503",
     "jabatan": "MKA",
     "unit": "Jakarta Kalibata 1",
-    "tanggalLahir": "11/03",
+    "tanggalLahir": "03/11",
     "tahunLahir": 2002,
     "foto": "https://drive.google.com/thumbnail?id=1XJq6oKIQedO44Z_C6nME21ZKTv6hcTJ1&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0481",
-    "nama": "Muhammad Ikram Ramadhan Mahendra",
+    "nama": "Muhammad Ikram R.M.",
     "nip": "2602494832",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "24/11",
     "tahunLahir": 2002,
     "foto": "https://drive.google.com/thumbnail?id=1dSlHYHDvVWbCnWzWMCShu92rFwWT0dma&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1mlubJhGVGiTOR8VFVFcohYJBD8Kaaf64&sz=w1200"
   },
   {
     "id": "EMP-0482",
-    "nama": "Aldi Awaludin Hidayat",
+    "nama": "Aldi Awaludin H.",
     "nip": "2502031979",
     "jabatan": "SGP",
     "unit": "-",
@@ -5303,11 +5292,11 @@
   },
   {
     "id": "EMP-0483",
-    "nama": "Rasya Diah Kinanti Pranaditya",
+    "nama": "Rasya Diah K.P.",
     "nip": "2503836686",
     "jabatan": "MKA",
     "unit": "Bogor ATC Parung 1",
-    "tanggalLahir": "02/04",
+    "tanggalLahir": "04/02",
     "tahunLahir": 2003,
     "foto": "https://drive.google.com/thumbnail?id=1ya2F73RmnI3HKIXyIaSWEQv0pJRwKbpV&sz=w500",
     "kartu": ""
@@ -5325,7 +5314,7 @@
   },
   {
     "id": "EMP-0485",
-    "nama": "Qori ah Yanter",
+    "nama": "Qori Ah Y.",
     "nip": "2603894494",
     "jabatan": "MKA",
     "unit": "Jakarta Universitas Pancasila 1",
@@ -5343,22 +5332,22 @@
     "tanggalLahir": "17/11",
     "tahunLahir": 2003,
     "foto": "https://drive.google.com/thumbnail?id=1cNrc414kU6rhHng3tQN7QfvEKXO_kvnF&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1xgyus-vIB9BlwM2qGX5sJpfB9dwgRuZc&sz=w1200"
   },
   {
     "id": "EMP-0487",
-    "nama": "Muhamad Fahreza Awaludin",
+    "nama": "Muhamad Fahreza A.",
     "nip": "2603494600",
     "jabatan": "SGP",
     "unit": "-",
     "tanggalLahir": "25/11",
     "tahunLahir": 2003,
     "foto": "https://drive.google.com/thumbnail?id=1Jm82VdLJsVbbQqXiXjLdRJT1KoXcoTUu&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=1gybhPyBRqroBE8WgUjqLCpyYQAKOMkEF&sz=w1200"
   },
   {
     "id": "EMP-0488",
-    "nama": "Sachrul syabana",
+    "nama": "Sachrul Syabana",
     "nip": "1185041833",
     "jabatan": "SGP",
     "unit": "-",
@@ -5369,22 +5358,22 @@
   },
   {
     "id": "EMP-0489",
-    "nama": "Wiko sunaryono",
+    "nama": "Wiko Sunaryono",
     "nip": "1379524671",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Depok Jatijajar 1",
-    "tanggalLahir": "07/04",
+    "tanggalLahir": "04/07",
     "tahunLahir": 2026,
     "foto": "https://drive.google.com/thumbnail?id=1M6Y73m9anOL0lWRQiVgddMZyvVa8ZqZt&sz=w500",
     "kartu": ""
   },
   {
     "id": "EMP-0490",
-    "nama": "Ika Widyastutie EH",
+    "nama": "Ika Widyastutie E.H.",
     "nip": "9974048043",
     "jabatan": "MBM/Penyelia Unit",
     "unit": "Jakarta Pondok Indah 1",
-    "tanggalLahir": "08/04",
+    "tanggalLahir": "04/08",
     "tahunLahir": 2026,
     "foto": "https://drive.google.com/thumbnail?id=14EotfiH-M6v01Sj8jQnLFLQcBxYTbi5b&sz=w500",
     "kartu": ""
@@ -5409,7 +5398,7 @@
     "tanggalLahir": "19/11",
     "tahunLahir": 2026,
     "foto": "https://drive.google.com/thumbnail?id=1oFx9T5KFZcEYEeDhFoVCFTe167A8pyYQ&sz=w500",
-    "kartu": ""
+    "kartu": "https://drive.google.com/thumbnail?id=15_q9p-1cqSbVkotlFsuhlccX0ga1hYYn&sz=w1200"
   },
   {
     "id": "EMP-0493",
@@ -5420,6 +5409,28 @@
     "tanggalLahir": "12/12",
     "tahunLahir": 2026,
     "foto": "https://drive.google.com/thumbnail?id=1KTnYXVt814_70wr1oZ_P2bD79JsH5YoI&sz=w500",
+    "kartu": "https://drive.google.com/thumbnail?id=1nAMucTW2CvEEw2fH2AGGAR7uT7lDh_6F&sz=w1200"
+  },
+  {
+    "id": "EMP-0001",
+    "nama": "Arif Agus Nugroho",
+    "nip": "2389030197",
+    "jabatan": "SGP",
+    "unit": "-",
+    "tanggalLahir": "12/08",
+    "tahunLahir": 1989,
+    "foto": "https://drive.google.com/thumbnail?id=1bkg1blKsme4TOwxnnYdH7U12NnAIOqwc&sz=w500",
+    "kartu": ""
+  },
+  {
+    "id": "EMP-0443",
+    "nama": "Anggita Ayu Safitri",
+    "nip": "2600494828",
+    "jabatan": "SGP",
+    "unit": "-",
+    "tanggalLahir": "12/09",
+    "tahunLahir": 2000,
+    "foto": "https://drive.google.com/thumbnail?id=1ICfEd6WPk90oSPAZrdfDa3yQbP_Oj5tq&sz=w500",
     "kartu": ""
   }
 ]

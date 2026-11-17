@@ -373,13 +373,18 @@ function parseDate(rawDate) {
     let p3 = parts[2] ? parseInt(parts[2]) : null;
 
     let day, month;
-    if (p1 > 12) {
-      day = p1;
+    if (parts[0].length === 4) { // YYYY/MM/DD
+      day = p3;
       month = p2;
-    } else {
-      // Standard US Google Sheet M/D/YYYY
+      p3 = p1;
+    } else if (p2 > 12 && p1 <= 12) {
+      // Fallback jika tidak sengaja format US M/D/YYYY dimana hari > 12
       day = p2;
       month = p1;
+    } else {
+      // Format Standar Indonesia DD/MM/YYYY (Tanggal / Bulan / Tahun)
+      day = p1;
+      month = p2;
     }
 
     if (p3 !== null) {
@@ -464,7 +469,7 @@ function parseEmployeesCsv(csvText) {
       else if (cleanKey.includes('jabatan') || cleanKey.includes('role') || cleanKey.includes('posisi')) jabatan = strVal;
       else if (cleanKey.includes('tgl') || cleanKey.includes('tanggal') || cleanKey.includes('lahir') || cleanKey.includes('birth')) tanggalLahir = strVal;
       else if (cleanKey.includes('kartu') || cleanKey.includes('card') || cleanKey.includes('hasil') || cleanKey.includes('f1') || (cleanKey.includes('column 1') && strVal.startsWith('http'))) kartu = strVal;
-      else if (cleanKey.includes('foto') || cleanKey.includes('image') || cleanKey.includes('avatar') || cleanKey.includes('link')) foto = strVal;
+      else if (cleanKey.includes('foto') || cleanKey.includes('image') || cleanKey.includes('avatar') || (cleanKey.includes('link') && !cleanKey.includes('kartu') && !cleanKey.includes('card'))) foto = strVal;
     }
 
     if (nama) {
