@@ -45,7 +45,7 @@ if (!process.env.VERCEL) {
   try {
     if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
     if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
-  } catch (_) {}
+  } catch (_) { }
 }
 
 function readJson(file, defaultVal) {
@@ -121,7 +121,7 @@ async function initWhatsApp(forceFresh = false) {
       try {
         sock.ev?.removeAllListeners();
         sock.ws?.close();
-      } catch (_) {}
+      } catch (_) { }
       sock = null;
     }
     clearSessionDir();
@@ -249,7 +249,7 @@ async function runScheduledAlertCheck() {
   const history = readJson(HISTORY_FILE, {});
   const employees = readJson(EMPLOYEES_FILE, []);
   const todayStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
-  
+
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowStr = `${String(tomorrow.getDate()).padStart(2, '0')}/${String(tomorrow.getMonth() + 1).padStart(2, '0')}`;
@@ -483,21 +483,21 @@ function parseEmployeesCsv(csvText) {
         const { normalized, tahun } = parseDate(tanggalLahir);
 
         // Find existing emp to preserve kartu if sheet does not have it
-        const existingEmp = existingEmployees.find(e => 
-          (cleanNip !== '-' && e.nip === cleanNip) || 
+        const existingEmp = existingEmployees.find(e =>
+          (cleanNip !== '-' && e.nip === cleanNip) ||
           (e.nama && e.nama.toLowerCase().trim() === nama.toLowerCase().trim())
         );
 
         // Check override registry
-        const override = cardOverrides[nama] || 
-          Object.values(cardOverrides).find(o => 
-            (cleanNip !== '-' && o.nip === cleanNip) || 
+        const override = cardOverrides[nama] ||
+          Object.values(cardOverrides).find(o =>
+            (cleanNip !== '-' && o.nip === cleanNip) ||
             (o.empId && existingEmp && o.empId === existingEmp.id) ||
             (o.nama && o.nama.toLowerCase().trim() === nama.toLowerCase().trim())
           );
 
-        const finalKartu = kartu 
-          ? normalizeGoogleDriveUrl(kartu, true) 
+        const finalKartu = kartu
+          ? normalizeGoogleDriveUrl(kartu, true)
           : (override?.kartu || '');
 
         result.push({
@@ -598,7 +598,7 @@ app.post('/api/disconnect', async (req, res) => {
       try {
         await sock.logout();
       } catch (_) {
-        try { sock.end(); } catch (__) {}
+        try { sock.end(); } catch (__) { }
       }
       sock = null;
     }
@@ -616,7 +616,7 @@ app.post('/api/disconnect', async (req, res) => {
 app.post('/api/reset-session', async (req, res) => {
   try {
     if (sock) {
-      try { sock.end(); } catch (_) {}
+      try { sock.end(); } catch (_) { }
       sock = null;
     }
     clearSessionDir();
@@ -723,7 +723,7 @@ function getDaysUntilBirthday(tanggalLahir, refDate = new Date()) {
   const currentYear = refDate.getFullYear();
   let bday = new Date(currentYear, month, day);
   const ref = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
-  
+
   if (bday < ref) {
     bday = new Date(currentYear + 1, month, day);
   }
@@ -930,7 +930,7 @@ app.get('/api/photo-proxy', async (req, res) => {
             break;
           }
         }
-      } catch (_) {}
+      } catch (_) { }
     }
 
     if (!imageBuffer) {

@@ -1742,7 +1742,7 @@ function initF1StudioWithEmployee(emp) {
 
   const title = document.getElementById("f1CardOwnerTitle");
   if (title && emp) {
-    title.textContent = `${emp.nama} - Live HD Preview (896 x 1200 px)`;
+    title.textContent = `${emp.nama} - Live HD Preview`;
   }
 
   updateCardModalUi(emp, hasCard);
@@ -1963,21 +1963,66 @@ function renderCard() {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
-  const width = 896;
-  const height = 1200;
-  canvas.width = width;
-  canvas.height = height;
-
   const studio = state.f1Studio || {};
   const emp = studio.employee || {};
 
+  const titleEl = document.getElementById("f1CardOwnerTitle");
+  const badgeRatio = document.getElementById("f1BadgeRatio");
+
   // KONDISI 1: Jika memiliki Kartu Ucapan khusus yang sudah diinput di Google Sheets
   if (studio.isCustomCard && studio.generatedF1Card && studio.generatedF1Card.complete && studio.generatedF1Card.naturalWidth > 0) {
-    ctx.drawImage(studio.generatedF1Card, 0, 0, width, height);
+    const img = studio.generatedF1Card;
+    const naturalW = img.naturalWidth;
+    const naturalH = img.naturalHeight;
+
+    // Pasang resolusi dan ukuran canvas persis sesuai ukuran asli poster (tanpa distorsi / tidak gepeng!)
+    canvas.width = naturalW;
+    canvas.height = naturalH;
+    ctx.clearRect(0, 0, naturalW, naturalH);
+    ctx.drawImage(img, 0, 0, naturalW, naturalH);
+
+    // Hitung label rasio untuk status bar
+    const gcd = (a, b) => (!b ? a : gcd(b, a % b));
+    const div = gcd(naturalW, naturalH);
+    const rW = Math.round(naturalW / div);
+    const rH = Math.round(naturalH / div);
+    let ratioLabel = `${rW}:${rH}`;
+    const ratioVal = naturalW / naturalH;
+    if (Math.abs(ratioVal - (2 / 3)) < 0.03) {
+      ratioLabel = "2:3 Poster HD";
+    } else if (Math.abs(ratioVal - (3 / 4)) < 0.03) {
+      ratioLabel = "3:4 Story HD";
+    } else if (Math.abs(ratioVal - (9 / 16)) < 0.03) {
+      ratioLabel = "9:16 Full Story";
+    } else if (Math.abs(ratioVal - (4 / 5)) < 0.03) {
+      ratioLabel = "4:5 Portrait";
+    } else if (rW === 1 && rH === 1) {
+      ratioLabel = "1:1 Square";
+    }
+
+    if (titleEl && emp) {
+      titleEl.textContent = `${emp.nama} - Format Asli (${naturalW} × ${naturalH} px)`;
+    }
+    if (badgeRatio) {
+      badgeRatio.textContent = ratioLabel;
+    }
     return;
   }
 
   // KONDISI 2: Kartu Ucapan masih kosong / belum dibuatkan di Google Sheets
+  // Gunakan rasio standar 2:3 (1024 x 1536 px) sesuai ukuran poster resmi Mandiri
+  const width = 1024;
+  const height = 1536;
+  canvas.width = width;
+  canvas.height = height;
+
+  if (titleEl && emp) {
+    titleEl.textContent = `${emp.nama} - Status Kartu Ucapan`;
+  }
+  if (badgeRatio) {
+    badgeRatio.textContent = "2:3 Standar Poster";
+  }
+
   renderPendingCard(ctx, width, height, emp, studio.cardLoadError);
 }
 
@@ -2015,10 +2060,10 @@ function renderPendingCard(ctx, width, height, emp, isError) {
   drawDanantaraLogo(ctx, width - 195, 52);
 
   // Main Center Card Box
-  const boxW = 760;
-  const boxH = 780;
+  const boxW = Math.min(840, width - 100);
+  const boxH = Math.min(1080, height - 320);
   const boxX = (width - boxW) / 2;
-  const boxY = 160;
+  const boxY = 180;
   const boxR = 24;
 
   ctx.save();
@@ -2040,10 +2085,10 @@ function renderPendingCard(ctx, width, height, emp, isError) {
   ctx.restore();
 
   // Status Badge / Icon Circle
-  const iconY = boxY + 95;
+  const iconY = boxY + 110;
   ctx.save();
   ctx.beginPath();
-  ctx.arc(width / 2, iconY, 52, 0, Math.PI * 2);
+  ctx.arc(width / 2, iconY, 56, 0, Math.PI * 2);
   ctx.fillStyle = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)';
   ctx.fill();
   ctx.strokeStyle = isError ? '#EF4444' : '#F59E0B';
@@ -2051,35 +2096,35 @@ function renderPendingCard(ctx, width, height, emp, isError) {
   ctx.stroke();
 
   ctx.textAlign = 'center';
-  ctx.font = '54px "Segoe UI Emoji", sans-serif';
-  ctx.fillText(isError ? '⚠️' : '⏳', width / 2, iconY + 18);
+  ctx.font = '58px "Segoe UI Emoji", sans-serif';
+  ctx.fillText(isError ? '⚠️' : '⏳', width / 2, iconY + 20);
   ctx.restore();
 
   // Status Title
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.font = '800 28px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '800 30px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = isError ? '#F87171' : '#FBBF24';
   ctx.letterSpacing = '1.5px';
   const mainTitle = isError ? "LINK KARTU UCAPAN TIDAK DAPAT DIAKSES" : "KARTU UCAPAN BELUM DIBUATKAN";
-  ctx.fillText(mainTitle, width / 2, boxY + 200);
+  ctx.fillText(mainTitle, width / 2, boxY + 225);
 
   // Status Subtitle Pill
-  const pillW = 460;
-  const pillH = 34;
-  const pillY = boxY + 224;
+  const pillW = Math.min(500, boxW - 60);
+  const pillH = 36;
+  const pillY = boxY + 252;
   ctx.fillStyle = isError ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)';
   ctx.strokeStyle = isError ? 'rgba(239, 68, 68, 0.5)' : 'rgba(245, 158, 11, 0.5)';
   ctx.lineWidth = 1;
-  roundRect(ctx, (width - pillW) / 2, pillY, pillW, pillH, 17, true, true);
+  roundRect(ctx, (width - pillW) / 2, pillY, pillW, pillH, 18, true, true);
 
-  ctx.font = '700 12.5px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '700 13px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = isError ? '#FCA5A5' : '#FDE68A';
   ctx.letterSpacing = '1px';
-  ctx.fillText(isError ? "STATUS: PERIKSA IZIN AKSES GOOGLE DRIVE" : "STATUS: MENUNGGU DESAIN & LINK GOOGLE DRIVE", width / 2, pillY + 21.5);
+  ctx.fillText(isError ? "STATUS: PERIKSA IZIN AKSES GOOGLE DRIVE" : "STATUS: MENUNGGU DESAIN & LINK GOOGLE DRIVE", width / 2, pillY + 23);
 
   // Employee Identity Section (Divider & Info)
-  const lineY = boxY + 285;
+  const lineY = boxY + 330;
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
   ctx.lineWidth = 1;
   ctx.beginPath();
@@ -2088,31 +2133,31 @@ function renderPendingCard(ctx, width, height, emp, isError) {
   ctx.stroke();
 
   // Employee Name
-  ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '800 34px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillText(emp.nama || 'Rekan Pegawai Mandiri', width / 2, lineY + 50);
+  ctx.fillText(emp.nama || 'Rekan Pegawai Mandiri', width / 2, lineY + 60);
 
   // Jabatan & Unit
   const roleText = `${emp.jabatan || 'Micro Banking'}${emp.unit && emp.unit !== '-' ? ' • ' + emp.unit : ''}`;
-  ctx.font = '700 16px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '700 18px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#38BDF8';
-  ctx.fillText(roleText, width / 2, lineY + 85);
+  ctx.fillText(roleText, width / 2, lineY + 100);
 
   // NIP & Tanggal Lahir
   let metaParts = [];
   if (emp.nip && emp.nip !== '-') metaParts.push(`NIP: ${emp.nip}`);
   if (emp.tanggalLahir) metaParts.push(`HUT: ${formatF1Date(emp.tanggalLahir)}`);
   if (metaParts.length > 0) {
-    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '600 15px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#94A3B8';
-    ctx.fillText(metaParts.join('  |  '), width / 2, lineY + 115);
+    ctx.fillText(metaParts.join('  |  '), width / 2, lineY + 135);
   }
 
   // Instruction Box for PIC / Admin
-  const infoBoxW = 660;
-  const infoBoxH = 220;
+  const infoBoxW = Math.min(740, boxW - 80);
+  const infoBoxH = 240;
   const infoBoxX = (width - infoBoxW) / 2;
-  const infoBoxY = lineY + 155;
+  const infoBoxY = lineY + 175;
   const infoBoxR = 14;
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
@@ -2122,15 +2167,15 @@ function renderPendingCard(ctx, width, height, emp, isError) {
 
   // Instruction Title
   ctx.textAlign = 'left';
-  ctx.font = '800 15px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '800 16px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#FFB700';
-  ctx.fillText("📌 Catatan Pengisian di Google Sheet:", infoBoxX + 24, infoBoxY + 36);
+  ctx.fillText("📌 Catatan Pengisian di Google Sheet:", infoBoxX + 24, infoBoxY + 38);
 
-  ctx.font = '500 14px "Plus Jakarta Sans", sans-serif';
+  ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#CBD5E1';
   const leftX = infoBoxX + 24;
-  let textY = infoBoxY + 70;
-  const lineHeight = 26;
+  let textY = infoBoxY + 74;
+  const lineHeight = 28;
 
   if (isError) {
     ctx.fillText("1. Tautan kartu ucapan terdeteksi di sheet, tetapi file tidak dapat dimuat.", leftX, textY);
@@ -2152,7 +2197,7 @@ function renderPendingCard(ctx, width, height, emp, isError) {
   ctx.restore();
 
   // Footer Badge
-  drawFooterBadge(ctx, width / 2, 1050);
+  drawFooterBadge(ctx, width / 2, height - 100);
 }
 
 // -------------------------------------------------------------
