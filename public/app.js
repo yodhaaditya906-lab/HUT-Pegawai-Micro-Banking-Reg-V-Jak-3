@@ -182,32 +182,8 @@ function normalizeGoogleDriveUrl(url, highRes = false) {
   return url;
 }
 
-const CLIENT_CARD_OVERRIDES = {
-  "muhamad alpan buhori": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w1200",
-  "1893020033": "https://drive.google.com/thumbnail?id=19p1iWtWYK3RR0EBAe2RldVUDogIRfaFx&sz=w1200",
-  "muhamad hary erlangga": "https://drive.google.com/thumbnail?id=1aPhqCh_QaNLtMf8xaweN5iqDWiM7w0rQ&sz=w1200",
-  "2193060059": "https://drive.google.com/thumbnail?id=1aPhqCh_QaNLtMf8xaweN5iqDWiM7w0rQ&sz=w1200",
-  "arifin parinduri": "https://drive.google.com/thumbnail?id=1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D&sz=w1200",
-  "1085401321": "https://drive.google.com/thumbnail?id=1HOSuFIKeTEd0EsZDUUo8j5BV_15eEK5D&sz=w1200",
-  "adetya yandri": "https://drive.google.com/thumbnail?id=1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2&sz=w1200",
-  "1592585640": "https://drive.google.com/thumbnail?id=1gV-OsgQyM2susbN3TmnLLcx2JQ8IVjr2&sz=w1200",
-  "adri fauzan": "https://drive.google.com/thumbnail?id=19noj3JJfVDNnfM2OZKvIePQWz7mS2icF&sz=w1200",
-  "1991020080": "https://drive.google.com/thumbnail?id=19noj3JJfVDNnfM2OZKvIePQWz7mS2icF&sz=w1200",
-  "anisah puspita sari": "https://drive.google.com/thumbnail?id=1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA&sz=w1200",
-  "2602491630": "https://drive.google.com/thumbnail?id=1YipgKsIS8GVpl4GO-TEhg9yfxcCjObrA&sz=w1200",
-  "dedy imam setiawan": "https://drive.google.com/thumbnail?id=1ZxBojw1O1zroB09irWLUN9bo3aesX13T&sz=w1200",
-  "1585583198": "https://drive.google.com/thumbnail?id=1ZxBojw1O1zroB09irWLUN9bo3aesX13T&sz=w1200",
-  "dharmawan indra wicaksana": "https://drive.google.com/thumbnail?id=11ffnIZgUfRJzp_Gh6_KntYc_xeABzbsq&sz=w1200",
-  "2502838089": "https://drive.google.com/thumbnail?id=11ffnIZgUfRJzp_Gh6_KntYc_xeABzbsq&sz=w1200",
-  "ernawati": "https://drive.google.com/thumbnail?id=1UdFSclrkb6GOggA2RP7tIb3-EPc_pqvz&sz=w1200",
-  "1288190083": "https://drive.google.com/thumbnail?id=1UdFSclrkb6GOggA2RP7tIb3-EPc_pqvz&sz=w1200",
-  "frahesa oktafia rofah": "https://drive.google.com/thumbnail?id=1XEW0Z8ybojMNxupnwLA9cegHuForOaWn&sz=w1200",
-  "2400819165": "https://drive.google.com/thumbnail?id=1XEW0Z8ybojMNxupnwLA9cegHuForOaWn&sz=w1200",
-  "qori ah yanter": "https://drive.google.com/thumbnail?id=1JeQsqKhOLgjVSEiAAwIx5eFfeScKkU8s&sz=w1200",
-  "2603894494": "https://drive.google.com/thumbnail?id=1JeQsqKhOLgjVSEiAAwIx5eFfeScKkU8s&sz=w1200",
-  "silvana rahmawati": "https://drive.google.com/thumbnail?id=1IE4PCy45WdSB-K8VFe7HTYgCji3ecdhJ&sz=w1200",
-  "1289453979": "https://drive.google.com/thumbnail?id=1IE4PCy45WdSB-K8VFe7HTYgCji3ecdhJ&sz=w1200"
-};
+// Client card overrides registry (dapat digunakan jika ada kartu darurat di luar spreadsheet)
+const CLIENT_CARD_OVERRIDES = {};
 
 function parseGoogleSheetCsvClient(text) {
   const lines = [];
@@ -921,6 +897,11 @@ function renderBirthdayListModal() {
     const photoSrc = emp.foto ? normalizeGoogleDriveUrl(emp.foto) : `assets/source_photos/${emp.id}.jpg`;
     const initial = emp.nama ? emp.nama.charAt(0) : 'M';
 
+    const hasCard = Boolean(emp.kartu && emp.kartu.trim() !== '');
+    const cardBtnClass = hasCard ? 'btn-bday-card' : 'btn-bday-card btn-bday-pending';
+    const cardBtnLabel = hasCard ? 'Buka Kartu' : 'Belum Ada Kartu';
+    const cardBtnTitle = hasCard ? 'Buka Kartu Ucapan' : 'Kartu ucapan belum dibuatkan di Google Sheet';
+
     html += `
       <div class="bday-item-card">
         <div class="bday-item-main">
@@ -942,9 +923,9 @@ function renderBirthdayListModal() {
         </div>
 
         <div class="bday-actions">
-          <button type="button" class="btn-bday-card" onclick="openCardFromList('${emp.id}')" title="Buka Kartu Ucapan">
+          <button type="button" class="${cardBtnClass}" onclick="openCardFromList('${emp.id}')" title="${cardBtnTitle}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Buka Kartu</span>
+            <span>${cardBtnLabel}</span>
           </button>
           <button type="button" class="btn-bday-copy" onclick="copyGreetingForEmp('${emp.id}')" title="Salin Template Ucapan WhatsApp">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -1076,6 +1057,11 @@ function renderTimelineCardHtml(emp, type) {
   const rolePrefix = (emp.jabatan || 'SGP').split(' ')[0].replace(/[^a-zA-Z]/g, '');
   const roleClass = `role-${rolePrefix}`;
 
+  const hasCard = Boolean(emp.kartu && emp.kartu.trim() !== '');
+  const cardBtnClass = hasCard ? 'btn-gold' : 'btn-pending-card';
+  const cardBtnLabel = hasCard ? 'Kartu Ucapan' : 'Belum Ada Kartu';
+  const cardBtnTitle = hasCard ? 'Buka Kartu Ucapan Ulang Tahun' : 'Kartu ucapan belum dibuatkan di Google Sheet';
+
   return `
     <div class="timeline-card ${cardClass}" data-id="${emp.id}">
       <div class="card-top-row">
@@ -1096,9 +1082,9 @@ function renderTimelineCardHtml(emp, type) {
           <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           <span>Salin Ucapan</span>
         </button>
-        <button class="card-btn btn-gold" onclick="openCardModal('${emp.id}')" title="Buka Kartu Ucapan Ulang Tahun">
+        <button class="card-btn ${cardBtnClass}" onclick="openCardModal('${emp.id}')" title="${cardBtnTitle}">
           <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-          <span>Kartu Ucapan</span>
+          <span>${cardBtnLabel}</span>
         </button>
       </div>
     </div>
@@ -1285,6 +1271,11 @@ function renderTableView() {
     const rolePrefix = (emp.jabatan || 'SGP').split(' ')[0].replace(/[^a-zA-Z]/g, '');
     const roleClass = `role-${rolePrefix}`;
 
+    const hasCard = Boolean(emp.kartu && emp.kartu.trim() !== '');
+    const cardBtnLabel = hasCard ? 'Kartu Ucapan' : 'Belum Ada Kartu';
+    const cardBtnClass = hasCard ? 'btn-gold' : 'btn-secondary';
+    const cardBtnStyle = hasCard ? '' : 'style="opacity:0.75; border-style:dashed;"';
+
     html += `
       <tr>
         <td>
@@ -1296,7 +1287,7 @@ function renderTableView() {
         <td><span class="status-pill ${statusClass}">${statusText}</span></td>
         <td class="text-right">
           <button class="btn btn-secondary btn-xs" onclick="openGreetingModal('${emp.id}')">Salin Ucapan</button>
-          <button class="btn btn-gold btn-xs" onclick="openCardModal('${emp.id}')">Kartu Ucapan</button>
+          <button class="btn ${cardBtnClass} btn-xs" ${cardBtnStyle} onclick="openCardModal('${emp.id}')">${cardBtnLabel}</button>
         </td>
       </tr>
     `;
@@ -1684,35 +1675,82 @@ function openF1StudioModal(empId) {
   renderCard();
 }
 
+function updateCardModalUi(emp, hasCard, isError = false) {
+  const subtitle = document.getElementById("cardModalSubtitle");
+  if (subtitle && emp) {
+    if (hasCard) {
+      subtitle.innerHTML = `<span>Kartu Ucapan: <strong>${emp.nama}</strong> (${emp.jabatan || 'Micro Banking'}) — Siap Unduh & Bagikan</span>`;
+    } else if (isError) {
+      subtitle.innerHTML = `<span style="color:#EF4444; font-weight:600;">⚠️ Link kartu ucapan Google Drive tidak dapat dimuat / periksa izin share file</span>`;
+    } else {
+      subtitle.innerHTML = `<span style="color:#F59E0B; font-weight:600;">⏳ Kartu ucapan untuk <strong>${emp.nama}</strong> belum dibuatkan di Google Sheet</span>`;
+    }
+  }
+
+  const alertBox = document.getElementById("cardModalAlertPending");
+  const alertTitle = document.getElementById("cardModalAlertPendingTitle");
+  const alertText = document.getElementById("cardModalAlertPendingText");
+  if (alertBox) {
+    if (!hasCard) {
+      alertBox.style.display = "flex";
+      if (alertTitle) alertTitle.textContent = isError ? "Gagal Memuat Kartu Ucapan" : "Kartu Ucapan Belum Dibuatkan";
+      if (alertText) alertText.textContent = isError 
+        ? `Link kartu ucapan Google Drive untuk ${emp.nama} tidak dapat dimuat. Pastikan akses Google Drive di-set ke "Siapa saja yang memiliki link dapat melihat".`
+        : `Kolom "Kartu Ucapan" di Google Sheet Master masih kosong untuk ${emp.nama}. Masukkan link Google Drive kartu ucapan di sheet untuk menampilkannya di sini.`;
+    } else {
+      alertBox.style.display = "none";
+    }
+  }
+
+  const dlBtn = document.getElementById("btnDownloadF1Card");
+  const dlBtnText = document.getElementById("btnDownloadF1CardText");
+  if (dlBtn) {
+    if (hasCard) {
+      dlBtn.classList.remove("btn-card-disabled", "btn-secondary");
+      dlBtn.classList.add("btn-gold");
+      dlBtn.title = "Unduh kartu ucapan ini dalam format HD (PNG)";
+      if (dlBtnText) dlBtnText.textContent = "Unduh HD (PNG)";
+    } else {
+      dlBtn.classList.remove("btn-gold");
+      dlBtn.classList.add("btn-secondary", "btn-card-disabled");
+      dlBtn.title = "Kartu ucapan belum dibuatkan untuk pegawai ini";
+      if (dlBtnText) dlBtnText.textContent = "Kartu Belum Tersedia";
+    }
+  }
+}
+
 function initF1StudioWithEmployee(emp) {
+  const hasCard = Boolean(emp && (
+    (emp.kartu && emp.kartu.trim() !== '') ||
+    CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] ||
+    (emp.nip && CLIENT_CARD_OVERRIDES[emp.nip])
+  ));
+
   state.f1Studio = {
     selectedEmpId: emp ? emp.id : 'EMP-0001',
     employee: emp,
     nama: emp ? (emp.nama || 'PEGAWAI MANDIRI') : 'PEGAWAI MANDIRI',
     jabatan: emp ? (emp.jabatan || 'Micro Banking Reg V/Jak 3') : 'Micro Banking Reg V/Jak 3',
+    unit: emp ? (emp.unit || '-') : '-',
     tanggalLahir: emp ? (emp.tanggalLahir || '') : '',
     generatedF1Card: null,
     dbPhotoImg: null,
-    isCustomCard: false
+    isCustomCard: false,
+    hasCard,
+    cardLoadError: false
   };
 
-  const hasCard = Boolean(emp && (emp.kartu || CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] || (emp.nip && CLIENT_CARD_OVERRIDES[emp.nip])));
-
-  const subtitle = document.getElementById("cardModalSubtitle");
-  if (subtitle && emp) {
-    subtitle.textContent = hasCard 
-      ? `Kartu Ucapan Spesial: ${emp.nama} (${emp.jabatan || 'Micro Banking'})`
-      : `Kartu Ucapan: ${emp.nama} (Foto Asli Mandiri)`;
-  }
   const title = document.getElementById("f1CardOwnerTitle");
   if (title && emp) {
     title.textContent = `${emp.nama} - Live HD Preview (896 x 1200 px)`;
   }
 
+  updateCardModalUi(emp, hasCard);
+
   // Populate employee dropdown selector
   populateF1EmpSelector(emp ? emp.id : 'EMP-0001');
 
-  // Load custom card if available, or fallback to real employee photo
+  // Load custom card if available, or render pending notice
   loadF1EmployeePhoto(emp || { id: 'EMP-0001', nama: state.f1Studio.nama });
 }
 
@@ -1727,7 +1765,7 @@ function populateF1EmpSelector(selectedId) {
     sorted.forEach(e => {
       const opt = document.createElement("option");
       opt.value = e.id;
-      const cardMark = e.kartu ? ' [Kartu Spesial]' : '';
+      const cardMark = (e.kartu && e.kartu.trim() !== '') ? ' [Kartu Siap ✅]' : ' [Belum Dibuat ⏳]';
       opt.textContent = `${e.nama} (${e.jabatan || 'Micro Banking'}) - ${e.tanggalLahir || ''}${cardMark}`;
       sel.appendChild(opt);
     });
@@ -1743,135 +1781,106 @@ function getEmployeeCardCandidateUrls(emp) {
   const nameSlug = (emp.nama || '').toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
 
   const overrideKartu = CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] || (emp.nip && emp.nip !== '-' ? CLIENT_CARD_OVERRIDES[emp.nip] : '');
-  let sheetCardUrl = emp.kartu || overrideKartu || '';
-  if (sheetCardUrl) {
-    const match = sheetCardUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/) || sheetCardUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (match) {
-      sheetCardUrl = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1200`;
-    }
+  let sheetCardUrl = (emp.kartu || overrideKartu || '').trim();
+  if (!sheetCardUrl) return [];
+
+  let driveId = '';
+  const match1 = sheetCardUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match1) driveId = match1[1];
+  else {
+    const match2 = sheetCardUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match2) driveId = match2[1];
   }
 
-  const list = [
-    sheetCardUrl ? sheetCardUrl : null, // #1 TOP PRIORITY: Kartu langsung dari Google Drive thumbnail
-    `assets/f1_cards/${emp.id}.png`,
-    `assets/f1_cards/${emp.id}.jpg`,
-    nameSlug ? `assets/f1_cards/${nameSlug}.png` : null,
-    nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null,
-    emp.nip && emp.nip !== '-' ? `assets/f1_cards/nip_${emp.nip}.jpg` : null,
-    sheetCardUrl ? `/api/photo-proxy?url=${encodeURIComponent(sheetCardUrl)}` : null
-  ].filter(Boolean);
-  return list;
+  const list = [];
+  if (driveId) {
+    list.push(`https://lh3.googleusercontent.com/d/${driveId}=w1200`);
+    list.push(`https://drive.google.com/thumbnail?id=${driveId}&sz=w1200`);
+    list.push(`https://drive.google.com/uc?export=view&id=${driveId}`);
+  }
+  if (sheetCardUrl.startsWith('http')) {
+    list.push(sheetCardUrl);
+  }
+  list.push(`assets/f1_cards/${emp.id}.png`, `assets/f1_cards/${emp.id}.jpg`);
+  if (nameSlug) {
+    list.push(`assets/f1_cards/${nameSlug}.png`, `assets/f1_cards/${nameSlug}.jpg`);
+  }
+  if (emp.nip && emp.nip !== '-') {
+    list.push(`assets/f1_cards/nip_${emp.nip}.jpg`);
+  }
+  if (sheetCardUrl) {
+    list.push(`/api/photo-proxy?url=${encodeURIComponent(sheetCardUrl)}`);
+  }
+  return list.filter(Boolean);
 }
 
 function loadF1EmployeePhoto(emp) {
   if (!emp) return;
 
-  const overrideKartu = CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] || (emp.nip && emp.nip !== '-' ? CLIENT_CARD_OVERRIDES[emp.nip] : '');
-  let sheetCardUrl = emp.kartu || overrideKartu || '';
-  if (sheetCardUrl) {
-    const match = sheetCardUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/) || sheetCardUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (match) {
-      sheetCardUrl = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1200`;
-    }
-  }
+  const candidateUrls = getEmployeeCardCandidateUrls(emp);
 
-  // 1. Jika ada Kartu Ucapan yang diinput di sheet: muat kartu ucapan langsung
-  if (sheetCardUrl) {
-    const cardImg = new Image();
-    cardImg.crossOrigin = "anonymous";
-    cardImg.onload = () => {
-      if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
-        state.f1Studio.generatedF1Card = cardImg;
-        state.f1Studio.isCustomCard = true;
-        state.f1Studio.dbPhotoImg = null;
-        renderCard();
-      }
-    };
-    cardImg.onerror = () => {
-      // Fallback ke foto asli jika link kartu gagal dimuat
-      loadFallbackPhoto(emp);
-    };
-    cardImg.src = sheetCardUrl;
+  // KONDISI 1: Kartu kosong / belum dibuatkan di Google Sheet
+  if (candidateUrls.length === 0) {
+    if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+      state.f1Studio.hasCard = false;
+      state.f1Studio.isCustomCard = false;
+      state.f1Studio.generatedF1Card = null;
+      state.f1Studio.cardLoadError = false;
+      updateCardModalUi(emp, false);
+      renderCard();
+    }
     return;
   }
 
-  // Cek kartu lokal di folder assets/f1_cards/
-  const nameSlug = (emp.nama || '').toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
-  const localCandidates = [
-    `assets/f1_cards/${emp.id}.png`,
-    `assets/f1_cards/${emp.id}.jpg`,
-    nameSlug ? `assets/f1_cards/${nameSlug}.png` : null,
-    nameSlug ? `assets/f1_cards/${nameSlug}.jpg` : null
-  ].filter(Boolean);
-
-  let localIdx = 0;
-  const tryNextLocal = () => {
-    if (localIdx >= localCandidates.length) {
-      // 2. KARTU UCAPAN KOSONG: Sesuai permintaan user, gunakan foto aslinya dari kolom "Foto terbaru"
-      loadFallbackPhoto(emp);
+  // KONDISI 2: Kartu ada, coba muat gambar
+  let idx = 0;
+  const tryNext = () => {
+    if (idx >= candidateUrls.length) {
+      // Semua URL kandidat gagal dimuat
+      if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+        state.f1Studio.hasCard = false;
+        state.f1Studio.isCustomCard = false;
+        state.f1Studio.generatedF1Card = null;
+        state.f1Studio.cardLoadError = true;
+        updateCardModalUi(emp, false, true);
+        renderCard();
+      }
       return;
     }
-    const localUrl = localCandidates[localIdx++];
+
+    const currentUrl = candidateUrls[idx++];
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => {
       if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
         state.f1Studio.generatedF1Card = img;
         state.f1Studio.isCustomCard = true;
-        state.f1Studio.dbPhotoImg = null;
+        state.f1Studio.hasCard = true;
+        state.f1Studio.cardLoadError = false;
+        updateCardModalUi(emp, true);
         renderCard();
       }
     };
-    img.onerror = tryNextLocal;
-    img.src = `${localUrl}?t=${Date.now()}`;
-  };
-
-  tryNextLocal();
-}
-
-function loadFallbackPhoto(emp) {
-  let photoUrl = '';
-  if (emp.foto) {
-    photoUrl = normalizeGoogleDriveUrl(emp.foto, true);
-  } else {
-    photoUrl = `assets/source_photos/${emp.id}.jpg`;
-  }
-
-  if (state.f1Studio) {
-    state.f1Studio.isCustomCard = false;
-    state.f1Studio.generatedF1Card = null;
-  }
-
-  if (!photoUrl) {
-    if (state.f1Studio) state.f1Studio.dbPhotoImg = null;
-    renderCard();
-    return;
-  }
-
-  const pImg = new Image();
-  pImg.crossOrigin = "anonymous";
-  pImg.onload = () => {
-    if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
-      state.f1Studio.dbPhotoImg = pImg;
-      renderCard();
-    }
-  };
-  pImg.onerror = () => {
-    // Retry direct load tanpa crossOrigin jika dibatasi CORS
-    const directImg = new Image();
-    directImg.onload = () => {
-      if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
-        state.f1Studio.dbPhotoImg = directImg;
-        renderCard();
-      }
+    img.onerror = () => {
+      // Retry direct tanpa crossOrigin jika CORS dibatasi
+      const directImg = new Image();
+      directImg.onload = () => {
+        if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+          state.f1Studio.generatedF1Card = directImg;
+          state.f1Studio.isCustomCard = true;
+          state.f1Studio.hasCard = true;
+          state.f1Studio.cardLoadError = false;
+          updateCardModalUi(emp, true);
+          renderCard();
+        }
+      };
+      directImg.onerror = tryNext;
+      directImg.src = currentUrl;
     };
-    directImg.onerror = () => {
-      if (state.f1Studio) state.f1Studio.dbPhotoImg = null;
-      renderCard();
-    };
-    directImg.src = photoUrl;
+    img.src = currentUrl;
   };
-  pImg.src = photoUrl;
+
+  tryNext();
 }
 
 function handleF1EmpSelect(empId) {
@@ -1883,10 +1892,17 @@ function handleF1EmpSelect(empId) {
 }
 
 function downloadF1Card() {
+  const studio = state.f1Studio || {};
+  if (!studio.hasCard || !studio.isCustomCard || !studio.generatedF1Card) {
+    const name = studio.nama || 'pegawai ini';
+    showToast(`Kartu ucapan untuk ${name} belum dibuatkan di Google Sheet.`, "warning");
+    return;
+  }
+
   const canvas = document.getElementById("cardCanvas");
   if (!canvas) return;
 
-  const rawName = (state.f1Studio && state.f1Studio.nama) ? state.f1Studio.nama : 'Pegawai';
+  const rawName = studio.nama || 'Pegawai';
   const cleanName = rawName.replace(/[^a-zA-Z0-9]/g, '_');
   const filename = `Kartu_Ucapan_${cleanName}_BankMandiri.png`;
 
@@ -1899,10 +1915,9 @@ function downloadF1Card() {
     document.body.removeChild(link);
     showToast("Kartu ucapan berhasil diunduh dalam format HD (PNG)!", "success");
   } catch (err) {
-    // Jika CORS canvas tainted, fallback buka gambar di tab baru
+    // Jika CORS canvas tainted, buka gambar di tab baru
     showToast("Membuka kartu ucapan di jendela baru untuk disimpan...", "info");
-    const studio = state.f1Studio || {};
-    const imgSource = (studio.isCustomCard && studio.generatedF1Card) ? studio.generatedF1Card.src : (studio.dbPhotoImg ? studio.dbPhotoImg.src : null);
+    const imgSource = studio.generatedF1Card ? studio.generatedF1Card.src : null;
     if (imgSource) {
       window.open(imgSource, '_blank');
     }
@@ -1962,21 +1977,25 @@ function renderCard() {
     return;
   }
 
-  // KONDISI 2: Kartu Ucapan kosong -> Tampilkan template resmi Bank Mandiri dengan FOTO ASLI pegawai dari kolom 'Foto terbaru'
+  // KONDISI 2: Kartu Ucapan masih kosong / belum dibuatkan di Google Sheets
+  renderPendingCard(ctx, width, height, emp, studio.cardLoadError);
+}
+
+function renderPendingCard(ctx, width, height, emp, isError) {
   // Background Deep Royal Navy Gradient
   const bgGrad = ctx.createLinearGradient(0, 0, width, height);
   bgGrad.addColorStop(0, '#041021');
-  bgGrad.addColorStop(0.4, '#082142');
+  bgGrad.addColorStop(0.35, '#071E3D');
   bgGrad.addColorStop(1, '#020B16');
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, width, height);
 
   // Outer Gold Border & Accents
-  ctx.strokeStyle = '#FFB700';
+  ctx.strokeStyle = isError ? 'rgba(239, 68, 68, 0.7)' : '#FFB700';
   ctx.lineWidth = 3;
   ctx.strokeRect(26, 26, width - 52, height - 52);
 
-  ctx.strokeStyle = 'rgba(255, 183, 0, 0.35)';
+  ctx.strokeStyle = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 183, 0, 0.35)';
   ctx.lineWidth = 1.2;
   ctx.strokeRect(34, 34, width - 68, height - 68);
 
@@ -1986,118 +2005,154 @@ function renderCard() {
   drawCornerOrnament(ctx, 42, height - 42, 1, -1);
   drawCornerOrnament(ctx, width - 42, height - 42, -1, -1);
 
-  drawSparkle(ctx, 80, 160, 6, 0.85);
-  drawSparkle(ctx, width - 80, 160, 6, 0.85);
-  drawSparkle(ctx, 100, height - 160, 5, 0.7);
-  drawSparkle(ctx, width - 100, height - 160, 5, 0.7);
+  drawSparkle(ctx, 80, 150, 6, 0.85);
+  drawSparkle(ctx, width - 80, 150, 6, 0.85);
+  drawSparkle(ctx, 90, height - 140, 5, 0.7);
+  drawSparkle(ctx, width - 90, height - 140, 5, 0.7);
 
   // Top Header: Bank Mandiri & Danantara Logos
   drawMandiriLogo(ctx, 58, 52);
   drawDanantaraLogo(ctx, width - 195, 52);
 
-  // Birthday Title & Date
+  // Main Center Card Box
+  const boxW = 760;
+  const boxH = 780;
+  const boxX = (width - boxW) / 2;
+  const boxY = 160;
+  const boxR = 24;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+  ctx.shadowBlur = 35;
+  ctx.shadowOffsetY = 14;
+  ctx.fillStyle = '#06172E';
+  roundRect(ctx, boxX, boxY, boxW, boxH, boxR, true, false);
+  ctx.restore();
+
+  // Border of Center Card Box (Dashed style if pending, solid amber/red)
+  ctx.save();
+  ctx.strokeStyle = isError ? '#EF4444' : '#F59E0B';
+  ctx.lineWidth = 2.5;
+  if (!isError) {
+    ctx.setLineDash([10, 6]);
+  }
+  roundRect(ctx, boxX, boxY, boxW, boxH, boxR, false, true);
+  ctx.restore();
+
+  // Status Badge / Icon Circle
+  const iconY = boxY + 95;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(width / 2, iconY, 52, 0, Math.PI * 2);
+  ctx.fillStyle = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+  ctx.fill();
+  ctx.strokeStyle = isError ? '#EF4444' : '#F59E0B';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.font = '54px "Segoe UI Emoji", sans-serif';
+  ctx.fillText(isError ? '⚠️' : '⏳', width / 2, iconY + 18);
+  ctx.restore();
+
+  // Status Title
   ctx.save();
   ctx.textAlign = 'center';
   ctx.font = '800 28px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = '#FFB700';
-  ctx.letterSpacing = '3px';
-  ctx.fillText("SELAMAT ULANG TAHUN", width / 2, 138);
+  ctx.fillStyle = isError ? '#F87171' : '#FBBF24';
+  ctx.letterSpacing = '1.5px';
+  const mainTitle = isError ? "LINK KARTU UCAPAN TIDAK DAPAT DIAKSES" : "KARTU UCAPAN BELUM DIBUATKAN";
+  ctx.fillText(mainTitle, width / 2, boxY + 200);
 
-  ctx.font = '700 13px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = '#67B2E8';
-  ctx.letterSpacing = '2px';
-  ctx.fillText(formatF1Date(emp.tanggalLahir || ''), width / 2, 166);
-  ctx.restore();
+  // Status Subtitle Pill
+  const pillW = 460;
+  const pillH = 34;
+  const pillY = boxY + 224;
+  ctx.fillStyle = isError ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)';
+  ctx.strokeStyle = isError ? 'rgba(239, 68, 68, 0.5)' : 'rgba(245, 158, 11, 0.5)';
+  ctx.lineWidth = 1;
+  roundRect(ctx, (width - pillW) / 2, pillY, pillW, pillH, 17, true, true);
 
-  // Photo Frame Box (Elegant Portrait Display)
-  const frameW = 540;
-  const frameH = 560;
-  const frameX = (width - frameW) / 2;
-  const frameY = 192;
-  const frameRadius = 20;
+  ctx.font = '700 12.5px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = isError ? '#FCA5A5' : '#FDE68A';
+  ctx.letterSpacing = '1px';
+  ctx.fillText(isError ? "STATUS: PERIKSA IZIN AKSES GOOGLE DRIVE" : "STATUS: MENUNGGU DESAIN & LINK GOOGLE DRIVE", width / 2, pillY + 21.5);
 
-  // Frame Backing & Soft Glow Shadow
-  ctx.save();
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-  ctx.shadowBlur = 30;
-  ctx.shadowOffsetY = 12;
-  ctx.fillStyle = '#06162C';
-  roundRect(ctx, frameX, frameY, frameW, frameH, frameRadius, true, false);
-  ctx.restore();
-
-  // Draw Photo (Cover Fit - aspect ratio preserved, centered)
-  const photo = studio.dbPhotoImg;
-  if (photo && photo.complete && photo.naturalWidth > 0) {
-    ctx.save();
-    roundRect(ctx, frameX, frameY, frameW, frameH, frameRadius, false, false);
-    ctx.clip();
-
-    const nw = photo.naturalWidth;
-    const nh = photo.naturalHeight;
-    const scale = Math.max(frameW / nw, frameH / nh);
-    const sw = frameW / scale;
-    const sh = frameH / scale;
-    const sx = (nw - sw) / 2;
-    const sy = (nh - sh) / 2;
-
-    ctx.drawImage(photo, sx, sy, sw, sh, frameX, frameY, frameW, frameH);
-    ctx.restore();
-  } else {
-    // Initial avatar placeholder while photo is loading
-    ctx.save();
-    ctx.fillStyle = '#081C36';
-    roundRect(ctx, frameX, frameY, frameW, frameH, frameRadius, true, false);
-    ctx.textAlign = 'center';
-    ctx.font = '800 130px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = 'rgba(255, 183, 0, 0.35)';
-    const initial = (emp.nama || 'M').charAt(0);
-    ctx.fillText(initial, width / 2, frameY + (frameH / 2) + 45);
-
-    ctx.font = '600 15px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#94A3B8';
-    ctx.fillText("Memuat Foto Terbaru...", width / 2, frameY + frameH - 30);
-    ctx.restore();
-  }
-
-  // Golden Frame Border
-  ctx.save();
-  ctx.strokeStyle = '#FFB700';
-  ctx.lineWidth = 3.5;
-  roundRect(ctx, frameX, frameY, frameW, frameH, frameRadius, false, true);
-  ctx.restore();
+  // Employee Identity Section (Divider & Info)
+  const lineY = boxY + 285;
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(boxX + 40, lineY);
+  ctx.lineTo(boxX + boxW - 40, lineY);
+  ctx.stroke();
 
   // Employee Name
-  ctx.save();
-  ctx.textAlign = 'center';
   ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#FFFFFF';
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-  ctx.shadowBlur = 12;
-  ctx.fillText(emp.nama || 'Rekan Pegawai Mandiri', width / 2, 810);
+  ctx.fillText(emp.nama || 'Rekan Pegawai Mandiri', width / 2, lineY + 50);
 
-  // Role & Unit
+  // Jabatan & Unit
   const roleText = `${emp.jabatan || 'Micro Banking'}${emp.unit && emp.unit !== '-' ? ' • ' + emp.unit : ''}`;
   ctx.font = '700 16px "Plus Jakarta Sans", sans-serif';
   ctx.fillStyle = '#38BDF8';
-  ctx.letterSpacing = '0.5px';
-  ctx.fillText(roleText, width / 2, 850);
+  ctx.fillText(roleText, width / 2, lineY + 85);
 
-  // NIP
-  if (emp.nip && emp.nip !== '-') {
-    ctx.font = '500 13px "Plus Jakarta Sans", sans-serif';
+  // NIP & Tanggal Lahir
+  let metaParts = [];
+  if (emp.nip && emp.nip !== '-') metaParts.push(`NIP: ${emp.nip}`);
+  if (emp.tanggalLahir) metaParts.push(`HUT: ${formatF1Date(emp.tanggalLahir)}`);
+  if (metaParts.length > 0) {
+    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#94A3B8';
-    ctx.fillText(`NIP: ${emp.nip}`, width / 2, 876);
+    ctx.fillText(metaParts.join('  |  '), width / 2, lineY + 115);
   }
 
-  // Warm Birthday Wishes Text
-  ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
-  ctx.fillStyle = '#E2E8F0';
-  ctx.fillText("Semoga senantiasa diberikan kesehatan, kebahagiaan,", width / 2, 922);
-  ctx.fillText("serta kesuksesan yang berlimpah dalam karir dan kehidupan.", width / 2, 946);
+  // Instruction Box for PIC / Admin
+  const infoBoxW = 660;
+  const infoBoxH = 220;
+  const infoBoxX = (width - infoBoxW) / 2;
+  const infoBoxY = lineY + 155;
+  const infoBoxR = 14;
+
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+  ctx.strokeStyle = 'rgba(255, 183, 0, 0.3)';
+  ctx.lineWidth = 1.2;
+  roundRect(ctx, infoBoxX, infoBoxY, infoBoxW, infoBoxH, infoBoxR, true, true);
+
+  // Instruction Title
+  ctx.textAlign = 'left';
+  ctx.font = '800 15px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#FFB700';
+  ctx.fillText("📌 Catatan Pengisian di Google Sheet:", infoBoxX + 24, infoBoxY + 36);
+
+  ctx.font = '500 14px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = '#CBD5E1';
+  const leftX = infoBoxX + 24;
+  let textY = infoBoxY + 70;
+  const lineHeight = 26;
+
+  if (isError) {
+    ctx.fillText("1. Tautan kartu ucapan terdeteksi di sheet, tetapi file tidak dapat dimuat.", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("2. Buka file kartu di Google Drive, klik 'Bagikan' (Share).", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("3. Ubah akses umum menjadi: 'Siapa saja yang memiliki link dapat melihat'.", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("4. Refresh halaman web ini setelah izin link diperbarui.", leftX, textY);
+  } else {
+    ctx.fillText("1. Kolom 'Kartu Ucapan' di Google Sheet Master masih kosong untuk pegawai ini.", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("2. Setelah kartu ucapan selesai didesain, unggah file gambar ke Google Drive.", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("3. Masukkan link file Google Drive ke kolom 'Kartu Ucapan' pada baris pegawai ini.", leftX, textY);
+    textY += lineHeight;
+    ctx.fillText("4. Kartu ucapan otomatis langsung tampil secara resmi di web ini.", leftX, textY);
+  }
   ctx.restore();
 
   // Footer Badge
-  drawFooterBadge(ctx, width / 2, 1045);
+  drawFooterBadge(ctx, width / 2, 1050);
 }
 
 // -------------------------------------------------------------

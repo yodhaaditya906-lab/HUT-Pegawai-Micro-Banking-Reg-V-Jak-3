@@ -498,7 +498,7 @@ function parseEmployeesCsv(csvText) {
 
         const finalKartu = kartu 
           ? normalizeGoogleDriveUrl(kartu, true) 
-          : (override?.kartu || existingEmp?.kartu || '');
+          : (override?.kartu || '');
 
         result.push({
           id: existingEmp?.id || `EMP-${String(counter++).padStart(4, '0')}`,
