@@ -1688,34 +1688,55 @@ function updateCardModalUi(emp, hasCard, isError = false) {
   }
 
   const alertBox = document.getElementById("cardModalAlertPending");
-  const alertTitle = document.getElementById("cardModalAlertPendingTitle");
-  const alertText = document.getElementById("cardModalAlertPendingText");
   if (alertBox) {
-    if (!hasCard) {
-      alertBox.style.display = "flex";
-      if (alertTitle) alertTitle.textContent = isError ? "Gagal Memuat Kartu Ucapan" : "Kartu Ucapan Belum Dibuatkan";
-      if (alertText) alertText.textContent = isError 
-        ? `Link kartu ucapan Google Drive untuk ${emp.nama} tidak dapat dimuat. Pastikan akses Google Drive di-set ke "Siapa saja yang memiliki link dapat melihat".`
-        : `Kolom "Kartu Ucapan" di Google Sheet Master masih kosong untuk ${emp.nama}. Masukkan link Google Drive kartu ucapan di sheet untuk menampilkannya di sini.`;
-    } else {
-      alertBox.style.display = "none";
-    }
+    alertBox.style.display = "none";
   }
 
   const dlBtn = document.getElementById("btnDownloadF1Card");
   const dlBtnText = document.getElementById("btnDownloadF1CardText");
   if (dlBtn) {
     if (hasCard) {
+      dlBtn.style.display = "inline-flex";
       dlBtn.classList.remove("btn-card-disabled", "btn-secondary");
       dlBtn.classList.add("btn-gold");
       dlBtn.title = "Unduh kartu ucapan ini dalam format HD (PNG)";
       if (dlBtnText) dlBtnText.textContent = "Unduh HD (PNG)";
     } else {
-      dlBtn.classList.remove("btn-gold");
-      dlBtn.classList.add("btn-secondary", "btn-card-disabled");
-      dlBtn.title = "Kartu ucapan belum dibuatkan untuk pegawai ini";
-      if (dlBtnText) dlBtnText.textContent = "Kartu Belum Tersedia";
+      dlBtn.style.display = "none"; // Sembunyikan tombol unduh jika kartu belum ada
     }
+  }
+
+  const previewPane = document.getElementById("cardModalPreviewPane") || document.querySelector(".f1-preview-pane");
+  const emptyState = document.getElementById("cardModalEmptyState");
+
+  if (!hasCard) {
+    // Sembunyikan kanvas poster mentah sesuai permintaan user
+    if (previewPane) previewPane.style.display = "none";
+    // Tampilkan penanda teks informatif
+    if (emptyState) {
+      emptyState.style.display = "block";
+      const nameEl = document.getElementById("emptyStateEmpName");
+      const roleEl = document.getElementById("emptyStateEmpRole");
+      const bdayEl = document.getElementById("emptyStateEmpBday");
+      const titleEl = document.getElementById("emptyStateTitle");
+      const descEl = document.getElementById("emptyStateDesc");
+
+      if (nameEl && emp) nameEl.textContent = emp.nama || '-';
+      if (roleEl && emp) roleEl.textContent = `${emp.jabatan || 'Micro Banking'}${emp.unit && emp.unit !== '-' ? ' • ' + emp.unit : ''}`;
+      if (bdayEl && emp) bdayEl.textContent = emp.tanggalLahir ? formatF1Date(emp.tanggalLahir) : '-';
+
+      if (isError) {
+        if (titleEl) titleEl.textContent = "Gagal Memuat Kartu Ucapan";
+        if (descEl && emp) descEl.textContent = `Link kartu ucapan Google Drive untuk ${emp.nama} tidak dapat diakses. Pastikan pengaturan file di Google Drive di-set ke: "Siapa saja yang memiliki link dapat melihat".`;
+      } else {
+        if (titleEl) titleEl.textContent = "Kartu Ucapan Belum Dibuatkan";
+        if (descEl && emp) descEl.textContent = `Kolom "Kartu Ucapan" di Google Sheet Master masih kosong untuk ${emp.nama}.`;
+      }
+    }
+  } else {
+    // Kartu siap: tampilkan kanvas dan sembunyikan penanda teks
+    if (previewPane) previewPane.style.display = "flex";
+    if (emptyState) emptyState.style.display = "none";
   }
 }
 
@@ -2010,20 +2031,11 @@ function renderCard() {
   }
 
   // KONDISI 2: Kartu Ucapan masih kosong / belum dibuatkan di Google Sheets
-  // Gunakan rasio standar 2:3 (1024 x 1536 px) sesuai ukuran poster resmi Mandiri
-  const width = 1024;
-  const height = 1536;
-  canvas.width = width;
-  canvas.height = height;
-
-  if (titleEl && emp) {
-    titleEl.textContent = `${emp.nama} - Status Kartu Ucapan`;
-  }
-  if (badgeRatio) {
-    badgeRatio.textContent = "2:3 Standar Poster";
-  }
-
-  renderPendingCard(ctx, width, height, emp, studio.cardLoadError);
+  // Sesuai instruksi user: Sembunyikan kanvas poster mentah, cukup tampilkan penanda teks!
+  const previewPane = document.getElementById("cardModalPreviewPane") || document.querySelector(".f1-preview-pane");
+  const emptyState = document.getElementById("cardModalEmptyState");
+  if (previewPane) previewPane.style.display = "none";
+  if (emptyState) emptyState.style.display = "block";
 }
 
 function renderPendingCard(ctx, width, height, emp, isError) {
