@@ -1675,18 +1675,15 @@ function openF1StudioModal(empId) {
   renderCard();
 }
 
-function updateCardModalUi(emp, hasCard, isError = false) {
-  const subtitle = document.getElementById("cardModalSubtitle");
-  if (subtitle && emp) {
-    if (hasCard) {
-      subtitle.innerHTML = `<span>Kartu Ucapan: <strong>${emp.nama}</strong> (${emp.jabatan || 'Micro Banking'}) — Siap Unduh & Bagikan</span>`;
-    } else if (isError) {
-      subtitle.innerHTML = `<span style="color:#EF4444; font-weight:600;">⚠️ Link kartu ucapan Google Drive tidak dapat dimuat / periksa izin share file</span>`;
-    } else {
-      subtitle.innerHTML = `<span style="color:#F59E0B; font-weight:600;">⏳ Kartu ucapan untuk <strong>${emp.nama}</strong> belum dibuatkan di Google Sheet</span>`;
-    }
+function updateCardModalUi(emp, statusOrHasCard, isError = false) {
+  let status = 'loading';
+  if (typeof statusOrHasCard === 'string') {
+    status = statusOrHasCard;
+  } else if (typeof statusOrHasCard === 'boolean') {
+    status = statusOrHasCard ? 'ready' : (isError ? 'error' : 'empty');
   }
 
+  const subtitle = document.getElementById("cardModalSubtitle");
   const alertBox = document.getElementById("cardModalAlertPending");
   if (alertBox) {
     alertBox.style.display = "none";
@@ -1694,25 +1691,53 @@ function updateCardModalUi(emp, hasCard, isError = false) {
 
   const dlBtn = document.getElementById("btnDownloadF1Card");
   const dlBtnText = document.getElementById("btnDownloadF1CardText");
-  if (dlBtn) {
-    if (hasCard) {
+  const previewPane = document.getElementById("cardModalPreviewPane") || document.querySelector(".f1-preview-pane");
+  const loadingState = document.getElementById("cardModalLoadingState");
+  const emptyState = document.getElementById("cardModalEmptyState");
+
+  if (status === 'loading') {
+    // 1. STATE: SEDANG MEMUAT GAMBAR
+    if (previewPane) previewPane.style.display = "none";
+    if (emptyState) emptyState.style.display = "none";
+    if (loadingState) {
+      loadingState.style.display = "block";
+      const loadTitle = document.getElementById("cardLoadingTitle");
+      const loadDesc = document.getElementById("cardLoadingDesc");
+      if (loadTitle) loadTitle.textContent = "Memuat gambar...";
+      if (loadDesc && emp) {
+        loadDesc.innerHTML = `Sedang mengambil kartu ucapan untuk <strong>${emp.nama || 'pegawai'}</strong> dari Google Drive...`;
+      }
+    }
+    if (subtitle && emp) {
+      subtitle.innerHTML = `<span>Memuat kartu ucapan: <strong>${emp.nama}</strong> (${emp.jabatan || 'Micro Banking'})...</span>`;
+    }
+    if (dlBtn) {
+      dlBtn.style.display = "inline-flex";
+      dlBtn.classList.remove("btn-gold");
+      dlBtn.classList.add("btn-secondary", "btn-card-disabled");
+      dlBtn.title = "Sedang memuat gambar...";
+      if (dlBtnText) dlBtnText.textContent = "Memuat...";
+    }
+  } else if (status === 'ready') {
+    // 2. STATE: GAMBAR BERHASIL DIMUAT & SIAP DITAMPILKAN
+    if (loadingState) loadingState.style.display = "none";
+    if (emptyState) emptyState.style.display = "none";
+    if (previewPane) previewPane.style.display = "flex";
+
+    if (subtitle && emp) {
+      subtitle.innerHTML = `<span>Kartu Ucapan: <strong>${emp.nama}</strong> (${emp.jabatan || 'Micro Banking'}) — Siap Unduh & Bagikan</span>`;
+    }
+    if (dlBtn) {
       dlBtn.style.display = "inline-flex";
       dlBtn.classList.remove("btn-card-disabled", "btn-secondary");
       dlBtn.classList.add("btn-gold");
       dlBtn.title = "Unduh kartu ucapan ini dalam format HD (PNG)";
       if (dlBtnText) dlBtnText.textContent = "Unduh HD (PNG)";
-    } else {
-      dlBtn.style.display = "none"; // Sembunyikan tombol unduh jika kartu belum ada
     }
-  }
-
-  const previewPane = document.getElementById("cardModalPreviewPane") || document.querySelector(".f1-preview-pane");
-  const emptyState = document.getElementById("cardModalEmptyState");
-
-  if (!hasCard) {
-    // Sembunyikan kanvas poster mentah sesuai permintaan user
+  } else {
+    // 3. STATE: KOSONG / BELUM DIBUATKAN ATAU ERROR
+    if (loadingState) loadingState.style.display = "none";
     if (previewPane) previewPane.style.display = "none";
-    // Tampilkan penanda teks informatif
     if (emptyState) {
       emptyState.style.display = "block";
       const nameEl = document.getElementById("emptyStateEmpName");
@@ -1725,27 +1750,33 @@ function updateCardModalUi(emp, hasCard, isError = false) {
       if (roleEl && emp) roleEl.textContent = `${emp.jabatan || 'Micro Banking'}${emp.unit && emp.unit !== '-' ? ' • ' + emp.unit : ''}`;
       if (bdayEl && emp) bdayEl.textContent = emp.tanggalLahir ? formatF1Date(emp.tanggalLahir) : '-';
 
-      if (isError) {
+      if (status === 'error' || isError) {
         if (titleEl) titleEl.textContent = "Gagal Memuat Kartu Ucapan";
-        if (descEl && emp) descEl.textContent = `Link kartu ucapan Google Drive untuk ${emp.nama} tidak dapat diakses. Pastikan pengaturan file di Google Drive di-set ke: "Siapa saja yang memiliki link dapat melihat".`;
+        if (descEl && emp) {
+          descEl.innerHTML = `Link kartu ucapan Google Drive untuk <strong>${emp.nama}</strong> tidak dapat diakses. Pastikan pengaturan file di Google Drive diatur ke: <em>"Siapa saja yang memiliki link dapat melihat"</em>.`;
+        }
+        if (subtitle && emp) {
+          subtitle.innerHTML = `<span style="color:#EF4444; font-weight:600;">⚠️ Link kartu ucapan Google Drive tidak dapat dimuat / periksa izin share file</span>`;
+        }
       } else {
         if (titleEl) titleEl.textContent = "Kartu Ucapan Belum Dibuatkan";
-        if (descEl && emp) descEl.textContent = `Kolom "Kartu Ucapan" di Google Sheet Master masih kosong untuk ${emp.nama}.`;
+        if (descEl && emp) {
+          descEl.innerHTML = `Kolom "Kartu Ucapan" di Google Sheet Master masih kosong untuk <strong>${emp.nama}</strong>.`;
+        }
+        if (subtitle && emp) {
+          subtitle.innerHTML = `<span style="color:#F59E0B; font-weight:600;">⏳ Kartu ucapan untuk <strong>${emp.nama}</strong> belum dibuatkan di Google Sheet</span>`;
+        }
       }
     }
-  } else {
-    // Kartu siap: tampilkan kanvas dan sembunyikan penanda teks
-    if (previewPane) previewPane.style.display = "flex";
-    if (emptyState) emptyState.style.display = "none";
+    if (dlBtn) {
+      dlBtn.style.display = "none"; // Sembunyikan tombol unduh jika kartu belum ada
+    }
   }
 }
 
 function initF1StudioWithEmployee(emp) {
-  const hasCard = Boolean(emp && (
-    (emp.kartu && emp.kartu.trim() !== '') ||
-    CLIENT_CARD_OVERRIDES[(emp.nama || '').toLowerCase()] ||
-    (emp.nip && CLIENT_CARD_OVERRIDES[emp.nip])
-  ));
+  const candidateUrls = getEmployeeCardCandidateUrls(emp);
+  const hasCard = candidateUrls.length > 0;
 
   state.f1Studio = {
     selectedEmpId: emp ? emp.id : 'EMP-0001',
@@ -1758,6 +1789,7 @@ function initF1StudioWithEmployee(emp) {
     dbPhotoImg: null,
     isCustomCard: false,
     hasCard,
+    isLoadingCard: hasCard,
     cardLoadError: false
   };
 
@@ -1766,12 +1798,13 @@ function initF1StudioWithEmployee(emp) {
     title.textContent = `${emp.nama} - Live HD Preview`;
   }
 
-  updateCardModalUi(emp, hasCard);
+  // Tampilkan 'loading' jika memiliki link kartu, atau 'empty' jika link kosong
+  updateCardModalUi(emp, hasCard ? 'loading' : 'empty');
 
   // Populate employee dropdown selector
   populateF1EmpSelector(emp ? emp.id : 'EMP-0001');
 
-  // Load custom card if available, or render pending notice
+  // Load custom card if available
   loadF1EmployeePhoto(emp || { id: 'EMP-0001', nama: state.f1Studio.nama });
 }
 
@@ -1845,15 +1878,21 @@ function loadF1EmployeePhoto(emp) {
     if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
       state.f1Studio.hasCard = false;
       state.f1Studio.isCustomCard = false;
+      state.f1Studio.isLoadingCard = false;
       state.f1Studio.generatedF1Card = null;
       state.f1Studio.cardLoadError = false;
-      updateCardModalUi(emp, false);
+      updateCardModalUi(emp, 'empty');
       renderCard();
     }
     return;
   }
 
-  // KONDISI 2: Kartu ada, coba muat gambar
+  // KONDISI 2: Kartu ada, set status sedang memuat gambar
+  if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
+    state.f1Studio.isLoadingCard = true;
+    updateCardModalUi(emp, 'loading');
+  }
+
   let idx = 0;
   const tryNext = () => {
     if (idx >= candidateUrls.length) {
@@ -1861,9 +1900,10 @@ function loadF1EmployeePhoto(emp) {
       if (state.f1Studio && state.f1Studio.selectedEmpId === emp.id) {
         state.f1Studio.hasCard = false;
         state.f1Studio.isCustomCard = false;
+        state.f1Studio.isLoadingCard = false;
         state.f1Studio.generatedF1Card = null;
         state.f1Studio.cardLoadError = true;
-        updateCardModalUi(emp, false, true);
+        updateCardModalUi(emp, 'error');
         renderCard();
       }
       return;
@@ -1877,8 +1917,8 @@ function loadF1EmployeePhoto(emp) {
         state.f1Studio.generatedF1Card = img;
         state.f1Studio.isCustomCard = true;
         state.f1Studio.hasCard = true;
+        state.f1Studio.isLoadingCard = false;
         state.f1Studio.cardLoadError = false;
-        updateCardModalUi(emp, true);
         renderCard();
       }
     };
@@ -1890,8 +1930,8 @@ function loadF1EmployeePhoto(emp) {
           state.f1Studio.generatedF1Card = directImg;
           state.f1Studio.isCustomCard = true;
           state.f1Studio.hasCard = true;
+          state.f1Studio.isLoadingCard = false;
           state.f1Studio.cardLoadError = false;
-          updateCardModalUi(emp, true);
           renderCard();
         }
       };
@@ -1914,6 +1954,10 @@ function handleF1EmpSelect(empId) {
 
 function downloadF1Card() {
   const studio = state.f1Studio || {};
+  if (studio.isLoadingCard) {
+    showToast("Gambar kartu ucapan masih dimuat, mohon tunggu sebentar...", "info");
+    return;
+  }
   if (!studio.hasCard || !studio.isCustomCard || !studio.generatedF1Card) {
     const name = studio.nama || 'pegawai ini';
     showToast(`Kartu ucapan untuk ${name} belum dibuatkan di Google Sheet.`, "warning");
@@ -1990,8 +2034,10 @@ function renderCard() {
   const titleEl = document.getElementById("f1CardOwnerTitle");
   const badgeRatio = document.getElementById("f1BadgeRatio");
 
-  // KONDISI 1: Jika memiliki Kartu Ucapan khusus yang sudah diinput di Google Sheets
+  // KONDISI 1: Jika memiliki Kartu Ucapan khusus yang sudah SUKSES dimuat
   if (studio.isCustomCard && studio.generatedF1Card && studio.generatedF1Card.complete && studio.generatedF1Card.naturalWidth > 0) {
+    updateCardModalUi(emp, 'ready');
+
     const img = studio.generatedF1Card;
     const naturalW = img.naturalWidth;
     const naturalH = img.naturalHeight;
@@ -2030,12 +2076,15 @@ function renderCard() {
     return;
   }
 
-  // KONDISI 2: Kartu Ucapan masih kosong / belum dibuatkan di Google Sheets
+  // KONDISI 2: Jika kartu masih dalam proses loading dari Google Drive
+  if (studio.isLoadingCard) {
+    updateCardModalUi(emp, 'loading');
+    return;
+  }
+
+  // KONDISI 3: Kartu Ucapan masih kosong / belum dibuatkan di Google Sheets
   // Sesuai instruksi user: Sembunyikan kanvas poster mentah, cukup tampilkan penanda teks!
-  const previewPane = document.getElementById("cardModalPreviewPane") || document.querySelector(".f1-preview-pane");
-  const emptyState = document.getElementById("cardModalEmptyState");
-  if (previewPane) previewPane.style.display = "none";
-  if (emptyState) emptyState.style.display = "block";
+  updateCardModalUi(emp, studio.cardLoadError ? 'error' : 'empty');
 }
 
 function renderPendingCard(ctx, width, height, emp, isError) {

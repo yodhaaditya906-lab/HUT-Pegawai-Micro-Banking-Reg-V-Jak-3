@@ -444,6 +444,25 @@
           </div>
         </div>
 
+        <!-- Loading State: Ditampilkan saat gambar kartu ucapan sedang dimuat dari server/Google Drive -->
+        <div id="cardModalLoadingState"
+          style="display: none; padding: 2.5rem 1.5rem; background: linear-gradient(135deg, rgba(4, 16, 33, 0.95), rgba(8, 33, 66, 0.9)); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 14px; text-align: center; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+          <div
+            style="width: 48px; height: 48px; margin: 0 auto 1.15rem; border: 3.5px solid rgba(255, 183, 0, 0.2); border-top-color: #FFB700; border-radius: 50%; animation: spin 0.85s linear infinite;">
+          </div>
+          <div
+            style="display: inline-block; padding: 0.2rem 0.8rem; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 20px; color: #38BDF8; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+            SEDANG MEMUAT
+          </div>
+          <h3 id="cardLoadingTitle" style="color: #FFFFFF; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">
+            Memuat gambar...
+          </h3>
+          <p id="cardLoadingDesc"
+            style="color: #94A3B8; font-size: 0.88rem; line-height: 1.5; max-width: 460px; margin: 0 auto;">
+            Sedang mengambil kartu ucapan resolusi tinggi dari Google Drive. Mohon tunggu sebentar...
+          </p>
+        </div>
+
         <!-- Empty State Penanda: Ditampilkan HANYA jika kartu ucapan belum dibuatkan di Google Sheet -->
         <div id="cardModalEmptyState"
           style="display: none; padding: 2rem 1.5rem; background: linear-gradient(135deg, rgba(4, 16, 33, 0.95), rgba(8, 33, 66, 0.9)); border: 1.5px dashed rgba(245, 158, 11, 0.5); border-radius: 14px; text-align: center; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
@@ -687,7 +706,7 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=20261119_empty_state_text_only"></script>
+  <script src="app.js?v=20261123_loading_state_fix"></script>
 </body>
 
 </html>
