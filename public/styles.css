@@ -1676,11 +1676,7 @@ body {
   .canvas-wrapper canvas, .twibbon-canvas-wrapper canvas { max-height: 380px; }
 }
 
-@media (max-width: 640px) {
-  .kpi-grid { grid-template-columns: 1fr 1fr; }
-  .app-header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-  .header-right { width: 100%; justify-content: space-between; }
-}
+
 
 
 /* ==========================================================================
@@ -2950,4 +2946,783 @@ body {
   border: 1px dashed #FCD34D;
   border-radius: 4px;
 }
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE SYSTEM (OPTIMAL TOUCH UX)
+   ========================================================================== */
+
+/* Prevent horizontal overflow & support iOS safe area */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* TABLET & MOBILE LANDSCAPE (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Layout & Navigation Bar */
+  .app-header {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .header-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .brand-badge {
+    gap: 0.65rem;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.72rem;
+  }
+
+  .header-center {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .today-chip {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .header-right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .header-right::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header-right .btn,
+  .header-right .nav-status-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.76rem;
+  }
+
+  .app-main {
+    padding: 0.85rem 0.75rem;
+    gap: 0.85rem;
+  }
+
+  /* KPI Summary Grid (2x2) */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .kpi-card {
+    padding: 0.8rem 0.75rem;
+    gap: 0.65rem;
+    border-radius: 10px;
+  }
+
+  .kpi-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .kpi-icon-wrap svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kpi-label {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .kpi-value {
+    font-size: 1.12rem;
+    line-height: 1.2;
+  }
+
+  .kpi-sub {
+    font-size: 0.65rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Controls Bar & View Switcher */
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .view-tabs {
+    width: 100%;
+    display: flex;
+  }
+
+  .view-tabs .tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 0.5rem 0.35rem;
+    font-size: 0.76rem;
+    text-align: center;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-box input {
+    font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+  }
+
+  .quick-actions {
+    width: 100%;
+  }
+
+  .quick-actions .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  /* Role Filter Chips */
+  .role-filter-section {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
+  .role-chips-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .role-chip {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Timeline View */
+  .timeline-header-panel {
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.65rem 0.75rem;
+    align-items: stretch;
+  }
+
+  .timeline-nav-hints {
+    font-size: 0.72rem;
+    justify-content: space-between;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .timeline-nav-buttons {
+    display: flex;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .timeline-nav-buttons .btn {
+    flex: 1;
+    justify-content: center;
+    padding: 0.45rem 0.3rem;
+    font-size: 0.74rem;
+  }
+
+  .timeline-viewport {
+    padding: 1.15rem 0.75rem;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+  }
+
+  .timeline-card {
+    width: 250px;
+    flex-shrink: 0;
+    padding: 0.85rem;
+  }
+
+  .timeline-card .card-actions {
+    gap: 0.35rem;
+  }
+
+  .card-btn {
+    min-height: 36px;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.65rem;
+  }
+
+  /* Calendar View */
+  .calendar-header-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .calendar-month-selector {
+    justify-content: space-between;
+  }
+
+  .calendar-month-selector h2 {
+    font-size: 1rem;
+  }
+
+  .calendar-legend {
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .calendar-grid {
+    gap: 3px;
+  }
+
+  .calendar-day-cell {
+    min-height: 52px;
+    padding: 3px;
+    font-size: 0.75rem;
+  }
+
+  /* Table View */
+  .table-card {
+    padding: 0.75rem 0.55rem;
+  }
+
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .data-table {
+    min-width: 620px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.55rem 0.45rem;
+    font-size: 0.76rem;
+  }
+
+  /* Universal Modal Rules */
+  .modal-backdrop {
+    padding: 0.5rem;
+  }
+
+  .modal-box {
+    width: 96%;
+    max-height: 92vh;
+    border-radius: 14px;
+  }
+
+  .modal-header {
+    padding: 0.85rem 1rem;
+  }
+
+  .modal-title-group h3 {
+    font-size: 1.05rem;
+  }
+
+  .modal-title-group p {
+    font-size: 0.74rem;
+  }
+
+  .btn-close {
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Birthday List Modal */
+  .modal-bday-list {
+    width: 96%;
+    max-height: 90vh;
+  }
+
+  .bday-list-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .bday-list-tabs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bday-list-tabs .tab-btn-pill {
+    flex: 1;
+    justify-content: center;
+    padding: 0.42rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .bday-list-search-wrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .bday-search-input {
+    font-size: 16px; /* iOS zoom prevention */
+  }
+
+  .bday-list-body {
+    padding: 0.75rem 0.65rem;
+    gap: 0.55rem;
+  }
+
+  .bday-item-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 10px;
+  }
+
+  .bday-item-main {
+    width: 100%;
+  }
+
+  .bday-status-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px dashed #E2E8F0;
+    padding-top: 0.5rem;
+  }
+
+  .bday-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .btn-bday-card {
+    padding: 0.38rem 0.65rem;
+    font-size: 0.75rem;
+    min-height: 36px;
+  }
+
+  .btn-bday-copy {
+    padding: 0.38rem 0.6rem;
+    min-height: 36px;
+  }
+
+  .bday-list-footer {
+    flex-direction: column-reverse;
+    gap: 0.55rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .bday-list-footer .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  .bday-footer-hint {
+    text-align: center;
+    font-size: 0.74rem;
+  }
+
+  /* F1 Card Modal */
+  .modal-f1-studio {
+    width: 96% !important;
+    max-height: 92vh !important;
+  }
+
+  .f1-studio-body {
+    padding: 0.85rem 0.75rem !important;
+  }
+
+  .f1-studio-body > div:first-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.45rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .f1-studio-body > div:first-child > div:first-child {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .f1-studio-body > div:first-child > div:first-child select {
+    font-size: 16px !important;
+    min-height: 40px !important;
+    width: 100% !important;
+  }
+
+  .f1-studio-body > div:first-child > div:last-child {
+    width: 100% !important;
+    display: flex !important;
+    gap: 0.4rem !important;
+  }
+
+  .f1-studio-body > div:first-child > div:last-child button {
+    flex: 1 !important;
+    justify-content: center !important;
+    padding: 0.5rem 0.4rem !important;
+    font-size: 0.78rem !important;
+    min-height: 40px !important;
+  }
+
+  #cardCanvas {
+    max-height: 52vh !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  #cardModalEmptyState {
+    padding: 1.25rem 0.85rem !important;
+    border-radius: 12px !important;
+  }
+
+  #cardModalLoadingState {
+    padding: 1.5rem 0.85rem !important;
+  }
+
+  /* Settings Modal */
+  .modal-lg {
+    width: 96%;
+    max-height: 92vh;
+  }
+
+  .settings-nav-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    padding: 4px;
+  }
+
+  .settings-tab-btn {
+    flex-shrink: 0;
+    font-size: 0.76rem;
+    padding: 0.42rem 0.65rem;
+  }
+
+  .input-with-button {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .input-with-button input {
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .input-with-button button {
+    width: 100%;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  .add-recipient-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .add-recipient-row input {
+    font-size: 16px;
+  }
+
+  .add-recipient-row button {
+    width: 100%;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  .schedule-times-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Greeting Text Modal */
+  .template-selector-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem;
+  }
+
+  .template-tab {
+    font-size: 0.74rem;
+    padding: 0.45rem 0.35rem;
+    text-align: center;
+    justify-content: center;
+  }
+
+  #greetingTextArea {
+    font-size: 16px;
+  }
+
+  .modal-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .copy-hint {
+    text-align: center;
+    font-size: 0.74rem;
+  }
+
+  .modal-actions-row .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 40px;
+  }
+}
+
+/* SMARTPHONE PORTRAIT BREAKPOINT (max-width: 480px) */
+@media (max-width: 480px) {
+  /* Header Compact */
+  .app-header {
+    padding: 0.6rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .mandiri-logo-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .stripes-mandiri {
+    width: 16px;
+    gap: 2px;
+  }
+
+  .stripes-mandiri .stripe {
+    height: 3px;
+  }
+
+  .brand-title {
+    font-size: 0.92rem;
+    line-height: 1.15;
+  }
+
+  .brand-subtitle {
+    display: none; /* Hide subtitle to preserve vertical viewport space on mobile phones */
+  }
+
+  .today-chip {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+  }
+
+  .header-right {
+    gap: 0.35rem;
+  }
+
+  .header-right .btn-sm {
+    padding: 0.32rem 0.5rem;
+    font-size: 0.72rem;
+    border-radius: 6px;
+  }
+
+  .nav-status-pill {
+    padding: 0.32rem 0.5rem;
+    font-size: 0.72rem;
+    border-radius: 6px;
+  }
+
+  /* Main Container */
+  .app-main {
+    padding: 0.65rem 0.5rem;
+    gap: 0.75rem;
+  }
+
+  /* KPI Grid Compact 2x2 */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  .kpi-card {
+    padding: 0.6rem 0.55rem;
+    gap: 0.45rem;
+    border-radius: 9px;
+  }
+
+  .kpi-icon-wrap {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+  }
+
+  .kpi-icon-wrap svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .kpi-label {
+    font-size: 0.64rem;
+    line-height: 1.15;
+    margin-bottom: 2px;
+  }
+
+  .kpi-value {
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  .kpi-sub {
+    font-size: 0.6rem;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* View Switcher Tabs */
+  .view-tabs .tab-btn {
+    padding: 0.45rem 0.25rem;
+    font-size: 0.72rem;
+    gap: 0.25rem;
+  }
+
+  .view-tabs .tab-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Timeline */
+  .timeline-nav-hints {
+    display: none; /* Hide verbose hints to save space */
+  }
+
+  .timeline-viewport {
+    padding: 0.85rem 0.45rem;
+  }
+
+  .timeline-card {
+    width: 235px;
+    padding: 0.75rem;
+  }
+
+  .date-badge {
+    font-size: 0.8rem;
+  }
+
+  .card-btn {
+    width: 100%;
+    min-height: 36px;
+    justify-content: center;
+    font-size: 0.74rem;
+  }
+
+  /* Canvas Stage on Small Screens */
+  #cardCanvas {
+    max-height: 48vh !important;
+  }
+
+  /* Empty State on Mobile */
+  #cardModalEmptyState {
+    padding: 1rem 0.65rem !important;
+  }
+
+  #cardModalEmptyState > div:first-child {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.35rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #emptyStateTitle {
+    font-size: 1rem !important;
+  }
+
+  #emptyStateDesc {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  #emptyStateEmpInfo {
+    gap: 0.25rem 0.65rem !important;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.72rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Loading State on Mobile */
+  #cardModalLoadingState {
+    padding: 1.25rem 0.65rem !important;
+  }
+
+  #cardModalLoadingState > div:first-child {
+    width: 34px !important;
+    height: 34px !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  #cardLoadingTitle {
+    font-size: 1rem !important;
+  }
+
+  #cardLoadingDesc {
+    font-size: 0.75rem !important;
+  }
+
+  /* Birthday List Items */
+  .bday-title-row h3 {
+    font-size: 0.98rem;
+  }
+
+  .bday-subtitle {
+    font-size: 0.72rem;
+  }
+
+  .bday-emp-name {
+    font-size: 0.86rem;
+  }
+
+  .bday-meta-row {
+    font-size: 0.72rem;
+    gap: 0.25rem;
+  }
+
+  .btn-bday-card {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.72rem;
+    min-height: 34px;
+  }
+
+  .btn-bday-copy {
+    padding: 0.35rem 0.55rem;
+    min-height: 34px;
+  }
+}
+
 
