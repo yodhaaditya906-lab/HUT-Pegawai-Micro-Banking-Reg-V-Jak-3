@@ -3099,16 +3099,6 @@ body {
     font-size: 16px; /* Prevents auto-zoom in iOS Safari */
   }
 
-  .quick-actions {
-    width: 100%;
-  }
-
-  .quick-actions .btn {
-    width: 100%;
-    justify-content: center;
-    min-height: 38px;
-  }
-
   /* Role Filter Chips */
   .role-filter-section {
     -webkit-overflow-scrolling: touch;
